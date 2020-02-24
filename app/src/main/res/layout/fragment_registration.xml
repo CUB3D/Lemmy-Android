@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="viewmodel"
+            type="pw.cub3d.lemmy.ui.registration.RegistrationViewModel" />
+    </data>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.registration.RegistrationFragment" >
+
+        <EditText
+            android:id="@+id/register_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@={viewmodel.username}" />
+
+        <EditText
+            android:id="@+id/register_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@={viewmodel.email}" />
+
+        <EditText
+            android:id="@+id/register_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:text="@={viewmodel.password}"/>
+
+        <EditText
+            android:id="@+id/register_passwordVerify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:text="@={viewmodel.passwordVerify}"/>
+
+        <Button
+            android:id="@+id/register_Register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register" />
+
+    </LinearLayout>
+</layout>
