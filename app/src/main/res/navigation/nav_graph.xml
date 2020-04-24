@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="pw.cub3d.lemmy.ui.login.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_postListViewFragment"
+            app:destination="@id/postListViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postListViewFragment"
+        android:name="pw.cub3d.lemmy.ui.postListView.PostViewFragment"
+        android:label="fragment_post_view"
+        tools:layout="@layout/fragment_post_view" >
+        <action
+            android:id="@+id/action_postListViewFragment_to_singlePostFragment"
+            app:destination="@id/singlePostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/singlePostFragment"
+        android:name="pw.cub3d.lemmy.ui.singlePostView.SinglePostFragment"
+        android:label="SinglePostFragment" >
+        <argument
+            android:name="postId"
+            app:argType="integer" />
+    </fragment>
+</navigation>

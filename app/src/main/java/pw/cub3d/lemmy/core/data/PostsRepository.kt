@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import pw.cub3d.lemmy.core.networking.LemmyApiInterface
+import pw.cub3d.lemmy.core.networking.PostResponse
 import pw.cub3d.lemmy.core.networking.PostView
 import java.net.HttpURLConnection
 import java.net.URL
@@ -18,7 +19,8 @@ import javax.inject.Singleton
 
 @Singleton
 class PostsRepository @Inject constructor(
-    private val lemmyApiInterface: LemmyApiInterface
+    private val lemmyApiInterface: LemmyApiInterface,
+    private val authRepository: AuthRepository
 ) {
     private var page = 1
 
@@ -33,7 +35,7 @@ class PostsRepository @Inject constructor(
 
     fun getCurrentPage() {
         GlobalScope.launch {
-            lemmyApiInterface.getPosts(page = page, limit = null).body()?.let {
+            lemmyApiInterface.getPosts(page = page, limit = null, auth = authRepository.getAuthToken()).body()?.let {
 
                 it.posts.forEach { post ->
                     if (!post.url.isNullOrEmpty()) {
@@ -93,5 +95,19 @@ class PostsRepository @Inject constructor(
     fun getNextPage() {
         page += 1
         getCurrentPage()
+    }
+
+    fun getPost(id: Int): LiveData<PostResponse> {
+        val mutableLiveData = MutableLiveData<PostResponse>()
+
+        GlobalScope.launch {
+            val res = lemmyApiInterface.getPost(id, authRepository.getAuthToken())
+            println("Got single post($id): $res")
+            if(res.isSuccessful) {
+                mutableLiveData.postValue(res.body()!!)
+            }
+        }
+
+        return mutableLiveData
     }
 }

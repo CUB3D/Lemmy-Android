@@ -24,5 +24,11 @@ interface LemmyApiInterface {
         @Query("limit") limit: Int? = null,
         @Query("community_id") community_id: Int? = null,
         @Query("auth") auth: String? = null
+    ): Response<PostListResponse>
+
+    @GET("post")
+    suspend fun getPost(
+        @Query("id") id: Int,
+        @Query("auth") auth: String?
     ): Response<PostResponse>
 }

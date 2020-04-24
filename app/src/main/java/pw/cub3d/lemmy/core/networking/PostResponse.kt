@@ -5,6 +5,10 @@ import pw.cub3d.lemmy.core.networking.PostView
 
 @JsonClass(generateAdapter = true)
 data class PostResponse(
-    val posts: List<PostView>
+    val post: PostView
+//    val comments: Array<CommentView>,
+//    val community: CommunityView,
+//    val moderators: Array<CommunityModeratorView>,
+//    val admins: Array<UserView>
 )
 
