@@ -90,6 +90,9 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+
+    // For parsing jwt's
+    implementation 'com.auth0.android:jwtdecode:2.0.0'
 }
 
 kotlin {

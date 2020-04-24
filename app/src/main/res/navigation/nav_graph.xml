@@ -11,10 +11,10 @@
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_postListViewFragment"
-            app:destination="@id/postListViewFragment" />
+            app:destination="@id/navGraph_postListViewFragment" />
     </fragment>
     <fragment
-        android:id="@+id/postListViewFragment"
+        android:id="@+id/navGraph_postListViewFragment"
         android:name="pw.cub3d.lemmy.ui.postListView.PostViewFragment"
         android:label="fragment_post_view"
         tools:layout="@layout/fragment_post_view" >
@@ -30,4 +30,8 @@
             android:name="postId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/navGraph_profileFragment"
+        android:name="pw.cub3d.lemmy.ui.profile.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>
