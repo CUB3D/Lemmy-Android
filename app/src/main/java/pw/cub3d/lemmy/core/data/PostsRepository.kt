@@ -13,15 +13,27 @@ import javax.inject.Singleton
 class PostsRepository @Inject constructor(
     private val lemmyApiInterface: LemmyApiInterface
 ) {
-    fun getPosts(): LiveData<List<PostView>> {
-        val mutableLiveData = MutableLiveData<List<PostView>>()
+    private var page = 1
 
+    private val mutableLiveData = MutableLiveData<List<PostView>>()
+
+    fun getPosts(): LiveData<List<PostView>> {
+        page = 1
+        getCurrentPage()
+
+        return mutableLiveData
+    }
+
+    fun getCurrentPage() {
         GlobalScope.launch {
-            lemmyApiInterface.getPosts(limit = 100).body()?.let {
+            lemmyApiInterface.getPosts(page = page, limit = null).body()?.let {
                 mutableLiveData.postValue(it.posts)
             }
         }
+    }
 
-        return mutableLiveData
+    fun getNextPage() {
+        page += 1
+        getCurrentPage()
     }
 }

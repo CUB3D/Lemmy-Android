@@ -45,8 +45,9 @@ data class PostView(
     fun formattedAge() =
         Duration.between(
             LocalDateTime.now(),
-            LocalDateTime.parse(published, DateTimeFormatter.ofPattern(
-                "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+            // TODO: the part following the dot is variable length: need to handle that
+            LocalDateTime.parse(published.split(".").first(), DateTimeFormatter.ofPattern(
+                "yyyy-MM-dd'T'HH:mm:ss"//.SSSSSS"
             ))
         ).toRelativeString()
 }

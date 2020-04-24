@@ -20,8 +20,11 @@ import pw.cub3d.lemmy.databinding.PostEntryBinding
 import java.lang.Exception
 
 
-class PostViewAdapter(private val ctx: Activity, private val posts: List<PostView>) : RecyclerView.Adapter<PostViewHolder>() {
+class PostViewAdapter(
+    private val ctx: Activity
+) : RecyclerView.Adapter<PostViewHolder>() {
     private val layoutInflater = LayoutInflater.from(ctx)
+    val posts = mutableListOf<PostView>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PostViewHolder(
         DataBindingUtil.inflate(layoutInflater, R.layout.post_entry, parent, false)
@@ -80,6 +83,11 @@ class PostViewAdapter(private val ctx: Activity, private val posts: List<PostVie
         } else {
             holder.view.postEntryImage.visibility = View.GONE
         }
+    }
+
+    fun updateData(posts: List<PostView>) {
+        this.posts.addAll(posts)
+        notifyDataSetChanged()
     }
 }
 

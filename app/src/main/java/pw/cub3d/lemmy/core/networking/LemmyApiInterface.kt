@@ -21,7 +21,7 @@ interface LemmyApiInterface {
         @Query("type_") type_: String = "All",
         @Query("sort") sort: String = "Hot",
         @Query("page") page: Int? = 1,
-        @Query("limit") limit: Int? = 10,
+        @Query("limit") limit: Int? = null,
         @Query("community_id") community_id: Int? = null,
         @Query("auth") auth: String? = null
     ): Response<PostResponse>
