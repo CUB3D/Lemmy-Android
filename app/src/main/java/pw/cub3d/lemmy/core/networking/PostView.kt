@@ -1,9 +1,13 @@
 package pw.cub3d.lemmy.core.networking
 
+import android.net.Uri
 import com.squareup.moshi.JsonClass
+import kotlinx.coroutines.GlobalScope
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
 import org.threeten.bp.Duration
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import pw.cub3d.lemmy.core.utility.toRelativeString
 
@@ -50,4 +54,7 @@ data class PostView(
                 "yyyy-MM-dd'T'HH:mm:ss"//.SSSSSS"
             ))
         ).toRelativeString()
+
+    @Transient
+    var internalThumbnail: Uri? = null
 }
