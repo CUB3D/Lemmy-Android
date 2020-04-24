@@ -49,7 +49,7 @@ class AuthRepository @Inject constructor(
 
     fun getAuthState(): LiveData<String?> = liveJwt
 
-    fun isLoggedIn() = jwt != null
+    fun isLoggedIn() = !jwt.isNullOrEmpty()
 
     fun logout() {
         setJWT(null)

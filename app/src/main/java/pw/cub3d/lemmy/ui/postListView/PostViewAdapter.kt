@@ -18,7 +18,7 @@ class PostViewAdapter(
     private val navController: NavController
 ) : RecyclerView.Adapter<PostViewHolder>() {
     private val layoutInflater = LayoutInflater.from(ctx)
-    val posts = mutableListOf<PostView>()
+    var posts = mutableListOf<PostView>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PostViewHolder(
         DataBindingUtil.inflate(layoutInflater, R.layout.post_entry, parent, false),
@@ -31,8 +31,9 @@ class PostViewAdapter(
         holder.bind(posts[position])
     }
 
-    fun updateData(posts: List<PostView>) {
-        this.posts.addAll(posts)
+    fun updateData(newPosts: List<PostView>) {
+        this.posts.addAll(newPosts)
+        this.posts = this.posts.distinctBy { it.id }.toMutableList()
         notifyDataSetChanged()
     }
 }

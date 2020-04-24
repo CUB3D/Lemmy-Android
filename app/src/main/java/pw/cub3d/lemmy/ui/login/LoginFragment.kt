@@ -34,6 +34,7 @@ class LoginFragment : Fragment() {
         }
 
         viewModel.getAuthState().observe(viewLifecycleOwner, Observer { loggedIn ->
+            println("Auth state changed to $loggedIn")
             if(loggedIn) {
                 findNavController().navigate(R.id.action_loginFragment_to_postListViewFragment)
             }

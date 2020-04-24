@@ -12,5 +12,5 @@ class LoginViewModel @Inject constructor(
         authRepository.login(username, password)
     }
 
-    fun getAuthState() = authRepository.getAuthState().map { it.isNullOrEmpty() }
+    fun getAuthState() = authRepository.getAuthState().map { !it.isNullOrEmpty() }
 }

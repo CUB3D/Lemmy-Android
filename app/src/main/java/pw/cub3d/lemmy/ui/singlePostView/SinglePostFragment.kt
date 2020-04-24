@@ -1,6 +1,8 @@
 package pw.cub3d.lemmy.ui.singlePostView
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -37,6 +39,13 @@ class SinglePostFragment : Fragment() {
 
         viewModel.getPost(arguments.postId).observe(viewLifecycleOwner, Observer { post ->
             binding.singlePostTitle.setText(post.post.body)
+
+            post.post.url?.let {
+                binding.singlePostLink.setText(post.post.url)
+                binding.singlePostLink.setOnClickListener {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(post.post.url)))
+                }
+            }
         })
     }
 
