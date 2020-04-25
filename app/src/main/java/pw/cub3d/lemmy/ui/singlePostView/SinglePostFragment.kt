@@ -12,12 +12,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.coroutines.flow.combine
 
 import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.databinding.FragmentSinglePostBinding
 import pw.cub3d.lemmy.ui.login.LoginViewModel_Factory
+import tellh.com.recyclertreeview_lib.TreeNode
+import tellh.com.recyclertreeview_lib.TreeViewAdapter
 import javax.inject.Inject
 
 class SinglePostFragment : Fragment() {
@@ -46,6 +49,13 @@ class SinglePostFragment : Fragment() {
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(post.post.url)))
                 }
             }
+
+            val nodes = mutableListOf<TreeNode<*>>()
+            (0..10).forEach {
+                nodes.add(TreeNode<CommentItem>(CommentItem()))
+            }
+            binding.singlePostCommentTree.layoutManager = LinearLayoutManager(requireContext())
+            binding.singlePostCommentTree.adapter = TreeViewAdapter(nodes, listOf(CommentNodeBinder()))
         })
     }
 

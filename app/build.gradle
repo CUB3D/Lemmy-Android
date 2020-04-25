@@ -90,6 +90,8 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+
+    implementation 'com.github.TellH:RecyclerTreeView:1.2.0'
 }
 
 kotlin {
