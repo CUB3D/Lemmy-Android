@@ -10,11 +10,25 @@ interface LemmyApiInterface {
     @POST("user/register")
     suspend fun register(@Body request: RegisterRequest): Response<String>
 
-    @GET("community/list")
-    suspend fun listCommunities(@Query("sort") sort: String = "Hot"): Response<CommunitiesListResponse>
-
     @POST("user/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
+
+    @GET("user")
+    suspend fun getUserDetails(
+        @Query("user_id") userId: Int? = null,
+        @Query("username") username: String? = null,
+        @Query("sort") sort: String,
+        @Query("page") page: Long?,
+        @Query("limit") limit: Long?,
+        @Query("community_id") community_id: Int? = null,
+        @Query("saved_only") savedOnly: Boolean,
+        @Query("auth") auth: String? = null
+    ): Response<String>
+
+
+
+    @GET("community/list")
+    suspend fun listCommunities(@Query("sort") sort: String = "Hot"): Response<CommunitiesListResponse>
 
     @GET("post/list")
     suspend fun getPosts(

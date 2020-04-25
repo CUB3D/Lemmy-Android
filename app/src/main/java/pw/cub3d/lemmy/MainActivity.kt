@@ -2,10 +2,12 @@ package pw.cub3d.lemmy
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import androidx.navigation.findNavController
 import dagger.android.AndroidInjection
 import pw.cub3d.lemmy.core.data.AuthRepository
 import pw.cub3d.lemmy.databinding.ActivityMainBinding
+import pw.cub3d.lemmy.ui.postListView.PostViewFragmentDirections
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -19,9 +21,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val nc = findNavController(R.id.main_fragmentHost)
+
+        binding.mainBottomNavigation.setOnNavigationItemReselectedListener {
+            when (it.itemId) {
+                R.id.bottomNavMenu_home -> nc.navigate(R.id.navGraph_postListViewFragment)
+                R.id.bottomNavMenu_profile -> nc.navigate(R.id.navGraph_profileFragment)
+            }
+        }
 
         if(authRepository.isLoggedIn()) {
-            findNavController(R.id.main_fragmentHost).navigate(R.id.action_loginFragment_to_postListViewFragment)
+            nc.navigate(R.id.action_loginFragment_to_postListViewFragment)
         }
     }
 }

@@ -11,6 +11,8 @@ import pw.cub3d.lemmy.ui.login.LoginFragment
 import pw.cub3d.lemmy.ui.login.LoginViewModel
 import pw.cub3d.lemmy.ui.postListView.PostViewFragment
 import pw.cub3d.lemmy.ui.postListView.PostsViewModel
+import pw.cub3d.lemmy.ui.profile.ProfileFragment
+import pw.cub3d.lemmy.ui.profile.ProfileViewModel
 import pw.cub3d.lemmy.ui.singlePostView.SinglePostFragment
 import pw.cub3d.lemmy.ui.singlePostView.SinglePostFragmentArgs
 import pw.cub3d.lemmy.ui.singlePostView.SinglePostViewModel
@@ -40,6 +42,14 @@ abstract class ScreenBindingModule {
     @IntoMap
     @ViewModelKey(SinglePostViewModel::class)
     internal abstract fun bindSinglePostViewModel(vm: SinglePostViewModel): ViewModel
+
+    @ContributesAndroidInjector
+    abstract fun profileFragment(): ProfileFragment
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewModel::class)
+    internal abstract fun bindProfileViewModel(vm: ProfileViewModel): ViewModel
 
 
     @ContributesAndroidInjector
