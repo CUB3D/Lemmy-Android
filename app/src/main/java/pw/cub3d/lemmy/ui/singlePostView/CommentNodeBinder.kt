@@ -26,6 +26,6 @@ class CommentViewHolder(root: View): TreeViewBinder.ViewHolder(root) {
     private val binding = CommentEntryBinding.bind(root)
 
     fun bind(content: CommentItem) {
-        binding.commentEntryContent.text = content.comment.content
+        binding.commentEntryContent.loadMarkdown(content.comment.content)
     }
 }

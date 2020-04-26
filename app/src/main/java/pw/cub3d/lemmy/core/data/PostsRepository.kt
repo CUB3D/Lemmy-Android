@@ -1,11 +1,11 @@
 package pw.cub3d.lemmy.core.data
 
+import android.media.ThumbnailUtils
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import pw.cub3d.lemmy.core.networking.*
@@ -37,8 +37,10 @@ class PostsRepository @Inject constructor(
         GlobalScope.launch {
             lemmyApiInterface.getPosts(page = page, limit = null, auth = authRepository.getAuthToken(), community_id = community).body()?.let {
 
-                it.posts.forEach { post ->
-                    if (!post.url.isNullOrEmpty()) {
+                it.posts.parallelForEach { post ->
+                    if(post.thumbnail_url != null) {
+                        post.internalThumbnail = Uri.parse("https://dev.lemmy.ml/pictshare/192/" + post.thumbnail_url)
+                    } else if (!post.url.isNullOrEmpty()) {
                         val url = Uri.parse(post.url)
                         try {
                             // Check if the url is a image or not
@@ -65,10 +67,14 @@ class PostsRepository @Inject constructor(
                                                 tag.attributes()
                                                     .find { it.key == "property" && it.value == "og:image" }
                                             if (hasOgImage != null) {
-                                                thumbUrl = Uri.parse(
-                                                    tag.attributes()
-                                                        .find { it.key == "content" }?.value
-                                                )
+                                                val tagContent = tag.attributes()
+                                                    .find { it.key == "content" }?.value
+                                                thumbUrl = Uri.parse(tagContent)
+
+                                                if(thumbUrl.isRelative) {
+                                                    thumbUrl = Uri.withAppendedPath(url, tagContent)
+                                                }
+
                                                 break
                                             }
                                         }
@@ -84,6 +90,8 @@ class PostsRepository @Inject constructor(
                             println("Unable to load thumb for post: $post")
                         }
                     }
+
+                    println("Post has thumb: ${post.internalThumbnail} : ${post.url} : ${post.thumbnail_url}")
                 }
 
 
@@ -137,4 +145,15 @@ enum class PostVote(val score: Int) {
     UPVOTE(1),
     NEUTRAL(0),
     DOWNVOTE(-1)
+}
+
+suspend inline fun <T, R> Collection<T>.parallelForEach(crossinline func: (T) -> R) {
+    val coroutimes = mutableListOf<Deferred<R>>()
+    this.forEach {
+        val c: Deferred<R> = GlobalScope.async {
+            func(it)
+        }
+        coroutimes.add(c)
+    }
+    coroutimes.awaitAll()
 }

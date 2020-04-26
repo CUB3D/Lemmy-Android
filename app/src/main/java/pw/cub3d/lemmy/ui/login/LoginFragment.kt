@@ -29,6 +29,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(viewModelStore, viewModelFactory)[LoginViewModel::class.java]
 
+        binding.loginUsername.requestFocus()
+
         binding.loginLogin.setOnClickListener {
             viewModel.login(binding.loginUsername.text.toString(), binding.loginPassword.text.toString())
         }
@@ -36,7 +38,7 @@ class LoginFragment : Fragment() {
         viewModel.getAuthState().observe(viewLifecycleOwner, Observer { loggedIn ->
             println("Auth state changed to $loggedIn")
             if(loggedIn) {
-                findNavController().navigate(R.id.action_loginFragment_to_postListViewFragment)
+                findNavController().navigate(R.id.loadingFragment)
             }
         })
     }

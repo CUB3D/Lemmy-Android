@@ -3,17 +3,18 @@ package pw.cub3d.lemmy
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import androidx.navigation.findNavController
 import dagger.android.AndroidInjection
 import pw.cub3d.lemmy.core.data.AuthRepository
 import pw.cub3d.lemmy.databinding.ActivityMainBinding
+import pw.cub3d.lemmy.ui.loading.LoadingFragmentDirections
 import pw.cub3d.lemmy.ui.postListView.PostViewFragmentDirections
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    @Inject lateinit var authRepository: AuthRepository
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +32,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        if(authRepository.isLoggedIn()) {
-            nc.navigate(R.id.action_loginFragment_to_postListViewFragment)
+        nc.addOnDestinationChangedListener { controller, destination, arguments ->
+            if(destination.id == R.id.loginFragment) {
+                binding.mainBottomNavigation.visibility = View.GONE
+            } else {
+                binding.mainBottomNavigation.visibility = View.VISIBLE
+            }
         }
     }
 }

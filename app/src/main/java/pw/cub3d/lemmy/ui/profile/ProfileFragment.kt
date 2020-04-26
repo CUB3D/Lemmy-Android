@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import dagger.android.support.AndroidSupportInjection
 
 import pw.cub3d.lemmy.R
+import pw.cub3d.lemmy.core.utility.GlideApp
 import pw.cub3d.lemmy.databinding.FragmentProfileBinding
 import javax.inject.Inject
 
@@ -41,7 +42,7 @@ class ProfileFragment : Fragment() {
 
         val claims = viewModel.getUserClaims()
         claims.avatar?.let {
-            Glide.with(requireContext())
+            GlideApp.with(requireContext())
                 .load(Uri.parse(it))
                 .into(binding.imageView)
         }

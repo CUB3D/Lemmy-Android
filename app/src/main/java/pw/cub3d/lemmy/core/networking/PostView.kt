@@ -25,6 +25,7 @@ data class PostView(
     val updated: String?, //TODO: type
     val deleted: Boolean,
     val nsfw: Boolean,
+    val thumbnail_url: String?,
     val banned: Boolean,
     val banned_from_community: Boolean,
     val stickied: Boolean,

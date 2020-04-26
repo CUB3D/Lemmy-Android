@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.core.data.PostVote
 import pw.cub3d.lemmy.core.networking.PostView
+import pw.cub3d.lemmy.core.utility.GlideApp
 import pw.cub3d.lemmy.databinding.PostEntryBinding
 import pw.cub3d.lemmy.ui.home.HomeFragmentDirections
 
@@ -69,11 +70,11 @@ class PostViewHolder(
 
         if (post.internalThumbnail != null) {
             println("Loading thumb: ${post.internalThumbnail}")
-            Glide.with(view.root)
+            GlideApp.with(view.root)
                 .load(post.internalThumbnail)
                 .into(view.postEntryImage)
         } else {
-            Glide.with(view.root)
+            GlideApp.with(view.root)
                 .load(R.drawable.ic_message_square)
                 .into(view.postEntryImage)
         }

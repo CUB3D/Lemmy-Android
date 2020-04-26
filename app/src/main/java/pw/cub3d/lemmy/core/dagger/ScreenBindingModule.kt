@@ -9,6 +9,8 @@ import dagger.multibindings.IntoMap
 import pw.cub3d.lemmy.MainActivity
 import pw.cub3d.lemmy.ui.home.HomeFragment
 import pw.cub3d.lemmy.ui.home.HomeViewModel
+import pw.cub3d.lemmy.ui.loading.LoadingFragment
+import pw.cub3d.lemmy.ui.loading.LoadingFragmentDirections
 import pw.cub3d.lemmy.ui.login.LoginFragment
 import pw.cub3d.lemmy.ui.login.LoginViewModel
 import pw.cub3d.lemmy.ui.postListView.PostViewFragment
@@ -21,6 +23,9 @@ import pw.cub3d.lemmy.ui.singlePostView.SinglePostViewModel
 
 @Module
 abstract class ScreenBindingModule {
+    @ContributesAndroidInjector
+    abstract fun loadingFragment(): LoadingFragment
+
     @ContributesAndroidInjector
     abstract fun homeFragment(): HomeFragment
 
