@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import pw.cub3d.lemmy.core.networking.LemmyApiInterface
+import pw.cub3d.lemmy.core.networking.PostLike
 import pw.cub3d.lemmy.core.networking.PostResponse
 import pw.cub3d.lemmy.core.networking.PostView
 import java.net.HttpURLConnection
@@ -110,4 +111,20 @@ class PostsRepository @Inject constructor(
 
         return mutableLiveData
     }
+
+    fun votePost(post_id: Int, vote: PostVote) {
+        GlobalScope.launch {
+            val res = lemmyApiInterface.likePost(PostLike(post_id, vote.score, authRepository.getAuthToken()!!))
+            println("Submitted like($post_id, $vote) = $res")
+            if(res.isSuccessful) {
+                mutableLiveData.postValue(listOf(res.body()!!.post))
+            }
+        }
+    }
+}
+
+enum class PostVote(val score: Int) {
+    UPVOTE(1),
+    NEUTRAL(0),
+    DOWNVOTE(-1)
 }

@@ -1,5 +1,6 @@
 package pw.cub3d.lemmy.core.networking
 
+import com.squareup.moshi.JsonClass
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -44,4 +45,19 @@ interface LemmyApiInterface {
         @Query("id") id: Int,
         @Query("auth") auth: String?
     ): Response<PostResponse>
+
+    @POST("post/like")
+    suspend fun likePost(@Body data: PostLike): Response<PostLikeResponse>
 }
+
+@JsonClass(generateAdapter = true)
+data class PostLike(
+    val post_id: Int,
+    val score: Int,
+    val auth: String
+)
+
+@JsonClass(generateAdapter = true)
+data class PostLikeResponse(
+    val post: PostView
+)

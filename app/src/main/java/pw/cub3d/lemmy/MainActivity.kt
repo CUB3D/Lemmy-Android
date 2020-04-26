@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         val nc = findNavController(R.id.main_fragmentHost)
 
         binding.mainBottomNavigation.setOnNavigationItemReselectedListener {
+            println("Nav item selected: $it")
             when (it.itemId) {
                 R.id.bottomNavMenu_home -> nc.navigate(R.id.navGraph_postListViewFragment)
                 R.id.bottomNavMenu_profile -> nc.navigate(R.id.navGraph_profileFragment)

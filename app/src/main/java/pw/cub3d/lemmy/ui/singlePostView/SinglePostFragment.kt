@@ -41,7 +41,10 @@ class SinglePostFragment : Fragment() {
         comments: Array<CommentView>
     ) {
         val node = TreeNode(CommentItem(child))
-        node.expand()
+        node.javaClass.getDeclaredField("isExpand").apply {
+            isAccessible = true
+            setBoolean(node, true)
+        }
         root.addChild(node)
 
         val children = comments.filter{ it.parent_id == child.id}
@@ -71,10 +74,16 @@ class SinglePostFragment : Fragment() {
             // Get the root comments
             post.comments.filter { it.parent_id == null }.forEach { comment ->
                 val node = TreeNode<CommentItem>(CommentItem(comment))
-                node.expand()
+
+//                 Set isExpand
+                node.javaClass.getDeclaredField("isExpand").apply {
+                    isAccessible = true
+                    setBoolean(node, true)
+                }
+
                 nodes.add(node)
                 // Also add any children
-                val children = post.comments.filter{ it.parent_id == comment.id}
+                val children = post.comments.filter { it.parent_id == comment.id }
 
                 children.forEach { child ->
                     addChildNode(node, child, post.comments)

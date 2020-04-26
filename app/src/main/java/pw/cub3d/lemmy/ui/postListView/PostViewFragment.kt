@@ -34,7 +34,7 @@ class PostViewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         postView_recycler.layoutManager = LinearLayoutManager(requireContext())
-        postsAdapter = PostViewAdapter(requireActivity(), findNavController())
+        postsAdapter = PostViewAdapter(requireActivity(), findNavController(), postsViewModel)
         postView_recycler.adapter = postsAdapter
 
         postsViewModel.posts.observe(viewLifecycleOwner, Observer { posts ->
