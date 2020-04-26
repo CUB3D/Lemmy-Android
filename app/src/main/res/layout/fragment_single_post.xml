@@ -14,6 +14,12 @@
         android:text="@string/hello_blank_fragment" />
 
     <TextView
+        android:id="@+id/singlePost_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment" />
+
+    <TextView
         android:id="@+id/singlePost_link"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

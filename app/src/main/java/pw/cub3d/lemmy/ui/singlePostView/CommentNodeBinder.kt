@@ -1,7 +1,9 @@
 package pw.cub3d.lemmy.ui.singlePostView
 
 import android.view.View
+import androidx.databinding.DataBindingUtil
 import pw.cub3d.lemmy.R
+import pw.cub3d.lemmy.databinding.CommentEntryBinding
 import tellh.com.recyclertreeview_lib.TreeNode
 import tellh.com.recyclertreeview_lib.TreeViewBinder
 
@@ -20,8 +22,10 @@ class CommentNodeBinder: TreeViewBinder<CommentViewHolder>() {
 }
 
 class CommentViewHolder(root: View): TreeViewBinder.ViewHolder(root) {
-    fun bind(content: CommentItem) {
-        println("Binding: $content")
-    }
 
+    private val binding = CommentEntryBinding.bind(root)
+
+    fun bind(content: CommentItem) {
+        binding.commentEntryContent.text = content.comment.content
+    }
 }

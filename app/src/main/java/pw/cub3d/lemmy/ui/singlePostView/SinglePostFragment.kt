@@ -14,11 +14,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.coroutines.flow.combine
 
-import pw.cub3d.lemmy.R
+import pw.cub3d.lemmy.core.networking.CommentView
 import pw.cub3d.lemmy.databinding.FragmentSinglePostBinding
-import pw.cub3d.lemmy.ui.login.LoginViewModel_Factory
 import tellh.com.recyclertreeview_lib.TreeNode
 import tellh.com.recyclertreeview_lib.TreeViewAdapter
 import javax.inject.Inject
@@ -37,23 +35,52 @@ class SinglePostFragment : Fragment() {
         return binding.root
     }
 
+    private fun addChildNode(
+        root: TreeNode<*>,
+        child: CommentView,
+        comments: Array<CommentView>
+    ) {
+        val node = TreeNode(CommentItem(child))
+        node.expand()
+        root.addChild(node)
+
+        val children = comments.filter{ it.parent_id == child.id}
+
+        children.forEach { subChild ->
+            addChildNode(node, subChild, comments)
+        }
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getPost(arguments.postId).observe(viewLifecycleOwner, Observer { post ->
-            binding.singlePostTitle.setText(post.post.body)
+            binding.singlePostTitle.text = post.post.name
+            binding.singlePostContent.text = post.post.body
 
             post.post.url?.let {
-                binding.singlePostLink.setText(post.post.url)
+                binding.singlePostLink.text = post.post.url
                 binding.singlePostLink.setOnClickListener {
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(post.post.url)))
                 }
             }
 
             val nodes = mutableListOf<TreeNode<*>>()
-            (0..10).forEach {
-                nodes.add(TreeNode<CommentItem>(CommentItem()))
+
+            // Get the root comments
+            post.comments.filter { it.parent_id == null }.forEach { comment ->
+                val node = TreeNode<CommentItem>(CommentItem(comment))
+                node.expand()
+                nodes.add(node)
+                // Also add any children
+                val children = post.comments.filter{ it.parent_id == comment.id}
+
+                children.forEach { child ->
+                    addChildNode(node, child, post.comments)
+                }
             }
+
             binding.singlePostCommentTree.layoutManager = LinearLayoutManager(requireContext())
             binding.singlePostCommentTree.adapter = TreeViewAdapter(nodes, listOf(CommentNodeBinder()))
         })

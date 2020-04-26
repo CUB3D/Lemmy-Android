@@ -26,6 +26,6 @@ data class CommentView(
     val hot_rank: Int,
     val user_id: Int,
     val my_vote: Int,
-    val subscribed: String?,
+    val subscribed: Boolean?,
     val saved: String?
 )

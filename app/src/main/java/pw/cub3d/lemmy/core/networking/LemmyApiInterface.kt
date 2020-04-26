@@ -26,7 +26,6 @@ interface LemmyApiInterface {
     ): Response<String>
 
 
-
     @GET("community/list")
     suspend fun listCommunities(@Query("sort") sort: String = "Hot"): Response<CommunitiesListResponse>
 

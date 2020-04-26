@@ -44,7 +44,7 @@ data class PostView(
     val my_vote: Int?,
     val subscribed: Boolean?,
     val read: String?, // TODO: type
-    val saved: String? // TODO: type
+    val saved: Boolean? // TODO: type
 ) {
     fun formattedAge() =
         Duration.between(
