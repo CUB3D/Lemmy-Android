@@ -1,4 +1,4 @@
-package pw.cub3d.lemmy.core.networking
+package pw.cub3d.lemmy.core.networking.login
 
 import com.squareup.moshi.JsonClass
 

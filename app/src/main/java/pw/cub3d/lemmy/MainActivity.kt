@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding.mainBottomNavigation.setOnNavigationItemReselectedListener {
             println("Nav item selected: $it")
             when (it.itemId) {
-                R.id.bottomNavMenu_home -> nc.navigate(R.id.navGraph_postListViewFragment)
+                R.id.bottomNavMenu_home -> nc.navigate(R.id.homeFragment)
                 R.id.bottomNavMenu_profile -> nc.navigate(R.id.navGraph_profileFragment)
             }
         }

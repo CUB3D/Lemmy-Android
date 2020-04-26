@@ -12,6 +12,7 @@ import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.core.data.PostVote
 import pw.cub3d.lemmy.core.networking.PostView
 import pw.cub3d.lemmy.databinding.PostEntryBinding
+import pw.cub3d.lemmy.ui.home.HomeFragmentDirections
 
 
 class PostViewAdapter(
@@ -49,6 +50,11 @@ class PostViewAdapter(
 
         notifyDataSetChanged()
     }
+
+    fun clearData() {
+        this.posts.clear()
+        notifyDataSetChanged()
+    }
 }
 
 class PostViewHolder(
@@ -73,7 +79,7 @@ class PostViewHolder(
         }
 
         view.root.setOnClickListener {
-            navController.navigate(PostViewFragmentDirections.actionPostListViewFragmentToSinglePostFragment(post.id))
+            navController.navigate(HomeFragmentDirections.actionHomeFragmentToSinglePostFragment(post.id))
         }
 
         if(post.my_vote == PostVote.UPVOTE.score) {
@@ -98,6 +104,18 @@ class PostViewHolder(
             view.postEntryDownvote.setOnClickListener {
                 viewModel.onDownvote(post)
             }
+        }
+
+        if(post.saved == true) {
+            view.postEntrySave.setOnClickListener {
+                viewModel.unSave(post)
+            }
+            view.postEntrySave.setBackgroundColor(Color.RED)
+        } else {
+            view.postEntrySave.setOnClickListener {
+                viewModel.save(post)
+            }
+            view.postEntrySave.setBackgroundColor(Color.TRANSPARENT)
         }
     }
 }

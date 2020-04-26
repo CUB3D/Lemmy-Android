@@ -1,6 +1,11 @@
 package pw.cub3d.lemmy.core.networking
 
 import com.squareup.moshi.JsonClass
+import pw.cub3d.lemmy.core.networking.community.CommunitiesListResponse
+import pw.cub3d.lemmy.core.networking.login.LoginRequest
+import pw.cub3d.lemmy.core.networking.login.LoginResponse
+import pw.cub3d.lemmy.core.networking.register.RegisterRequest
+import pw.cub3d.lemmy.core.networking.user.UserDetailsResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,12 +24,12 @@ interface LemmyApiInterface {
         @Query("user_id") userId: Int? = null,
         @Query("username") username: String? = null,
         @Query("sort") sort: String,
-        @Query("page") page: Long?,
-        @Query("limit") limit: Long?,
+        @Query("page") page: Long? = null,
+        @Query("limit") limit: Long? = null,
         @Query("community_id") community_id: Int? = null,
         @Query("saved_only") savedOnly: Boolean,
         @Query("auth") auth: String? = null
-    ): Response<String>
+    ): Response<UserDetailsResponse>
 
 
     @GET("community/list")
@@ -48,7 +53,17 @@ interface LemmyApiInterface {
 
     @POST("post/like")
     suspend fun likePost(@Body data: PostLike): Response<PostLikeResponse>
+
+    @POST("post/save")
+    suspend fun savePost(@Body postSave: PostSave): Response<PostLikeResponse>
 }
+
+@JsonClass(generateAdapter = true)
+data class PostSave(
+    val post_id: Int,
+    val save: Boolean,
+    val auth: String
+)
 
 @JsonClass(generateAdapter = true)
 data class PostLike(

@@ -1,7 +1,7 @@
-package pw.cub3d.lemmy.core.networking
+package pw.cub3d.lemmy.core.networking.community
 
 import com.squareup.moshi.JsonClass
-import pw.cub3d.lemmy.core.networking.Community
+import pw.cub3d.lemmy.core.networking.community.Community
 
 @JsonClass(generateAdapter = true)
 data class CommunitiesListResponse(

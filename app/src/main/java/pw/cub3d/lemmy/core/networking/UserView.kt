@@ -11,7 +11,7 @@ data class UserView(
     val matrix_user_id: String?,
     val admin: Boolean,
     val banned: Boolean,
-    val show_avaters: Boolean,
+    val show_avatars: Boolean,
     val send_notifications_to_email: Boolean,
     val published: String,
     val number_of_posts: Int,

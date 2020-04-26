@@ -95,7 +95,8 @@ dependencies {
     implementation 'com.github.TellH:RecyclerTreeView:1.2.0'
 
     // For parsing jwt's
-    implementation 'com.auth0.android:jwtdecode:2.0.0' }
+    implementation 'com.auth0.android:jwtdecode:2.0.0'
+}
 
 kotlin {
     dependencies {

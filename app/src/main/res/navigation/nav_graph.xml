@@ -34,4 +34,13 @@
         android:id="@+id/navGraph_profileFragment"
         android:name="pw.cub3d.lemmy.ui.profile.ProfileFragment"
         android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="pw.cub3d.lemmy.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_singlePostFragment"
+            app:destination="@id/singlePostFragment" />
+    </fragment>
 </navigation>

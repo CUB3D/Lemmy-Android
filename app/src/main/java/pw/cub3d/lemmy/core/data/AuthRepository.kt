@@ -7,8 +7,8 @@ import com.auth0.android.jwt.JWT
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import pw.cub3d.lemmy.core.networking.LemmyApiInterface
-import pw.cub3d.lemmy.core.networking.LoginRequest
-import pw.cub3d.lemmy.core.networking.UserClaims
+import pw.cub3d.lemmy.core.networking.login.LoginRequest
+import pw.cub3d.lemmy.core.networking.user.UserClaims
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,7 +29,12 @@ class AuthRepository @Inject constructor(
 
     fun login(username: String, password: String) {
         GlobalScope.launch {
-            val res = api.login(LoginRequest(username, password))
+            val res = api.login(
+                LoginRequest(
+                    username,
+                    password
+                )
+            )
 
             println("Got login response: $res")
 

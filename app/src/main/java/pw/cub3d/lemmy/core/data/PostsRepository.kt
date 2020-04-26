@@ -8,17 +8,13 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import pw.cub3d.lemmy.core.networking.LemmyApiInterface
-import pw.cub3d.lemmy.core.networking.PostLike
-import pw.cub3d.lemmy.core.networking.PostResponse
-import pw.cub3d.lemmy.core.networking.PostView
+import pw.cub3d.lemmy.core.networking.*
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLConnection
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class PostsRepository @Inject constructor(
     private val lemmyApiInterface: LemmyApiInterface,
     private val authRepository: AuthRepository
@@ -27,16 +23,19 @@ class PostsRepository @Inject constructor(
 
     private val mutableLiveData = MutableLiveData<List<PostView>>()
 
-    fun getPosts(): LiveData<List<PostView>> {
+    fun getPosts(community: Int? = null): LiveData<List<PostView>> {
         page = 1
-        getCurrentPage()
+        getCurrentPage(community)
 
         return mutableLiveData
     }
 
-    fun getCurrentPage() {
+    fun getCurrentPage(community: Int? = null) {
+        println("Getting current page for $community")
+
+
         GlobalScope.launch {
-            lemmyApiInterface.getPosts(page = page, limit = null, auth = authRepository.getAuthToken()).body()?.let {
+            lemmyApiInterface.getPosts(page = page, limit = null, auth = authRepository.getAuthToken(), community_id = community).body()?.let {
 
                 it.posts.forEach { post ->
                     if (!post.url.isNullOrEmpty()) {
@@ -93,13 +92,14 @@ class PostsRepository @Inject constructor(
         }
     }
 
-    fun getNextPage() {
+    fun getNextPage(community: Int? = null) {
         page += 1
-        getCurrentPage()
+        getCurrentPage(community)
     }
 
     fun getPost(id: Int): LiveData<PostResponse> {
         val mutableLiveData = MutableLiveData<PostResponse>()
+
 
         GlobalScope.launch {
             val res = lemmyApiInterface.getPost(id, authRepository.getAuthToken())
@@ -116,6 +116,16 @@ class PostsRepository @Inject constructor(
         GlobalScope.launch {
             val res = lemmyApiInterface.likePost(PostLike(post_id, vote.score, authRepository.getAuthToken()!!))
             println("Submitted like($post_id, $vote) = $res")
+            if(res.isSuccessful) {
+                mutableLiveData.postValue(listOf(res.body()!!.post))
+            }
+        }
+    }
+
+    fun savePost(post_id: Int, save: Boolean) {
+        GlobalScope.launch {
+            val res = lemmyApiInterface.savePost(PostSave(post_id, save, authRepository.getAuthToken()!!))
+            println("Submitted save($post_id, $save) = $res")
             if(res.isSuccessful) {
                 mutableLiveData.postValue(listOf(res.body()!!.post))
             }

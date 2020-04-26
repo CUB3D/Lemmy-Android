@@ -9,7 +9,8 @@ import javax.inject.Inject
 class PostsViewModel @Inject constructor(
     private val postsRepository: PostsRepository
 ): ViewModel() {
-    fun getNextPage() = postsRepository.getNextPage()
+
+    fun getNextPage(communityId: Int?) = postsRepository.getNextPage(communityId)
 
     fun onDownvote(post: PostView) {
         postsRepository.votePost(post.id, PostVote.DOWNVOTE)
@@ -23,5 +24,13 @@ class PostsViewModel @Inject constructor(
         postsRepository.votePost(post.id, PostVote.NEUTRAL)
     }
 
-    val posts = postsRepository.getPosts()
+    fun unSave(post: PostView) {
+        postsRepository.savePost(post.id, false)
+    }
+
+    fun save(post: PostView) {
+        postsRepository.savePost(post.id, true)
+    }
+
+    fun getPosts(communityId: Int?) = postsRepository.getPosts(communityId)
 }
