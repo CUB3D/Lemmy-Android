@@ -20,7 +20,7 @@ class PostsViewModel @Inject constructor(
     }
 
     fun onUnvote(post: PostView) {
-        postsRepository.votePost(post.id, PostVote.UPVOTE)
+        postsRepository.votePost(post.id, PostVote.NEUTRAL)
     }
 
     val posts = postsRepository.getPosts()

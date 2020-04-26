@@ -3,7 +3,6 @@ package pw.cub3d.lemmy.ui.postListView
 import android.app.Activity
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
@@ -35,12 +34,18 @@ class PostViewAdapter(
         holder.bind(posts[position])
     }
 
-    fun updateData(newPosts: List<PostView>) {
-        val newPostIds = newPosts.map { it.id }
-        // Remove all the posts that have changed then add the new versions of them
-        val unchangedPosts = this.posts.filter { !newPostIds.contains(it.id) }.toMutableList()
-        unchangedPosts.addAll(newPosts)
-        this.posts = unchangedPosts
+    fun updateData(data: List<PostView>) {
+        val newPostMap = data.map { it.id to it }.toMap()
+        val oldPostKeys = this.posts.map { it.id }
+        val newPosts = data.filterNot { oldPostKeys.contains(it.id) }
+
+        val replacedPosts = this.posts.map {
+            newPostMap[it.id] ?: it
+        }.toMutableList().apply {
+            addAll(newPosts)
+        }
+
+        this.posts = replacedPosts
 
         notifyDataSetChanged()
     }
@@ -85,13 +90,13 @@ class PostViewHolder(
 
         if(post.my_vote == PostVote.DOWNVOTE.score) {
             view.postEntryDownvote.setOnClickListener {
-                viewModel.onDownvote(post)
+                viewModel.onUnvote(post)
             }
             view.postEntryDownvote.setBackgroundColor(Color.RED)
         } else {
             view.postEntryDownvote.setBackgroundColor(Color.TRANSPARENT)
             view.postEntryDownvote.setOnClickListener {
-                viewModel.onUpvote(post)
+                viewModel.onDownvote(post)
             }
         }
     }
