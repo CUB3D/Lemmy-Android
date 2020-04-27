@@ -99,6 +99,10 @@ dependencies {
 
     // For markdown support
     implementation 'us.feras.mdv:markdownview:1.1.0'
+
+    // Support for emoji short codes
+//    implementation "com.kcthota:emoji4j:6.0"
+    implementation 'com.vdurmont:emoji-java:5.1.1'
 }
 
 kotlin {

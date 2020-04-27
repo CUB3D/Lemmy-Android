@@ -1,7 +1,7 @@
 package pw.cub3d.lemmy.ui.singlePostView
 
 import android.view.View
-import androidx.databinding.DataBindingUtil
+import com.vdurmont.emoji.EmojiParser
 import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.databinding.CommentEntryBinding
 import tellh.com.recyclertreeview_lib.TreeNode
@@ -26,6 +26,8 @@ class CommentViewHolder(root: View): TreeViewBinder.ViewHolder(root) {
     private val binding = CommentEntryBinding.bind(root)
 
     fun bind(content: CommentItem) {
-        binding.commentEntryContent.loadMarkdown(content.comment.content)
+        val emoji = EmojiParser.parseToUnicode(content.comment.content)
+        println("emoji: $emoji")
+        binding.commentEntryContent.loadMarkdown(emoji, "file://android_asset/Comments.css")
     }
 }
