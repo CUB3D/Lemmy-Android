@@ -1,6 +1,7 @@
 package pw.cub3d.lemmy.ui.postListView
 
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
 import pw.cub3d.lemmy.core.data.PostVote
 import pw.cub3d.lemmy.core.data.PostsRepository
 import pw.cub3d.lemmy.core.networking.PostView
@@ -10,7 +11,14 @@ class PostsViewModel @Inject constructor(
     private val postsRepository: PostsRepository
 ): ViewModel() {
 
-    fun getNextPage(communityId: Int?) = postsRepository.getNextPage(communityId)
+    val currentPage = MutableLiveData<Int>(1)
+    val community = MutableLiveData<Int?>(null)
+
+    val postResults by lazy {
+        liveData<PostView>(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+            emitSource(postsRepository.getCurrentPage(community, currentPage).asLiveData())
+        }
+    }
 
     fun onDownvote(post: PostView) {
         postsRepository.votePost(post.id, PostVote.DOWNVOTE)
@@ -31,6 +39,4 @@ class PostsViewModel @Inject constructor(
     fun save(post: PostView) {
         postsRepository.savePost(post.id, true)
     }
-
-    fun getPosts(communityId: Int?) = postsRepository.getPosts(communityId)
 }

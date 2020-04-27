@@ -36,6 +36,11 @@ class PostViewAdapter(
         holder.bind(posts[position])
     }
 
+    fun updateData(data: PostView) {
+        posts.add(data)
+        notifyDataSetChanged()
+    }
+
     fun updateData(data: List<PostView>) {
         val newPostMap = data.map { it.id to it }.toMap()
         val oldPostKeys = this.posts.map { it.id }
