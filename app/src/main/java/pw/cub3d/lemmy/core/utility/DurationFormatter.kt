@@ -14,14 +14,13 @@ fun Duration.toRelativeString(): String {
     val minutes = floor(dura.toMinutes() - hours * 60.0)
 
     val timePart = when {
-        dura.toDays() >= 14 -> "$weeks weeks"
+        dura.toDays() >= 14 -> "${weeks.toString().replace(".0", "")} weeks"
         dura.toDays() >= 7 -> "$weeks week and $days days"
         dura.toHours() >= 48 -> "${dura.toHours() / 24} days"
         dura.toHours() >= 24 -> "${dura.toHours() / 24} day"
-        hours > 1 && minutes > 0 -> "$hours hours and $minutes minutes"
-        hours == 1L && minutes > 1 -> "1 hour and $minutes minutes"
-        hours == 1L && minutes == 1.0 -> "1 hour and 1 minute"
-        hours == 1L && minutes == 0.0 -> "1 hour"
+        hours > 1 -> "$hours hours"
+        hours == 1L -> "1 hour"
+        minutes == 1.0 -> "1 minute"
         else -> "${dura.toMinutes()} minutes"
     }
 

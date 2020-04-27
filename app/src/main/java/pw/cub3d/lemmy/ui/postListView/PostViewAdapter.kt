@@ -2,6 +2,7 @@ package pw.cub3d.lemmy.ui.postListView
 
 import android.app.Activity
 import android.graphics.Color
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -65,6 +66,16 @@ class PostViewHolder(
 ): RecyclerView.ViewHolder(view.root) {
     fun bind(post: PostView) {
         view.postView = post
+
+        if(post.creator_avatar != null) {
+            GlideApp.with(view.root)
+                .load(Uri.parse(post.creator_avatar))
+                .into(view.postEntrySenderAvatar)
+        } else {
+            GlideApp.with(view.root)
+                .load(R.drawable.ic_star)
+                .into(view.postEntrySenderAvatar)
+        }
 
         view.postEntryImage.setImageDrawable(null)
 
