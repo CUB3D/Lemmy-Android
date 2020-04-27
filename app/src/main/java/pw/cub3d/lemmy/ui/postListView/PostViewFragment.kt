@@ -11,14 +11,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_post_view.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
 import pw.cub3d.lemmy.R
+import pw.cub3d.lemmy.databinding.FragmentPostViewBinding
+import pw.cub3d.lemmy.ui.home.HomeFragmentDirections
 import javax.inject.Inject
 
 
 class PostViewFragment() : Fragment() {
 
+    private lateinit var binding: FragmentPostViewBinding
     @Inject lateinit var postsViewModelFactory: ViewModelProvider.Factory
     lateinit var postsViewModel: PostsViewModel
 
@@ -26,28 +32,57 @@ class PostViewFragment() : Fragment() {
     var community: Int? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_post_view, container, false)
+        binding = FragmentPostViewBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+    @ExperimentalCoroutinesApi
+    @InternalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        postsViewModel = ViewModelProvider(viewModelStore, postsViewModelFactory)[PostsViewModel::class.java]
+        postsViewModel =
+            ViewModelProvider(viewModelStore, postsViewModelFactory)[PostsViewModel::class.java]
 
         postView_recycler.layoutManager = LinearLayoutManager(requireContext())
         postsAdapter = PostViewAdapter(requireActivity(), findNavController(), postsViewModel)
         postView_recycler.adapter = postsAdapter
 
+        postsViewModel.community.postValue(community)
         postsAdapter.clearData()
 
-        postsViewModel.getPosts(community).observe(viewLifecycleOwner, Observer { posts ->
-            println("Got ${posts.size} posts")
-            postsAdapter.updateData(posts)
+        postsViewModel.postResults.observe(viewLifecycleOwner, Observer {
+            postsAdapter.updateData(it)
         })
 
-        postView_recycler.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        postView_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if((postView_recycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == postsAdapter.posts.size - 1){
-                    postsViewModel.getNextPage(community)
+                if ((postView_recycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() >= postsAdapter.posts.size / 2) {
+                    postsViewModel.currentPage.postValue(postsViewModel.currentPage.value!! + 1)
+                }
+            }
+        })
+
+        postsViewModel.bottomSheedState.observe(viewLifecycleOwner, Observer { post ->
+            BottomSheetBehavior.from(binding.postViewLongPressActions).state = if(post == null) BottomSheetBehavior.STATE_HIDDEN else BottomSheetBehavior.STATE_EXPANDED
+
+            if(post != null) {
+                binding.postViewLongPressGoToUser.text = "/u/${post.creator_name}"
+
+                binding.postViewLongPressGoToCommunity.text = "/c/${post.community_name}"
+                binding.postViewLongPressGoToUser.setOnClickListener {
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNavGraphProfileFragment(post.creator_id))
+                }
+
+                if(post.saved == true) {
+                    binding.postViewLongPressSavePost.text = "Unsave"
+                    binding.postViewLongPressSavePost.setOnClickListener {
+                        postsViewModel.unSave(post)
+                    }
+                } else {
+                    binding.postViewLongPressSavePost.setOnClickListener {
+                        postsViewModel.save(post)
+                    }
+                    binding.postViewLongPressSavePost.text = "Save"
                 }
             }
         })

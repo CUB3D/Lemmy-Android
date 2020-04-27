@@ -6,8 +6,8 @@ import com.squareup.moshi.JsonClass
 data class UserView(
     val id: Int,
     val name: String,
-    val avater: String?,
-    val email: String,
+    val avatar: String?,
+    val email: String?,
     val matrix_user_id: String?,
     val admin: Boolean,
     val banned: Boolean,

@@ -1,11 +1,13 @@
 package pw.cub3d.lemmy.core.data
 
-import android.media.ThumbnailUtils
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.bumptech.glide.Glide
-import kotlinx.coroutines.*
+import androidx.lifecycle.asFlow
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import pw.cub3d.lemmy.core.networking.*
@@ -13,96 +15,153 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLConnection
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class PostsRepository @Inject constructor(
     private val lemmyApiInterface: LemmyApiInterface,
     private val authRepository: AuthRepository
 ) {
-    private var page = 1
 
-    private val mutableLiveData = MutableLiveData<List<PostView>>()
+    suspend fun loadPostThumbnail(post: PostView) = GlobalScope.launch {
+        if (post.thumbnail_url != null) {
+            post.internalThumbnail =
+                Uri.parse("https://dev.lemmy.ml/pictshare/192/" + post.thumbnail_url)
+        } else if (!post.url.isNullOrEmpty()) {
+            val url = Uri.parse(post.url)
+            try {
+                // Check if the url is a image or not
+                val con: URLConnection = URL(post.url).openConnection()
+                if (con is HttpURLConnection) {
+                    /* Workaround for https://code.google.com/p/android/issues/detail?id=61013 */
+                    con.addRequestProperty("Accept-Encoding", "identity")
+                    con.requestMethod = "HEAD"
 
-    fun getPosts(community: Int? = null): LiveData<List<PostView>> {
-        page = 1
-        getCurrentPage(community)
+                    if (con.responseCode != HttpURLConnection.HTTP_ACCEPTED) {
+                        var thumbUrl: Uri? = null
 
-        return mutableLiveData
-    }
+                        // If the given file is an image then its what we want to load
+                        if (con.contentType.startsWith("image/")) {
+                            thumbUrl = url
+                            // If the url isnt an image then load from opengraph
+                        } else {
+                            val document: Document = Jsoup.connect(post.url).get()
 
-    fun getCurrentPage(community: Int? = null) {
-        println("Getting current page for $community")
+                            val meta = document.head().getElementsByTag("meta")
 
+                            for (tag in meta) {
+                                val hasOgImage =
+                                    tag.attributes()
+                                        .find { it.key == "property" && it.value == "og:image" }
+                                if (hasOgImage != null) {
+                                    val tagContent = tag.attributes()
+                                        .find { it.key == "content" }?.value
+                                    thumbUrl = Uri.parse(tagContent)
 
-        GlobalScope.launch {
-            lemmyApiInterface.getPosts(page = page, limit = null, auth = authRepository.getAuthToken(), community_id = community).body()?.let {
-
-                it.posts.parallelForEach { post ->
-                    if(post.thumbnail_url != null) {
-                        post.internalThumbnail = Uri.parse("https://dev.lemmy.ml/pictshare/192/" + post.thumbnail_url)
-                    } else if (!post.url.isNullOrEmpty()) {
-                        val url = Uri.parse(post.url)
-                        try {
-                            // Check if the url is a image or not
-                            val con: URLConnection = URL(post.url).openConnection()
-                            if (con is HttpURLConnection) {
-                                /* Workaround for https://code.google.com/p/android/issues/detail?id=61013 */
-                                con.addRequestProperty("Accept-Encoding", "identity")
-                                con.requestMethod = "HEAD"
-
-                                if (con.responseCode != HttpURLConnection.HTTP_ACCEPTED) {
-                                    var thumbUrl: Uri? = null
-
-                                    // If the given file is an image then its what we want to load
-                                    if (con.contentType.startsWith("image/")) {
-                                        thumbUrl = url
-                                        // If the url isnt an image then load from opengraph
-                                    } else {
-                                        val document: Document = Jsoup.connect(post.url).get()
-
-                                        val meta = document.head().getElementsByTag("meta")
-
-                                        for (tag in meta) {
-                                            val hasOgImage =
-                                                tag.attributes()
-                                                    .find { it.key == "property" && it.value == "og:image" }
-                                            if (hasOgImage != null) {
-                                                val tagContent = tag.attributes()
-                                                    .find { it.key == "content" }?.value
-                                                thumbUrl = Uri.parse(tagContent)
-
-                                                if(thumbUrl.isRelative) {
-                                                    thumbUrl = Uri.withAppendedPath(url, tagContent)
-                                                }
-
-                                                break
-                                            }
-                                        }
+                                    if (thumbUrl.isRelative) {
+                                        thumbUrl =
+                                            Uri.withAppendedPath(url, tagContent)
                                     }
 
-                                    post.internalThumbnail = thumbUrl
-
+                                    break
                                 }
                             }
-                            con.getInputStream().close()
-                        } catch (x: java.lang.Exception) {
-                            x.printStackTrace()
-                            println("Unable to load thumb for post: $post")
                         }
+
+                        post.internalThumbnail = thumbUrl
+
                     }
-
-                    println("Post has thumb: ${post.internalThumbnail} : ${post.url} : ${post.thumbnail_url}")
                 }
-
-
-                mutableLiveData.postValue(it.posts)
+                con.getInputStream().close()
+            } catch (x: java.lang.Exception) {
+                x.printStackTrace()
+                println("Unable to load thumb for post: $post")
             }
         }
     }
 
-    fun getNextPage(community: Int? = null) {
-        page += 1
-        getCurrentPage(community)
+    fun getCurrentPage(
+        community: MutableLiveData<Int?>,
+        currentPage: LiveData<Int>
+    ): Flow<PostView> = flow {
+        println("Getting current page for $community")
+
+        community.asFlow().collect { community ->
+            currentPage.asFlow().collect { page ->
+
+                lemmyApiInterface.getPosts(
+                    page = page,
+                    limit = null,
+                    auth = authRepository.getAuthToken(),
+                    community_id = community
+                ).body()?.let {
+
+                    it.posts.forEach { emit(it) }
+
+//                    it.posts.map { post ->
+//                        if (post.thumbnail_url != null) {
+//                            post.internalThumbnail =
+//                                Uri.parse("https://dev.lemmy.ml/pictshare/192/" + post.thumbnail_url)
+//                        } else if (!post.url.isNullOrEmpty()) {
+//                            val url = Uri.parse(post.url)
+//                            try {
+//                                // Check if the url is a image or not
+//                                val con: URLConnection = URL(post.url).openConnection()
+//                                if (con is HttpURLConnection) {
+//                                    /* Workaround for https://code.google.com/p/android/issues/detail?id=61013 */
+//                                    con.addRequestProperty("Accept-Encoding", "identity")
+//                                    con.requestMethod = "HEAD"
+//
+//                                    if (con.responseCode != HttpURLConnection.HTTP_ACCEPTED) {
+//                                        var thumbUrl: Uri? = null
+//
+//                                        // If the given file is an image then its what we want to load
+//                                        if (con.contentType.startsWith("image/")) {
+//                                            thumbUrl = url
+//                                            // If the url isnt an image then load from opengraph
+//                                        } else {
+//                                            val document: Document = Jsoup.connect(post.url).get()
+//
+//                                            val meta = document.head().getElementsByTag("meta")
+//
+//                                            for (tag in meta) {
+//                                                val hasOgImage =
+//                                                    tag.attributes()
+//                                                        .find { it.key == "property" && it.value == "og:image" }
+//                                                if (hasOgImage != null) {
+//                                                    val tagContent = tag.attributes()
+//                                                        .find { it.key == "content" }?.value
+//                                                    thumbUrl = Uri.parse(tagContent)
+//
+//                                                    if (thumbUrl.isRelative) {
+//                                                        thumbUrl =
+//                                                            Uri.withAppendedPath(url, tagContent)
+//                                                    }
+//
+//                                                    break
+//                                                }
+//                                            }
+//                                        }
+//
+//                                        post.internalThumbnail = thumbUrl
+//
+//                                    }
+//                                }
+//                                con.getInputStream().close()
+//                            } catch (x: java.lang.Exception) {
+//                                x.printStackTrace()
+//                                println("Unable to load thumb for post: $post")
+//                            }
+//                        }
+//
+//                        println("Post has thumb: ${post.internalThumbnail} : ${post.url} : ${post.thumbnail_url}")
+//
+//                        emit(post)
+//                    }
+                }
+            }
+        }
+    }.map { post ->
+        loadPostThumbnail(post)
+        post
     }
 
     fun getPost(id: Int): LiveData<PostResponse> {
@@ -120,40 +179,25 @@ class PostsRepository @Inject constructor(
         return mutableLiveData
     }
 
-    fun votePost(post_id: Int, vote: PostVote) {
-        GlobalScope.launch {
+    suspend fun votePost(post_id: Int, vote: PostVote): PostView? {
             val res = lemmyApiInterface.likePost(PostLike(post_id, vote.score, authRepository.getAuthToken()!!))
             println("Submitted like($post_id, $vote) = $res")
             if(res.isSuccessful) {
-                mutableLiveData.postValue(listOf(res.body()!!.post))
+                return res.body()!!.post
+               // mutableLiveData.postValue(listOf(res.body()!!.post))
+            } else {
+                return null
             }
-        }
     }
 
-    fun savePost(post_id: Int, save: Boolean) {
-        GlobalScope.launch {
-            val res = lemmyApiInterface.savePost(PostSave(post_id, save, authRepository.getAuthToken()!!))
-            println("Submitted save($post_id, $save) = $res")
-            if(res.isSuccessful) {
-                mutableLiveData.postValue(listOf(res.body()!!.post))
-            }
+    suspend fun savePost(post_id: Int, save: Boolean): PostView? {
+        val res =
+            lemmyApiInterface.savePost(PostSave(post_id, save, authRepository.getAuthToken()!!))
+        println("Submitted save($post_id, $save) = $res")
+        if (res.isSuccessful) {
+            return res.body()!!.post
+        } else {
+            return null
         }
     }
-}
-
-enum class PostVote(val score: Int) {
-    UPVOTE(1),
-    NEUTRAL(0),
-    DOWNVOTE(-1)
-}
-
-suspend inline fun <T, R> Collection<T>.parallelForEach(crossinline func: (T) -> R) {
-    val coroutimes = mutableListOf<Deferred<R>>()
-    this.forEach {
-        val c: Deferred<R> = GlobalScope.async {
-            func(it)
-        }
-        coroutimes.add(c)
-    }
-    coroutimes.awaitAll()
 }
