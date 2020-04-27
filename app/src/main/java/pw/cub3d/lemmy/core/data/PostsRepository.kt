@@ -139,12 +139,25 @@ class PostsRepository @Inject constructor(
         }
     }
 
-    fun savePost(post_id: Int, save: Boolean) {
-        GlobalScope.launch {
-            val res = lemmyApiInterface.savePost(PostSave(post_id, save, authRepository.getAuthToken()!!))
+    fun savePost(post_id: Int, save: Boolean): Flow<PostView> = flow {
+        val res =
+            lemmyApiInterface.savePost(PostSave(post_id, save, authRepository.getAuthToken()!!))
+        println("Submitted save($post_id, $save) = $res")
+        if (res.isSuccessful) {
+            emit(res.body()!!.post)
+        }
+    }
+
+    fun savePost(data: LiveData<Pair<Int, Boolean>>): Flow<PostView> = flow {
+        data.asFlow().collect { data ->
+            val post_id = data.first
+            val save = data.second
+
+            val res =
+                lemmyApiInterface.savePost(PostSave(post_id, save, authRepository.getAuthToken()!!))
             println("Submitted save($post_id, $save) = $res")
-            if(res.isSuccessful) {
-           //     mutableLiveData.postValue(listOf(res.body()!!.post))
+            if (res.isSuccessful) {
+                emit(res.body()!!.post)
             }
         }
     }

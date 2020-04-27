@@ -49,7 +49,7 @@ class PostViewFragment() : Fragment() {
 
         postsViewModel.postResults.observe(viewLifecycleOwner, Observer {
             println("Got ${it}")
-            postsAdapter.updateData(listOf(it))
+            postsAdapter.updateData(it)
         })
 
         lifecycleScope.launch {

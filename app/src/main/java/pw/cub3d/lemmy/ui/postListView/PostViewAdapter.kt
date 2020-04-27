@@ -37,8 +37,15 @@ class PostViewAdapter(
     }
 
     fun updateData(data: PostView) {
-        posts.add(data)
-        notifyDataSetChanged()
+        val existing = posts.indexOfFirst { it.id == data.id }.takeIf { it != -1 }
+
+        if(existing != null) {
+            posts[existing] = data
+            notifyItemChanged(existing)
+        } else {
+            posts.add(data)
+            notifyItemChanged(posts.lastIndex)
+        }
     }
 
     fun updateData(data: List<PostView>) {
