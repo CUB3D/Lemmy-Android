@@ -1,16 +1,12 @@
 package pw.cub3d.lemmy.core.networking
 
-import com.squareup.moshi.JsonClass
 import pw.cub3d.lemmy.core.networking.community.CommunitiesListResponse
 import pw.cub3d.lemmy.core.networking.login.LoginRequest
 import pw.cub3d.lemmy.core.networking.login.LoginResponse
 import pw.cub3d.lemmy.core.networking.register.RegisterRequest
 import pw.cub3d.lemmy.core.networking.user.UserDetailsResponse
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface LemmyApiInterface {
     @POST("user/register")
@@ -54,25 +50,173 @@ interface LemmyApiInterface {
     @POST("post/like")
     suspend fun likePost(@Body data: PostLike): Response<PostLikeResponse>
 
-    @POST("post/save")
-    suspend fun savePost(@Body postSave: PostSave): Response<PostLikeResponse>
+    @PUT("post/save")
+    suspend fun savePost(@Body data: PostSave): Response<PostSaveResponse>
 }
 
-@JsonClass(generateAdapter = true)
-data class PostSave(
-    val post_id: Int,
-    val save: Boolean,
-    val auth: String
-)
 
-@JsonClass(generateAdapter = true)
-data class PostLike(
-    val post_id: Int,
-    val score: Int,
-    val auth: String
-)
 
-@JsonClass(generateAdapter = true)
-data class PostLikeResponse(
-    val post: PostView
-)
+
+//Register
+//    Request
+//    Response
+//    HTTP
+//
+//Save User Settings
+//    Request
+//    Response
+//    HTTP
+//Get Replies / Inbox
+//    Request
+//    Response
+//    HTTP
+//Get User Mentions
+//    Request
+//    Response
+//    HTTP
+//Edit User Mention
+//    Request
+//    Response
+//    HTTP
+//Mark All As Read
+//    Request
+//    Response
+//    HTTP
+//Delete Account
+//    Request
+//    Response
+//    HTTP
+//Add admin
+//    Request
+//    Response
+//    HTTP
+//Ban user
+//    Request
+//    Response
+//    HTTP
+
+//Site
+//
+//Search
+//Request
+//Response
+//HTTP
+//Get Modlog
+//Request
+//Response
+//HTTP
+//Create Site
+//Request
+//Response
+//HTTP
+//Edit Site
+//Request
+//Response
+//HTTP
+//Get Site
+//Request
+//Response
+//HTTP
+//Transfer Site
+//Request
+//Response
+//HTTP
+//Get Site Config
+//Request
+//Response
+//HTTP
+//Save Site Config
+//Request
+//Response
+//HTTP
+//
+//Community
+//
+//Get Community
+//Request
+//Response
+//HTTP
+//Create Community
+//Request
+//Response
+//HTTP
+//List Communities
+//Request
+//Response
+//HTTP
+//Ban from Community
+//Request
+//Response
+//HTTP
+//Add Mod to Community
+//Request
+//Response
+//HTTP
+//Edit Community
+//Request
+//Response
+//HTTP
+//Follow Community
+//Request
+//Response
+//HTTP
+//Get Followed Communities
+//Request
+//Response
+//HTTP
+//Transfer Community
+//Request
+//Response
+//HTTP
+//
+//Post
+//
+//Create Post
+//Request
+//Response
+//HTTP
+//Get Post
+//Request
+//Response
+//HTTP
+//Get Posts
+//Request
+//Response
+//HTTP
+//Create Post Like
+//Request
+//Response
+//HTTP
+//Edit Post
+//Request
+//Response
+//HTTP
+//Save Post
+//Request
+//Response
+//HTTP
+//
+//Comment
+//
+//Create Comment
+//Request
+//Response
+//HTTP
+//Edit Comment
+//Request
+//Response
+//HTTP
+//Save Comment
+//Request
+//Response
+//HTTP
+//Create Comment Like
+//Request
+//Response
+//HTTP
+//
+//RSS / Atom feeds
+//    All
+//    Community
+//    User
+
