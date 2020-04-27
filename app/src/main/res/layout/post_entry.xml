@@ -33,36 +33,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:text="@{postView.creator_name, default=CUB3D}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/postEntry_age"
-            app:layout_constraintTop_toBottomOf="@+id/postEntry_title" />
+            app:layout_constraintStart_toEndOf="@+id/postEntry_senderAvatar"
+            app:layout_constraintTop_toTopOf="@+id/postEntry_age" />
 
         <TextView
             android:id="@+id/postEntry_communityName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="@{postView.community_name, default=announcements}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintStart_toEndOf="@+id/postEntry_image"
-            app:layout_constraintTop_toBottomOf="@+id/postEntry_title" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/postEntry_image" />
 
         <TextView
             android:id="@+id/postEntry_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
             android:text="@{postView.formattedAge(), default=`2 days ago`}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintStart_toEndOf="@+id/postEntry_communityName"
-            app:layout_constraintTop_toBottomOf="@+id/postEntry_title" />
+            app:layout_constraintTop_toTopOf="@+id/postEntry_communityName" />
 
         <TextView
             android:id="@+id/postEntry_votes"
@@ -105,7 +103,7 @@
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/postEntry_image"
+            app:layout_constraintTop_toBottomOf="@+id/postEntry_communityName"
             app:srcCompat="@drawable/ic_arrow_up" />
 
         <ImageView
@@ -168,5 +166,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_star" />
+
+        <ImageView
+            android:id="@+id/postEntry_senderAvatar"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/postEntry_age"
+            app:layout_constraintStart_toEndOf="@+id/postEntry_age"
+            app:layout_constraintTop_toTopOf="@+id/postEntry_age"
+            tools:srcCompat="@tools:sample/avatars" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
