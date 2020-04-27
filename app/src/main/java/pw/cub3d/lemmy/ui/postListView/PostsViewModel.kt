@@ -4,6 +4,8 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import pw.cub3d.lemmy.core.data.PostVote
 import pw.cub3d.lemmy.core.data.PostsRepository
@@ -17,14 +19,34 @@ class PostsViewModel @Inject constructor(
     val currentPage = MutableLiveData<Int>(1)
     val community = MutableLiveData<Int?>(null)
     val saveRequest = MutableLiveData<Pair<Int, Boolean>>()
+    val voteRequest = MutableLiveData<Pair<Int, PostVote>>()
+    val bottomSheedState = MutableLiveData<PostView?>(null)
 
     val postResults by lazy {
         liveData<PostView>(context = viewModelScope.coroutineContext + Dispatchers.IO) {
             emitSource(MediatorLiveData<PostView>().apply {
-                addSource(postsRepository.getCurrentPage(community, currentPage).asLiveData()) {
+                addSource(
+                    postsRepository.getCurrentPage(community, currentPage).flowOn(Dispatchers.IO)
+                        .asLiveData()
+                ) {
                     value = it
                 }
-                addSource(postsRepository.savePost(saveRequest).asLiveData()) {
+                addSource(flow {
+                    saveRequest.asFlow().collect {
+                        val r = postsRepository.savePost(it.first, it.second)
+                        if (r != null)
+                            emit(r)
+                    }
+                }.flowOn(Dispatchers.IO).asLiveData()) {
+                    value = it
+                }
+                addSource(flow {
+                    voteRequest.asFlow().collect {
+                        val r = postsRepository.votePost(it.first, it.second)
+                        if (r != null)
+                            emit(r)
+                    }
+                }.flowOn(Dispatchers.IO).asLiveData()) {
                     value = it
                 }
             })
@@ -32,22 +54,34 @@ class PostsViewModel @Inject constructor(
     }
 
     fun onDownvote(post: PostView) {
-        postsRepository.votePost(post.id, PostVote.DOWNVOTE)
+        voteRequest.postValue(post.id to PostVote.DOWNVOTE)
     }
 
     fun onUpvote(post: PostView) {
-        postsRepository.votePost(post.id, PostVote.UPVOTE)
+        voteRequest.postValue(post.id to PostVote.UPVOTE)
     }
 
     fun onUnvote(post: PostView) {
-        postsRepository.votePost(post.id, PostVote.NEUTRAL)
+        voteRequest.postValue(post.id to PostVote.NEUTRAL)
     }
 
     fun unSave(post: PostView) {
-        postsRepository.savePost(post.id, false)
+        saveRequest.postValue(post.id to false)
     }
 
     fun save(post: PostView) {
         saveRequest.postValue(post.id to true)
+    }
+
+    fun onPostLongPress(post: PostView) {
+        if(bottomSheedState.value == null) {
+            bottomSheedState.postValue(post)
+        } else {
+            if(bottomSheedState.value!!.id == post.id) {
+                bottomSheedState.postValue(null)
+            } else {
+                bottomSheedState.postValue(post)
+            }
+        }
     }
 }
