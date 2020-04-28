@@ -24,6 +24,8 @@ class ModlogRepository @Inject constructor(
                 val b = res.body()!!
                 b.removed_posts.map {
                     ModLogEntry(0, it)
+                }.forEach {
+                    emit(it)
                 }
             }
         }

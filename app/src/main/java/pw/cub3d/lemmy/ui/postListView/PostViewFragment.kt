@@ -96,6 +96,10 @@ class PostViewFragment() : Fragment() {
                 }
             }
         })
+
+        binding.postViewModLog.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToModlogFragment())
+        }
     }
 
     override fun onAttach(context: Context) {

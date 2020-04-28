@@ -75,11 +75,13 @@ class ModLogAdapter(ctx: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder
 
     fun addEntry(entry: ModLogEntry) {
         entries.add(entry)
+        notifyItemChanged(entries.lastIndex)
     }
 }
 
 class ModLogRemovedPostViewHolder(val binding: ModlogRemovedpostEntryBinding): RecyclerView.ViewHolder(binding.root) {
     fun bind(removePostView: ModRemovePostView) {
-        binding.modLogRemovedPostReason.text = removePostView.post_id.toString()
+        binding.removedPostView = removePostView
+        binding.modLogRemovedPostAction.text = "Removed post \"${removePostView.post_name}\""
     }
 }
