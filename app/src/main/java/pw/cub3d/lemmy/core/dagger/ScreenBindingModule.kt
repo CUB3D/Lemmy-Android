@@ -12,6 +12,8 @@ import pw.cub3d.lemmy.ui.home.HomeViewModel
 import pw.cub3d.lemmy.ui.loading.LoadingFragment
 import pw.cub3d.lemmy.ui.login.LoginFragment
 import pw.cub3d.lemmy.ui.login.LoginViewModel
+import pw.cub3d.lemmy.ui.modlog.ModlogFragment
+import pw.cub3d.lemmy.ui.modlog.ModlogViewModel
 import pw.cub3d.lemmy.ui.postListView.PostViewFragment
 import pw.cub3d.lemmy.ui.postListView.PostsViewModel
 import pw.cub3d.lemmy.ui.profile.ProfileFragment
@@ -30,8 +32,14 @@ abstract class ScreenBindingModule {
     abstract fun loadingFragment(): LoadingFragment
 
     @ContributesAndroidInjector
-    abstract fun homeFragment(): HomeFragment
+    abstract fun modlogFragment(): ModlogFragment
+    @Binds
+    @IntoMap
+    @ViewModelKey(ModlogViewModel::class)
+    internal abstract fun bindModLogViewModel(vm: ModlogViewModel): ViewModel
 
+    @ContributesAndroidInjector
+    abstract fun homeFragment(): HomeFragment
     @Binds
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
@@ -74,7 +82,6 @@ abstract class ScreenBindingModule {
 
     @ContributesAndroidInjector
     abstract fun profileFragment(): ProfileFragment
-
     @Binds
     @IntoMap
     @ViewModelKey(ProfileViewModel::class)
@@ -82,7 +89,6 @@ abstract class ScreenBindingModule {
 
     @ContributesAndroidInjector
     abstract fun staticMixedPostsCommentsFragment(): StaticMixedPostsCommentsFragment
-
 
     @ContributesAndroidInjector
     abstract fun mainActivity(): MainActivity
