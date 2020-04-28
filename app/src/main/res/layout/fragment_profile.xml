@@ -42,6 +42,7 @@
             android:id="@+id/profile_posts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@{user.number_of_posts + ` Posts`, default=`10 Posts`}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintEnd_toStartOf="@+id/profile_name"
@@ -52,11 +53,31 @@
             android:id="@+id/profile_comments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@{user.number_of_comments + ` Comments`, default=`10 Comments`}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintStart_toEndOf="@+id/profile_name"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/profile_name"
             app:layout_constraintTop_toBottomOf="@id/profile_name" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/profile_Tabs"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="?attr/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_posts" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/profile_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_Tabs" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

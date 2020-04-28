@@ -95,67 +95,6 @@ class PostsRepository @Inject constructor(
                 ).body()?.let {
 
                     it.posts.forEach { emit(it) }
-
-//                    it.posts.map { post ->
-//                        if (post.thumbnail_url != null) {
-//                            post.internalThumbnail =
-//                                Uri.parse("https://dev.lemmy.ml/pictshare/192/" + post.thumbnail_url)
-//                        } else if (!post.url.isNullOrEmpty()) {
-//                            val url = Uri.parse(post.url)
-//                            try {
-//                                // Check if the url is a image or not
-//                                val con: URLConnection = URL(post.url).openConnection()
-//                                if (con is HttpURLConnection) {
-//                                    /* Workaround for https://code.google.com/p/android/issues/detail?id=61013 */
-//                                    con.addRequestProperty("Accept-Encoding", "identity")
-//                                    con.requestMethod = "HEAD"
-//
-//                                    if (con.responseCode != HttpURLConnection.HTTP_ACCEPTED) {
-//                                        var thumbUrl: Uri? = null
-//
-//                                        // If the given file is an image then its what we want to load
-//                                        if (con.contentType.startsWith("image/")) {
-//                                            thumbUrl = url
-//                                            // If the url isnt an image then load from opengraph
-//                                        } else {
-//                                            val document: Document = Jsoup.connect(post.url).get()
-//
-//                                            val meta = document.head().getElementsByTag("meta")
-//
-//                                            for (tag in meta) {
-//                                                val hasOgImage =
-//                                                    tag.attributes()
-//                                                        .find { it.key == "property" && it.value == "og:image" }
-//                                                if (hasOgImage != null) {
-//                                                    val tagContent = tag.attributes()
-//                                                        .find { it.key == "content" }?.value
-//                                                    thumbUrl = Uri.parse(tagContent)
-//
-//                                                    if (thumbUrl.isRelative) {
-//                                                        thumbUrl =
-//                                                            Uri.withAppendedPath(url, tagContent)
-//                                                    }
-//
-//                                                    break
-//                                                }
-//                                            }
-//                                        }
-//
-//                                        post.internalThumbnail = thumbUrl
-//
-//                                    }
-//                                }
-//                                con.getInputStream().close()
-//                            } catch (x: java.lang.Exception) {
-//                                x.printStackTrace()
-//                                println("Unable to load thumb for post: $post")
-//                            }
-//                        }
-//
-//                        println("Post has thumb: ${post.internalThumbnail} : ${post.url} : ${post.thumbnail_url}")
-//
-//                        emit(post)
-//                    }
                 }
             }
         }

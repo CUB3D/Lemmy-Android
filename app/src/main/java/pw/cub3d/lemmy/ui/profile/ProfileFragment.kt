@@ -10,10 +10,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.android.support.AndroidSupportInjection
 
-import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.core.utility.GlideApp
 import pw.cub3d.lemmy.databinding.FragmentProfileBinding
 import javax.inject.Inject
@@ -46,14 +45,20 @@ class ProfileFragment : Fragment() {
 
         val userId = arguments.profileId.takeIf { it != -1 } ?: viewModel.getUserClaims().id
 
-        viewModel.getUserDetails(userId).observe(viewLifecycleOwner, Observer {  user ->
+        viewModel.getUserDetails(userId).observe(viewLifecycleOwner, Observer { user ->
+            binding.user = user.user
             user.user.avatar?.let {
                 GlideApp.with(requireContext())
                     .load(Uri.parse(it))
                     .into(binding.imageView)
             }
             if (user.user.avatar == null) binding.imageView.visibility = View.GONE
-            binding.profileName.text = user.user.name
+
+            val adapter = ProfilePagerAdapter(requireContext(), requireActivity().supportFragmentManager, lifecycle, user.posts)
+            binding.profilePager.adapter = adapter
+            TabLayoutMediator(binding.profileTabs, binding.profilePager, TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                tab.text = arrayOf("Overview", "Comments", "Posts", "Saved")[position]
+            }).attach()
         })
     }
 }
