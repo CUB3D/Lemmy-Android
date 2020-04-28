@@ -34,7 +34,7 @@ class UserDetailsRepository @Inject constructor(
         val userDetails = MutableLiveData<UserDetailsResponse>()
 
         GlobalScope.launch {
-            val res = api.getUserDetails(auth = authRepository.getAuthToken(), sort = "Hot", savedOnly = true, userId = userId)
+            val res = api.getUserDetails(auth = authRepository.getAuthToken(), sort = "Hot", savedOnly = false, userId = userId)
             println("Got user(self) = $res")
             if(res.isSuccessful) {
                 userDetails.postValue(res.body()!!)

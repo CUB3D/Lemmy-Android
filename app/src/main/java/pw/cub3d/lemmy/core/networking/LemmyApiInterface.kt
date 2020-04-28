@@ -10,7 +10,7 @@ import retrofit2.http.*
 
 interface LemmyApiInterface {
     @POST("user/register")
-    suspend fun register(@Body request: RegisterRequest): Response<String>
+    suspend fun register(@Body request: RegisterRequest): Response<LoginResponse>
 
     @POST("user/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
@@ -136,14 +136,6 @@ interface LemmyApiInterface {
 //Request
 //Response
 //HTTP
-//Create Community
-//Request
-//Response
-//HTTP
-//List Communities
-//Request
-//Response
-//HTTP
 //Ban from Community
 //Request
 //Response
@@ -175,23 +167,7 @@ interface LemmyApiInterface {
 //Request
 //Response
 //HTTP
-//Get Post
-//Request
-//Response
-//HTTP
-//Get Posts
-//Request
-//Response
-//HTTP
-//Create Post Like
-//Request
-//Response
-//HTTP
 //Edit Post
-//Request
-//Response
-//HTTP
-//Save Post
 //Request
 //Response
 //HTTP

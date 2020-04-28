@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         nc.addOnDestinationChangedListener { controller, destination, arguments ->
-            if(destination.id == R.id.loginFragment) {
+            if(destination.id in listOf(R.id.loginFragment, R.id.registrationFragment)) {
                 binding.mainBottomNavigation.visibility = View.GONE
             } else {
                 binding.mainBottomNavigation.visibility = View.VISIBLE

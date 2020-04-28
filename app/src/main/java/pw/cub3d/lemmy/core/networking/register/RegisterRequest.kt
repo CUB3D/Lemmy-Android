@@ -8,5 +8,6 @@ data class RegisterRequest(
     val email: String?,
     val password: String,
     val password_verify: String,
-    val admin: Boolean = false
+    val admin: Boolean = false,
+    val show_nsfw: Boolean = false
 )

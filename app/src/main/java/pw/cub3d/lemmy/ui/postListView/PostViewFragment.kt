@@ -56,17 +56,21 @@ class PostViewFragment() : Fragment() {
             it.forEach { postsAdapter.updateData(it) }
         }
 
-        postsViewModel.postResults.observe(viewLifecycleOwner, Observer {
-            postsAdapter.updateData(it)
-        })
+        // If given a fixed list of posts then dont page
+        if(posts == null) {
+            postsViewModel.postResults.observe(viewLifecycleOwner, Observer {
+                postsAdapter.updateData(it)
+            })
 
-        postView_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if ((postView_recycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() >= postsAdapter.posts.size / 2) {
-                    postsViewModel.currentPage.postValue(postsViewModel.currentPage.value!! + 1)
+
+            postView_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if ((postView_recycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() >= postsAdapter.posts.size / 2) {
+                        postsViewModel.currentPage.postValue(postsViewModel.currentPage.value!! + 1)
+                    }
                 }
-            }
-        })
+            })
+        }
 
         postsViewModel.bottomSheedState.observe(viewLifecycleOwner, Observer { post ->
             BottomSheetBehavior.from(binding.postViewLongPressActions).state = if(post == null) BottomSheetBehavior.STATE_HIDDEN else BottomSheetBehavior.STATE_EXPANDED

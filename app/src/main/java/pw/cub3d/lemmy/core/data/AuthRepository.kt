@@ -3,11 +3,13 @@ package pw.cub3d.lemmy.core.data
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.auth0.android.jwt.JWT
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import pw.cub3d.lemmy.core.networking.LemmyApiInterface
 import pw.cub3d.lemmy.core.networking.login.LoginRequest
+import pw.cub3d.lemmy.core.networking.register.RegisterRequest
 import pw.cub3d.lemmy.core.networking.user.UserClaims
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -80,4 +82,16 @@ class AuthRepository @Inject constructor(
             )
         }
     }
+
+    fun register(username: String, email: String?, password: String, passwordVerify: String) {
+        GlobalScope.launch {
+            val res = api.register(RegisterRequest(username, email, password, passwordVerify, false))
+            println("Register($username) = $res")
+            if(res.isSuccessful) {
+                setJWT(res.body()!!.jwt)
+            }
+        }
+    }
+
+    fun getLoginState() = getAuthState().map { !it.isNullOrEmpty() }
 }
