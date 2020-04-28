@@ -83,5 +83,18 @@
 
     </LinearLayout>
 
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:id="@+id/postView_modLog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Modlog"/>
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

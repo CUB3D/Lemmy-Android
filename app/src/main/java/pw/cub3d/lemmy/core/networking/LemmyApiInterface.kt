@@ -56,7 +56,33 @@ interface LemmyApiInterface {
 
     @PUT("post/save")
     suspend fun savePost(@Body data: PostSave): Response<PostSaveResponse>
+
+    @GET("modlog")
+    suspend fun getModLog(
+        @Query("mod_user_id") mod_user_id: Int?,
+        @Query("community_id") community_id: Int?,
+        @Query("page") page: Long?,
+        @Query("limit") limit: Long?
+    ): Response<GetModlogResult>
 }
+
+@JsonClass(generateAdapter = true)
+data class GetModlogResult(
+   val removed_posts: Array<ModRemovePostView>
+//   val locked_posts: Array<ModLockPostView>,
+//   val removed_comments: Array<ModRemoveCommentView>,
+//   val removed_communities: Array<ModRemoveCommunityView>,
+//   val banned_from_community: Array<ModBanFromCommunityView>,
+//   val banned: Array<ModBanView>,
+//   val added_to_community: Array<ModAddCommunityView>,
+//   val added: Array<ModAddView>,
+)
+
+@JsonClass(generateAdapter = true)
+data class ModRemovePostView(
+    val post_id: Int,
+    val reason: String?
+)
 
 @JsonClass(generateAdapter = true)
 data class SaveUserSettingsRequest(
@@ -81,10 +107,6 @@ data class SaveUserSettingsResponse(
     val jwt: String
 )
 
-//Save User Settings
-//    Request
-//    Response
-//    HTTP
 //Get Replies / Inbox
 //    Request
 //    Response
