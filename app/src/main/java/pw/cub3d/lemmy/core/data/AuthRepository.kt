@@ -46,7 +46,7 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    private fun setJWT(jwt: String?) {
+    fun setJWT(jwt: String?) {
         liveJwt.postValue(jwt)
         this.jwt = jwt
         prefs.edit().apply {
@@ -64,24 +64,26 @@ class AuthRepository @Inject constructor(
         setJWT(null)
     }
 
-    fun getUserDetails(): UserClaims? {
-        return jwt?.let {
-            val claims = JWT(it).claims
+    fun getUserDetailsImpl(jwt: String): UserClaims {
+        val claims = JWT(jwt).claims
 
-            UserClaims(
-                claims["id"]!!.asInt()!!,
-                claims["username"]!!.asString()!!,
-                //claims["iss"]!!.asString()!!,
-                claims["show_nsfw"]!!.asBoolean()!!,
-                //claims["theme"]!!.asString()!!,
-                claims["default_sort_type"]!!.asInt()!!,
-                claims["default_listing_type"]!!.asInt()!!,
-                claims["lang"]!!.asString()!!,
-                claims["avatar"]!!.asString(),
-                claims["show_avatars"]!!.asBoolean()!!
-            )
-        }
+        return UserClaims(
+            claims["id"]!!.asInt()!!,
+            claims["username"]!!.asString()!!,
+            //claims["iss"]!!.asString()!!,
+            claims["show_nsfw"]!!.asBoolean()!!,
+            //claims["theme"]!!.asString()!!,
+            claims["default_sort_type"]!!.asInt()!!,
+            claims["default_listing_type"]!!.asInt()!!,
+            claims["lang"]!!.asString()!!,
+            claims["avatar"]!!.asString(),
+            claims["show_avatars"]!!.asBoolean()!!
+        )
     }
+
+    fun getUserDetails(): UserClaims? = jwt?.let {getUserDetailsImpl(it)}
+
+    fun getLiveUserDetails(): LiveData<UserClaims?> = liveJwt.map { it?.let { it1 -> getUserDetailsImpl(it1) } }
 
     fun register(username: String, email: String?, password: String, passwordVerify: String) {
         GlobalScope.launch {

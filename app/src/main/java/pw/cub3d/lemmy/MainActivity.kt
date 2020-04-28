@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             println("Nav item selected: $it")
             when (it.itemId) {
                 R.id.bottomNavMenu_home -> nc.navigate(R.id.homeFragment)
-                R.id.bottomNavMenu_profile -> nc.navigate(R.id.navGraph_profileFragment)
+                R.id.bottomNavMenu_profile -> nc.navigate(R.id.userSettingsFragment)
             }
         }
 

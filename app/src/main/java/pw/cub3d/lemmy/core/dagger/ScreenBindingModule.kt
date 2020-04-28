@@ -21,6 +21,8 @@ import pw.cub3d.lemmy.ui.registration.RegistrationFragment
 import pw.cub3d.lemmy.ui.registration.RegistrationViewModel
 import pw.cub3d.lemmy.ui.singlePostView.SinglePostFragment
 import pw.cub3d.lemmy.ui.singlePostView.SinglePostViewModel
+import pw.cub3d.lemmy.ui.userSettings.UserSettingsFragment
+import pw.cub3d.lemmy.ui.userSettings.UserSettingsViewModel
 
 @Module
 abstract class ScreenBindingModule {
@@ -37,7 +39,6 @@ abstract class ScreenBindingModule {
 
     @ContributesAndroidInjector
     abstract fun postsFragment(): PostViewFragment
-
     @Binds
     @IntoMap
     @ViewModelKey(PostsViewModel::class)
@@ -58,8 +59,14 @@ abstract class ScreenBindingModule {
     internal abstract fun bindRegistrationViewModel(vm: RegistrationViewModel): ViewModel
 
     @ContributesAndroidInjector
-    abstract fun singlePostFragment(): SinglePostFragment
+    abstract fun userSettingsFragment(): UserSettingsFragment
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserSettingsViewModel::class)
+    internal abstract fun bindUserSettingsViewModel(vm: UserSettingsViewModel): ViewModel
 
+    @ContributesAndroidInjector
+    abstract fun singlePostFragment(): SinglePostFragment
     @Binds
     @IntoMap
     @ViewModelKey(SinglePostViewModel::class)

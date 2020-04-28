@@ -67,4 +67,8 @@
         android:id="@+id/registrationFragment"
         android:name="pw.cub3d.lemmy.ui.registration.RegistrationFragment"
         android:label="RegistrationFragment" />
+    <fragment
+        android:id="@+id/userSettingsFragment"
+        android:name="pw.cub3d.lemmy.ui.userSettings.UserSettingsFragment"
+        android:label="UserSettingsFragment" />
 </navigation>
