@@ -8,7 +8,11 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="pw.cub3d.lemmy.ui.login.LoginFragment"
-        android:label="LoginFragment" />
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navGraph_postListViewFragment"
         android:name="pw.cub3d.lemmy.ui.postListView.PostViewFragment"
@@ -59,4 +63,12 @@
             android:id="@+id/action_loadingFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="pw.cub3d.lemmy.ui.registration.RegistrationFragment"
+        android:label="RegistrationFragment" />
+    <fragment
+        android:id="@+id/userSettingsFragment"
+        android:name="pw.cub3d.lemmy.ui.userSettings.UserSettingsFragment"
+        android:label="UserSettingsFragment" />
 </navigation>

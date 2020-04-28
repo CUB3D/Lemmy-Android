@@ -1,26 +1,30 @@
 package pw.cub3d.lemmy.ui.registration
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.android.synthetic.main.fragment_registration.*
+import androidx.navigation.fragment.findNavController
+import dagger.android.support.AndroidSupportInjection
 import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.databinding.FragmentRegistrationBinding
+import javax.inject.Inject
 
 
 class RegistrationFragment : Fragment() {
 
+    private lateinit var binding: FragmentRegistrationBinding
     private lateinit var viewModel: RegistrationViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProvider(this)
-            .get(RegistrationViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory)[RegistrationViewModel::class.java]
 
-        val binding: FragmentRegistrationBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_registration, container, false)
+        binding = FragmentRegistrationBinding.inflate(inflater, container, false)
         binding.viewmodel = viewModel
         return binding.root
 
@@ -29,9 +33,19 @@ class RegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        register_Register.setOnClickListener {
+        binding.registerRegister.setOnClickListener {
             viewModel.onRegister()
         }
+
+        viewModel.getAuthState().observe(viewLifecycleOwner, Observer { loggedIn ->
+            if(loggedIn) {
+                findNavController().navigate(R.id.loadingFragment)
+            }
+        })
+    }
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
     }
 }

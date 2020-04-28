@@ -1,5 +1,6 @@
 package pw.cub3d.lemmy.core.networking
 
+import com.squareup.moshi.JsonClass
 import pw.cub3d.lemmy.core.networking.community.CommunitiesListResponse
 import pw.cub3d.lemmy.core.networking.login.LoginRequest
 import pw.cub3d.lemmy.core.networking.login.LoginResponse
@@ -10,7 +11,7 @@ import retrofit2.http.*
 
 interface LemmyApiInterface {
     @POST("user/register")
-    suspend fun register(@Body request: RegisterRequest): Response<String>
+    suspend fun register(@Body request: RegisterRequest): Response<LoginResponse>
 
     @POST("user/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
@@ -26,6 +27,9 @@ interface LemmyApiInterface {
         @Query("saved_only") savedOnly: Boolean,
         @Query("auth") auth: String? = null
     ): Response<UserDetailsResponse>
+
+    @PUT("user/save_user_settings")
+    suspend fun saveUserSettings(@Body settings: SaveUserSettingsRequest): Response<SaveUserSettingsResponse>
 
 
     @GET("community/list")
@@ -54,14 +58,29 @@ interface LemmyApiInterface {
     suspend fun savePost(@Body data: PostSave): Response<PostSaveResponse>
 }
 
+@JsonClass(generateAdapter = true)
+data class SaveUserSettingsRequest(
+    val show_nsfw: Boolean,
+    val theme: String,
+    val default_sort_type: Short,
+    val default_listings_type: Short,
+    val lang: String,
+    val avatar: String?,
+    val email: String?,
+    val matrix_user_id: String?,
+    val new_password: String?,
+    val new_password_verify: String?,
+    val old_password: String?,
+    val show_avatars: Boolean,
+    val send_notifications_to_email: Boolean,
+    val auth: String
+)
 
+@JsonClass(generateAdapter = true)
+data class SaveUserSettingsResponse(
+    val jwt: String
+)
 
-
-//Register
-//    Request
-//    Response
-//    HTTP
-//
 //Save User Settings
 //    Request
 //    Response
@@ -79,18 +98,6 @@ interface LemmyApiInterface {
 //    Response
 //    HTTP
 //Mark All As Read
-//    Request
-//    Response
-//    HTTP
-//Delete Account
-//    Request
-//    Response
-//    HTTP
-//Add admin
-//    Request
-//    Response
-//    HTTP
-//Ban user
 //    Request
 //    Response
 //    HTTP
@@ -136,22 +143,6 @@ interface LemmyApiInterface {
 //Request
 //Response
 //HTTP
-//Create Community
-//Request
-//Response
-//HTTP
-//List Communities
-//Request
-//Response
-//HTTP
-//Ban from Community
-//Request
-//Response
-//HTTP
-//Add Mod to Community
-//Request
-//Response
-//HTTP
 //Edit Community
 //Request
 //Response
@@ -164,10 +155,6 @@ interface LemmyApiInterface {
 //Request
 //Response
 //HTTP
-//Transfer Community
-//Request
-//Response
-//HTTP
 //
 //Post
 //
@@ -175,23 +162,7 @@ interface LemmyApiInterface {
 //Request
 //Response
 //HTTP
-//Get Post
-//Request
-//Response
-//HTTP
-//Get Posts
-//Request
-//Response
-//HTTP
-//Create Post Like
-//Request
-//Response
-//HTTP
 //Edit Post
-//Request
-//Response
-//HTTP
-//Save Post
 //Request
 //Response
 //HTTP
@@ -214,9 +185,3 @@ interface LemmyApiInterface {
 //Request
 //Response
 //HTTP
-//
-//RSS / Atom feeds
-//    All
-//    Community
-//    User
-

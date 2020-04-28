@@ -41,6 +41,10 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.loadingFragment)
             }
         })
+
+        binding.profileRegister.setOnClickListener {
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
+        }
     }
 
     override fun onAttach(context: Context) {
