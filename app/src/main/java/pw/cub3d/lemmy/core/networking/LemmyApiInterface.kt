@@ -58,6 +58,13 @@ interface LemmyApiInterface {
     @PUT("post/save")
     suspend fun savePost(@Body data: PostSave): Response<PostSaveResponse>
 
+    @POST("comment/like")
+    suspend fun likeComment(@Body data: CommentLike): Response<CommentLikeResponse>
+
+    @POST("comment/save")
+    suspend fun saveComment(@Body data: CommentSave): Response<CommentSaveResponse>
+
+
     @GET("modlog")
     suspend fun getModLog(
         @Query("mod_user_id") mod_user_id: Int?,
@@ -66,6 +73,31 @@ interface LemmyApiInterface {
         @Query("limit") limit: Long?
     ): Response<GetModlogResult>
 }
+
+@JsonClass(generateAdapter = true)
+data class CommentSave(
+    val comment_id: Int,
+    val save: Boolean,
+    val auth: String
+)
+
+@JsonClass(generateAdapter = true)
+data class CommentSaveResponse(
+    val comment: CommentView
+)
+
+@JsonClass(generateAdapter = true)
+data class CommentLike(
+    val comment_id: Int,
+    val post_id: Int,
+    val score: Short,
+    val auth: String
+)
+
+@JsonClass(generateAdapter = true)
+data class CommentLikeResponse(
+    val comment: CommentView
+)
 
 @JsonClass(generateAdapter = true)
 data class GetModlogResult(

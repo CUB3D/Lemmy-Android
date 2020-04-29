@@ -58,7 +58,8 @@ class SinglePostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getPost(arguments.postId).observe(viewLifecycleOwner, Observer { post ->
+        viewModel.postId = arguments.postId
+        viewModel.getPost().observe(viewLifecycleOwner, Observer { post ->
             binding.singlePostTitle.text = post.post.name
             binding.singlePostContent.text = post.post.body
 
@@ -91,7 +92,7 @@ class SinglePostFragment : Fragment() {
             }
 
             binding.singlePostCommentTree.layoutManager = LinearLayoutManager(requireContext())
-            binding.singlePostCommentTree.adapter = TreeViewAdapter(nodes, listOf(CommentNodeBinder()))
+            binding.singlePostCommentTree.adapter = TreeViewAdapter(nodes, listOf(CommentNodeBinder(viewModel)))
         })
     }
 
