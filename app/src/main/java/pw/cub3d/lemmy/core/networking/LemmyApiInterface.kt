@@ -1,6 +1,5 @@
 package pw.cub3d.lemmy.core.networking
 
-import com.squareup.moshi.JsonClass
 import pw.cub3d.lemmy.core.networking.community.CommunitiesListResponse
 import pw.cub3d.lemmy.core.networking.login.LoginRequest
 import pw.cub3d.lemmy.core.networking.login.LoginResponse
@@ -74,34 +73,14 @@ interface LemmyApiInterface {
 
     @GET("site")
     suspend fun getSite(): Response<GetSiteResponse>
+
+    @GET("/community")
+    suspend fun getCommunity(
+        @Query("id") id: Int?,
+        @Query("name") name: String?,
+        @Query("auth") auth: String?
+    ): Response<GetCommunityResponse>
 }
-
-@JsonClass(generateAdapter = true)
-data class GetSiteResponse(
-    val site: SiteView?,
-    val admins: Array<UserView>,
-    val banned: Array<UserView>,
-    val online: Int
-)
-
-@JsonClass(generateAdapter = true)
-data class SiteView(
-    val id: Int,
-    val name: String,
-    val description: String,
-    val creator_id: Int,
-    val published: String,
-    val updated: String,
-    val enable_downvotes: Boolean,
-    val open_registration: Boolean,
-    val enable_nsfw: Boolean,
-    val creator_name: String,
-    val creator_avatar: String,
-    val number_of_users: Int,
-    val number_of_posts: Int,
-    val number_of_comments: Int,
-    val number_of_communities: Int
-)
 
 //Get Replies / Inbox
 //    Request
