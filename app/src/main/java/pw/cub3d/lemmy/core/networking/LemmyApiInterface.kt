@@ -74,7 +74,7 @@ interface LemmyApiInterface {
     @GET("site")
     suspend fun getSite(): Response<GetSiteResponse>
 
-    @GET("/community")
+    @GET("community")
     suspend fun getCommunity(
         @Query("id") id: Int?,
         @Query("name") name: String?,

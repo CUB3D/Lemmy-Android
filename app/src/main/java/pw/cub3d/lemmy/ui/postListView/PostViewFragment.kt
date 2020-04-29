@@ -105,10 +105,12 @@ class PostViewFragment() : Fragment() {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSiteInfoFragment())
         }
 
-        community?.let { id ->
+        if(community != null) {
             binding.postViewCommunityInfo.setOnClickListener {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCommunityInfoFragment(id))
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCommunityInfoFragment(community!!))
             }
+        } else {
+            binding.postViewCommunityInfo.visibility = View.GONE
         }
     }
 
