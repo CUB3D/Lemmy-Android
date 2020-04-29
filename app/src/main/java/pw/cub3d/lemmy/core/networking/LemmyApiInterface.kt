@@ -126,10 +126,6 @@ data class SiteView(
 //Request
 //Response
 //HTTP
-//Get Site
-//Request
-//Response
-//HTTP
 //
 //Community
 //
