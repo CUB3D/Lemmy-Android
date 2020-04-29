@@ -1,5 +1,6 @@
 package pw.cub3d.lemmy.core.networking
 
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import pw.cub3d.lemmy.core.networking.community.CommunitiesListResponse
 import pw.cub3d.lemmy.core.networking.login.LoginRequest
@@ -56,7 +57,141 @@ interface LemmyApiInterface {
 
     @PUT("post/save")
     suspend fun savePost(@Body data: PostSave): Response<PostSaveResponse>
+
+    @GET("modlog")
+    suspend fun getModLog(
+        @Query("mod_user_id") mod_user_id: Int?,
+        @Query("community_id") community_id: Int?,
+        @Query("page") page: Long?,
+        @Query("limit") limit: Long?
+    ): Response<GetModlogResult>
 }
+
+@JsonClass(generateAdapter = true)
+data class GetModlogResult(
+   val removed_posts: Array<ModRemovePostView>,
+   val locked_posts: Array<ModLockPostView>,
+    val stickied_posts: Array<ModStickiedPostView>,
+   val removed_comments: Array<ModRemoveCommentView>,
+   val removed_communities: Array<ModRemoveCommunityView>,
+   val banned_from_community: Array<ModBanFromCommunityView>,
+   val banned: Array<ModBanView>,
+   val added_to_community: Array<ModAddCommunityView>,
+   val added: Array<ModAddView>
+)
+
+@JsonClass(generateAdapter = true)
+data class ModRemovePostView(
+    val id: Int,
+    val mod_user_id: Int,
+    val post_id: Int,
+    val reason: String?,
+    val removed: Boolean,
+    val when_: String,
+    val mod_user_name: String,
+    val post_name: String,
+    val community_id: Int,
+    val community_name: String
+)
+@JsonClass(generateAdapter = true)
+data class ModLockPostView(
+    val id: Int,
+    val mod_user_id: Int,
+    val post_id: Int,
+    val locked: Boolean,
+    val when_: String,
+    val mod_user_name: String,
+    val post_name: String,
+    val community_id: Int,
+    val community_name: String
+)
+@JsonClass(generateAdapter = true)
+data class ModStickiedPostView(
+    val id: Int,
+    val mod_user_id: Int,
+    val post_id: Int,
+    val stickied: Boolean,
+    val when_: String,
+    val mod_user_name: String,
+    val community_id: Int?,
+    val community_name: String
+)
+@JsonClass(generateAdapter = true)
+data class ModRemoveCommentView(
+    val id: Int,
+    val mod_user_id: Int,
+    val comment_id: Int,
+    val reason: String?,
+    val removed: Boolean,
+    val when_: String,
+    val mod_user_name: String,
+    val comment_user_id: Int,
+    val comment_user_name: String,
+    val comment_content: String,
+    val post_id: Int,
+    val post_name: String,
+    val community_id: Int?,
+    val community_name: String
+)
+@JsonClass(generateAdapter = true)
+data class ModRemoveCommunityView(
+    val id: Int,
+    val mod_user_id: Int,
+    val community_id: Int,
+    val reason: String?,
+    val removed: Boolean,
+    val expires: String?,
+    val when_: String,
+    val mod_user_name: String,
+    val community_name: String
+)
+@JsonClass(generateAdapter = true)
+data class ModBanFromCommunityView(
+    val id: Int,
+    val mod_user_id: Int,
+    val other_user_id: Int,
+    val community_id: Int,
+    val reason: String?,
+    val banned: Boolean,
+    val expires: String?,
+    val when_: String,
+    val other_user_name: String,
+    val community_name: String
+)
+@JsonClass(generateAdapter = true)
+data class ModBanView(
+    val id: Int,
+    val mod_user_id: Int,
+    val other_user_id: Int,
+    val reason: String?,
+    val banned: Boolean,
+    val expires: String?,
+    val when_: String,
+    val mod_user_name: String,
+    val other_user_name: String
+)
+@JsonClass(generateAdapter = true)
+data class ModAddCommunityView(
+    val id: Int,
+    val mod_user_id: Int,
+    val other_user_id: Int,
+    val community_id: Int,
+    val removed: Boolean,
+    val when_: String,
+    val mod_user_name: String,
+    val other_user_name: String,
+    val community_name: String
+)
+@JsonClass(generateAdapter = true)
+data class ModAddView(
+    val id: Int,
+    val mod_user_id: Int,
+    val other_user_id: Int,
+    val removed: Boolean,
+    val when_: String,
+    val mod_user_name: String,
+    val other_user_name: String
+)
 
 @JsonClass(generateAdapter = true)
 data class SaveUserSettingsRequest(
@@ -81,10 +216,6 @@ data class SaveUserSettingsResponse(
     val jwt: String
 )
 
-//Save User Settings
-//    Request
-//    Response
-//    HTTP
 //Get Replies / Inbox
 //    Request
 //    Response
@@ -108,31 +239,7 @@ data class SaveUserSettingsResponse(
 //Request
 //Response
 //HTTP
-//Get Modlog
-//Request
-//Response
-//HTTP
-//Create Site
-//Request
-//Response
-//HTTP
-//Edit Site
-//Request
-//Response
-//HTTP
 //Get Site
-//Request
-//Response
-//HTTP
-//Transfer Site
-//Request
-//Response
-//HTTP
-//Get Site Config
-//Request
-//Response
-//HTTP
-//Save Site Config
 //Request
 //Response
 //HTTP
@@ -140,10 +247,6 @@ data class SaveUserSettingsResponse(
 //Community
 //
 //Get Community
-//Request
-//Response
-//HTTP
-//Edit Community
 //Request
 //Response
 //HTTP

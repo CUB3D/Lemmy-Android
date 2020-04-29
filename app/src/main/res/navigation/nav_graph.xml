@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_homeFragment_to_navGraph_profileFragment"
             app:destination="@id/navGraph_profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_modlogFragment"
+            app:destination="@id/modlogFragment" />
     </fragment>
     <fragment
         android:id="@+id/loadingFragment"
@@ -71,4 +74,8 @@
         android:id="@+id/userSettingsFragment"
         android:name="pw.cub3d.lemmy.ui.userSettings.UserSettingsFragment"
         android:label="UserSettingsFragment" />
+    <fragment
+        android:id="@+id/modlogFragment"
+        android:name="pw.cub3d.lemmy.ui.modlog.ModlogFragment"
+        android:label="ModlogFragment" />
 </navigation>
