@@ -1,45 +1,50 @@
-package pw.cub3d.lemmy.ui.siteinfo
+package pw.cub3d.lemmy.ui.community
 
 import android.content.Context
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
-import pw.cub3d.lemmy.databinding.FragmentSiteInfoBinding
+
+import pw.cub3d.lemmy.databinding.FragmentCommunityInfoBinding
 import pw.cub3d.lemmy.ui.common.userList.UserListAdapter
 import javax.inject.Inject
 
-class SiteInfoFragment : Fragment() {
+class CommunityInfoFragment : Fragment() {
 
-    private lateinit var binding: FragmentSiteInfoBinding
+    private lateinit var binding: FragmentCommunityInfoBinding
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var viewModel: SiteViewModel
+    lateinit var viewModel: CommunityViewModel
+
+    private val arguments: CommunityInfoFragmentArgs by navArgs()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSiteInfoBinding.inflate(inflater, container, false)
+        binding = FragmentCommunityInfoBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(viewModelStore, viewModelFactory)[SiteViewModel::class.java]
+        viewModel = ViewModelProvider(viewModelStore, viewModelFactory)[CommunityViewModel::class.java]
 
-        binding.siteAdmins.layoutManager = LinearLayoutManager(requireContext())
+        binding.communityAdmins.layoutManager = LinearLayoutManager(requireContext())
         val adapter =
             UserListAdapter(requireContext())
-        binding.siteAdmins.adapter = adapter
+        binding.communityAdmins.adapter = adapter
 
-        viewModel.getSite().observe(viewLifecycleOwner, Observer {
-            binding.siteView = it.site
-            binding.siteDescription.loadMarkdown(it.site!!.description)
+        viewModel.getSite(arguments.communityId).observe(viewLifecycleOwner, Observer {
+            binding.communityView = it.community
+            binding.communityDescription.loadMarkdown(it.community.description)
             adapter.updateData(it.admins)
         })
     }
@@ -49,4 +54,3 @@ class SiteInfoFragment : Fragment() {
         super.onAttach(context)
     }
 }
-
