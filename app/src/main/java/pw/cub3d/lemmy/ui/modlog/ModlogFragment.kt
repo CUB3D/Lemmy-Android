@@ -45,6 +45,14 @@ class ModlogFragment : Fragment() {
             println("Got modlog entry: $it")
             adapter.addEntry(it)
         })
+
+        binding.modLogEntries.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if ((binding.modLogEntries.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() >= adapter.entries.size / 2) {
+                    viewModel.page.postValue(viewModel.page.value!! + 1)
+                }
+            }
+        })
     }
 
     override fun onAttach(context: Context) {
@@ -56,12 +64,11 @@ class ModlogFragment : Fragment() {
 class ModLogAdapter(ctx: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val layoutInflater = LayoutInflater.from(ctx)
 
-    private val entries = mutableListOf<ModLogEntry>()
+    val entries = mutableListOf<ModLogEntry>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            0 -> ModLogRemovedPostViewHolder(ModlogRemovedpostEntryBinding.inflate(layoutInflater, parent, false))
-            else -> TODO()
+            else -> ModLogRemovedPostViewHolder(ModlogRemovedpostEntryBinding.inflate(layoutInflater, parent, false))
         }
     }
 
