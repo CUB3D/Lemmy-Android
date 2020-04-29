@@ -93,6 +93,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Modlog"/>
+        <Button
+            android:id="@+id/postView_siteInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Site Info"/>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 

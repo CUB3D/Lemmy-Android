@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_homeFragment_to_modlogFragment"
             app:destination="@id/modlogFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_siteInfoFragment"
+            app:destination="@id/siteInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/loadingFragment"
@@ -78,4 +81,8 @@
         android:id="@+id/modlogFragment"
         android:name="pw.cub3d.lemmy.ui.modlog.ModlogFragment"
         android:label="ModlogFragment" />
+    <fragment
+        android:id="@+id/siteInfoFragment"
+        android:name="pw.cub3d.lemmy.ui.siteinfo.SiteInfoFragment"
+        android:label="SiteInfoFragment" />
 </navigation>

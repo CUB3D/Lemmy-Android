@@ -23,6 +23,8 @@ import pw.cub3d.lemmy.ui.registration.RegistrationFragment
 import pw.cub3d.lemmy.ui.registration.RegistrationViewModel
 import pw.cub3d.lemmy.ui.singlePostView.SinglePostFragment
 import pw.cub3d.lemmy.ui.singlePostView.SinglePostViewModel
+import pw.cub3d.lemmy.ui.siteinfo.SiteInfoFragment
+import pw.cub3d.lemmy.ui.siteinfo.SiteViewModel
 import pw.cub3d.lemmy.ui.userSettings.UserSettingsFragment
 import pw.cub3d.lemmy.ui.userSettings.UserSettingsViewModel
 
@@ -30,6 +32,13 @@ import pw.cub3d.lemmy.ui.userSettings.UserSettingsViewModel
 abstract class ScreenBindingModule {
     @ContributesAndroidInjector
     abstract fun loadingFragment(): LoadingFragment
+
+    @ContributesAndroidInjector
+    abstract fun siteInfoFragment(): SiteInfoFragment
+    @Binds
+    @IntoMap
+    @ViewModelKey(SiteViewModel::class)
+    internal abstract fun bindSiteInfoViewModel(vm: SiteViewModel): ViewModel
 
     @ContributesAndroidInjector
     abstract fun modlogFragment(): ModlogFragment
