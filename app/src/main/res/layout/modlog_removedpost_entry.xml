@@ -4,8 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
-            name="removedPostView"
-            type="pw.cub3d.lemmy.core.networking.ModRemovePostView" />
+            name="modUserName"
+            type="String" />
+        <variable
+            name="reason"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,7 +35,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@{removedPostView.mod_user_name, default=`CUB3D`}"
+            android:text="@{modUserName, default=`CUB3D`}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +58,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@{removedPostView.reason, default=`Removed post Test`}"
+            android:text="@{reason, default=`Removed post Test`}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
