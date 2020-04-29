@@ -98,6 +98,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Site Info"/>
+        <Button
+            android:id="@+id/postView_communityInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Community Info"/>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 

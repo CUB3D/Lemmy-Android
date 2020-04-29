@@ -104,6 +104,12 @@ class PostViewFragment() : Fragment() {
         binding.postViewSiteInfo.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSiteInfoFragment())
         }
+
+        community?.let { id ->
+            binding.postViewCommunityInfo.setOnClickListener {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCommunityInfoFragment(id))
+            }
+        }
     }
 
     override fun onAttach(context: Context) {

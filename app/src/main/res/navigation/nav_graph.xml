@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_homeFragment_to_siteInfoFragment"
             app:destination="@id/siteInfoFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_communityInfoFragment"
+            app:destination="@id/communityInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/loadingFragment"
@@ -85,4 +88,12 @@
         android:id="@+id/siteInfoFragment"
         android:name="pw.cub3d.lemmy.ui.siteinfo.SiteInfoFragment"
         android:label="SiteInfoFragment" />
+    <fragment
+        android:id="@+id/communityInfoFragment"
+        android:name="pw.cub3d.lemmy.ui.community.CommunityInfoFragment"
+        android:label="CommunityInfoFragment" >
+        <argument
+            android:name="communityId"
+            app:argType="integer" />
+    </fragment>
 </navigation>
