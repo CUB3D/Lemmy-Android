@@ -1,6 +1,5 @@
 package pw.cub3d.lemmy.core.networking
 
-import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import pw.cub3d.lemmy.core.networking.community.CommunitiesListResponse
 import pw.cub3d.lemmy.core.networking.login.LoginRequest
@@ -112,142 +111,6 @@ data class GetModlogResult(
    val added: Array<ModAddView>
 )
 
-@JsonClass(generateAdapter = true)
-data class ModRemovePostView(
-    val id: Int,
-    val mod_user_id: Int,
-    val post_id: Int,
-    val reason: String?,
-    val removed: Boolean,
-    val when_: String,
-    val mod_user_name: String,
-    val post_name: String,
-    val community_id: Int,
-    val community_name: String
-)
-@JsonClass(generateAdapter = true)
-data class ModLockPostView(
-    val id: Int,
-    val mod_user_id: Int,
-    val post_id: Int,
-    val locked: Boolean,
-    val when_: String,
-    val mod_user_name: String,
-    val post_name: String,
-    val community_id: Int,
-    val community_name: String
-)
-@JsonClass(generateAdapter = true)
-data class ModStickiedPostView(
-    val id: Int,
-    val mod_user_id: Int,
-    val post_id: Int,
-    val stickied: Boolean,
-    val when_: String,
-    val mod_user_name: String,
-    val community_id: Int?,
-    val community_name: String
-)
-@JsonClass(generateAdapter = true)
-data class ModRemoveCommentView(
-    val id: Int,
-    val mod_user_id: Int,
-    val comment_id: Int,
-    val reason: String?,
-    val removed: Boolean,
-    val when_: String,
-    val mod_user_name: String,
-    val comment_user_id: Int,
-    val comment_user_name: String,
-    val comment_content: String,
-    val post_id: Int,
-    val post_name: String,
-    val community_id: Int?,
-    val community_name: String
-)
-@JsonClass(generateAdapter = true)
-data class ModRemoveCommunityView(
-    val id: Int,
-    val mod_user_id: Int,
-    val community_id: Int,
-    val reason: String?,
-    val removed: Boolean,
-    val expires: String?,
-    val when_: String,
-    val mod_user_name: String,
-    val community_name: String
-)
-@JsonClass(generateAdapter = true)
-data class ModBanFromCommunityView(
-    val id: Int,
-    val mod_user_id: Int,
-    val other_user_id: Int,
-    val community_id: Int,
-    val reason: String?,
-    val banned: Boolean,
-    val expires: String?,
-    val when_: String,
-    val other_user_name: String,
-    val community_name: String
-)
-@JsonClass(generateAdapter = true)
-data class ModBanView(
-    val id: Int,
-    val mod_user_id: Int,
-    val other_user_id: Int,
-    val reason: String?,
-    val banned: Boolean,
-    val expires: String?,
-    val when_: String,
-    val mod_user_name: String,
-    val other_user_name: String
-)
-@JsonClass(generateAdapter = true)
-data class ModAddCommunityView(
-    val id: Int,
-    val mod_user_id: Int,
-    val other_user_id: Int,
-    val community_id: Int,
-    val removed: Boolean,
-    val when_: String,
-    val mod_user_name: String,
-    val other_user_name: String,
-    val community_name: String
-)
-@JsonClass(generateAdapter = true)
-data class ModAddView(
-    val id: Int,
-    val mod_user_id: Int,
-    val other_user_id: Int,
-    val removed: Boolean,
-    val when_: String,
-    val mod_user_name: String,
-    val other_user_name: String
-)
-
-@JsonClass(generateAdapter = true)
-data class SaveUserSettingsRequest(
-    val show_nsfw: Boolean,
-    val theme: String,
-    val default_sort_type: Short,
-    val default_listings_type: Short,
-    val lang: String,
-    val avatar: String?,
-    val email: String?,
-    val matrix_user_id: String?,
-    val new_password: String?,
-    val new_password_verify: String?,
-    val old_password: String?,
-    val show_avatars: Boolean,
-    val send_notifications_to_email: Boolean,
-    val auth: String
-)
-
-@JsonClass(generateAdapter = true)
-data class SaveUserSettingsResponse(
-    val jwt: String
-)
-
 //Get Replies / Inbox
 //    Request
 //    Response
@@ -309,14 +172,6 @@ data class SaveUserSettingsResponse(
 //Response
 //HTTP
 //Edit Comment
-//Request
-//Response
-//HTTP
-//Save Comment
-//Request
-//Response
-//HTTP
-//Create Comment Like
 //Request
 //Response
 //HTTP

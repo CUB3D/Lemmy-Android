@@ -59,6 +59,11 @@ class SinglePostFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.postId = arguments.postId
+
+        binding.singlePostCommentTree.layoutManager = LinearLayoutManager(requireContext())
+        val adapter = TreeViewAdapter(emptyList(), listOf(CommentNodeBinder(viewModel)))
+        binding.singlePostCommentTree.adapter = adapter
+
         viewModel.getPost().observe(viewLifecycleOwner, Observer { post ->
             binding.singlePostTitle.text = post.post.name
             binding.singlePostContent.text = post.post.body
@@ -91,8 +96,7 @@ class SinglePostFragment : Fragment() {
                 }
             }
 
-            binding.singlePostCommentTree.layoutManager = LinearLayoutManager(requireContext())
-            binding.singlePostCommentTree.adapter = TreeViewAdapter(nodes, listOf(CommentNodeBinder(viewModel)))
+            adapter.refresh(nodes)
         })
     }
 

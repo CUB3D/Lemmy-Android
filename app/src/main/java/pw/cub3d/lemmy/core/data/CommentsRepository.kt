@@ -13,9 +13,9 @@ class CommentsRepository @Inject constructor(
     private val api: LemmyApiInterface,
     private val authRepository: AuthRepository
 ) {
-    suspend fun setVote(postId: Int, commentId: Int,vote: CommentVote ): CommentView? {
+    suspend fun setVote(postId: Int, commentId: Int, vote: CommentVote): CommentView? {
         val r = api.likeComment(CommentLike(commentId, postId, vote.score, authRepository.getAuthToken()!!))
-        println("voteComment($postId:$commentId) = $r")
+        println("voteComment($postId:$commentId, $vote) = $r")
         if(r.isSuccessful) {
             return r.body()!!.comment
         } else {
