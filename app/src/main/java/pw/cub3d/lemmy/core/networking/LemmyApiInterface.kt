@@ -71,44 +71,36 @@ interface LemmyApiInterface {
         @Query("page") page: Long?,
         @Query("limit") limit: Long?
     ): Response<GetModlogResult>
+
+    @GET("site")
+    suspend fun getSite(): Response<GetSiteResponse>
 }
 
 @JsonClass(generateAdapter = true)
-data class CommentSave(
-    val comment_id: Int,
-    val save: Boolean,
-    val auth: String
+data class GetSiteResponse(
+    val site: SiteView?,
+    val admins: Array<UserView>,
+    val banned: Array<UserView>,
+    val online: Int
 )
 
 @JsonClass(generateAdapter = true)
-data class CommentSaveResponse(
-    val comment: CommentView
-)
-
-@JsonClass(generateAdapter = true)
-data class CommentLike(
-    val comment_id: Int,
-    val post_id: Int,
-    val score: Short,
-    val auth: String
-)
-
-@JsonClass(generateAdapter = true)
-data class CommentLikeResponse(
-    val comment: CommentView
-)
-
-@JsonClass(generateAdapter = true)
-data class GetModlogResult(
-   val removed_posts: Array<ModRemovePostView>,
-   val locked_posts: Array<ModLockPostView>,
-    val stickied_posts: Array<ModStickiedPostView>,
-   val removed_comments: Array<ModRemoveCommentView>,
-   val removed_communities: Array<ModRemoveCommunityView>,
-   val banned_from_community: Array<ModBanFromCommunityView>,
-   val banned: Array<ModBanView>,
-   val added_to_community: Array<ModAddCommunityView>,
-   val added: Array<ModAddView>
+data class SiteView(
+    val id: Int,
+    val name: String,
+    val description: String,
+    val creator_id: Int,
+    val published: String,
+    val updated: String,
+    val enable_downvotes: Boolean,
+    val open_registration: Boolean,
+    val enable_nsfw: Boolean,
+    val creator_name: String,
+    val creator_avatar: String,
+    val number_of_users: Int,
+    val number_of_posts: Int,
+    val number_of_comments: Int,
+    val number_of_communities: Int
 )
 
 //Get Replies / Inbox

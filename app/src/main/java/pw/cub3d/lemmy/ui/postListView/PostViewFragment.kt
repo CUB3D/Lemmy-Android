@@ -100,6 +100,10 @@ class PostViewFragment() : Fragment() {
         binding.postViewModLog.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToModlogFragment())
         }
+
+        binding.postViewSiteInfo.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSiteInfoFragment())
+        }
     }
 
     override fun onAttach(context: Context) {

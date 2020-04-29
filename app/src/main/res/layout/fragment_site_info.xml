@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="siteView"
+            type="pw.cub3d.lemmy.core.networking.SiteView" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/frameLayout3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.siteinfo.SiteInfoFragment" >
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@{siteView.name, default=`Lemmy`}"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/site_users"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@{`` + siteView.number_of_users + ` Users`, default=`100 Uses`}" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/site_communities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@{`` + siteView.number_of_communities + ` Communities`, default=`100 Communities`}" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/site_posts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@{`` + siteView.number_of_posts + ` Posts`, default=`100 Posts`}" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/site_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{`` + siteView.number_of_comments + ` Comments`, default=`100 Comments`}" />
+    </LinearLayout>
+
+    <us.feras.mdv.MarkdownView
+        android:id="@+id/site_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/site_admins"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/site_description" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
