@@ -1,7 +1,5 @@
 package pw.cub3d.lemmy.core.networking
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import pw.cub3d.lemmy.core.networking.community.CommunitiesListResponse
 import pw.cub3d.lemmy.core.networking.login.LoginRequest
 import pw.cub3d.lemmy.core.networking.login.LoginResponse
@@ -105,92 +103,6 @@ interface LemmyApiInterface {
     suspend fun editUserMention(@Body req: UserMentionRequest): Response<UserMentionResponse>
 }
 
-@JsonClass(generateAdapter = true)
-data class UserMentionResponse(
-    val mention: UserMentionView
-)
-
-@JsonClass(generateAdapter = true)
-data class UserMentionView(
-    val id: Int,
-    val user_mention_id: Int,
-    val creator_id: Int,
-    val post_id: Int,
-    val parent_id: Int?,
-    val content: String,
-    val removed: Boolean,
-    val read: Boolean,
-    val published: String,
-    val updated: String?,
-    val deleted: Boolean,
-    val community_id: Int,
-    val community_name: String,
-    val banned: Boolean,
-    val banned_from_community: Boolean,
-    val creator_name: String,
-    val score: Int,
-    val upvotes: Int,
-    val downvotes: Int,
-    val hot_rank: Int,
-    val user_id: Int,
-    val my_vote: Int,
-    val saved: Boolean?,
-    val recipient_id: Int
-)
-
-@JsonClass(generateAdapter = true)
-data class UserMentionRequest(
-    val user_mention_id: Int,
-    val read: Boolean?,
-    val auth: String
-)
-
-@JsonClass(generateAdapter = true)
-data class GetMentionsResponse(
-    val mentions: Array<UserMentionView>
-)
-
-@JsonClass(generateAdapter = true)
-data class GetRepliesResponse(
-    val replies: Array<ReplyView>
-)
-
-@JsonClass(generateAdapter = true)
-data class ReplyView(
-    val id: Int,
-    val creator_id: Int,
-    val parent_id: Int?,
-    val content: String,
-    val removed: Boolean,
-    val read: Boolean,
-    val published: String,
-    val updated: String?,
-    val deleted: Boolean,
-    val community_id: Int,
-    val community_name: String,
-    val banned: Boolean,
-    val banned_from_community: Boolean,
-    val creator_name: String,
-    val creator_avatar: String,
-    val score: Int,
-    val upvotes: Int,
-    val downvotes: Int,
-    val hot_rank: Int,
-    val user_id: Int,
-    val my_vote: Int,
-    val subscribed: Boolean,
-    val saved: Boolean?,
-    val recipient_id: Int
-)
-
-//Get Replies / Inbox
-//    Request
-//    Response
-//    HTTP
-//Get User Mentions
-//    Request
-//    Response
-//    HTTP
 //Edit User Mention
 //    Request
 //    Response
