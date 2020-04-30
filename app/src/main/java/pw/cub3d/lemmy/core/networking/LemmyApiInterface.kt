@@ -35,6 +35,10 @@ interface LemmyApiInterface {
     @GET("community/list")
     suspend fun listCommunities(@Query("sort") sort: String = "Hot"): Response<CommunitiesListResponse>
 
+    @POST("community/follow")
+    suspend fun followCommunity(@Body request: CommunityFollowRequest): Response<CommunityFollowResponse>
+
+
     @GET("post/list")
     suspend fun getPosts(
         @Query("type_") type_: String = "All",
@@ -108,13 +112,15 @@ interface LemmyApiInterface {
 }
 
 @JsonClass(generateAdapter = true)
-data class MarkAllAsReadRequest(
+data class CommunityFollowRequest(
+    val community_id: Int,
+    val follow: Boolean,
     val auth: String
 )
 
 @JsonClass(generateAdapter = true)
-data class MarkAllAsReadResponse(
-    val replies: Array<ReplyView>
+data class CommunityFollowResponse(
+    val community: CommunityView
 )
 
 //Site
@@ -127,10 +133,6 @@ data class MarkAllAsReadResponse(
 //Community
 //
 //Follow Community
-//Request
-//Response
-//HTTP
-//Get Followed Communities
 //Request
 //Response
 //HTTP
