@@ -54,7 +54,12 @@ class ProfileFragment : Fragment() {
             }
             if (user.user.avatar == null) binding.imageView.visibility = View.GONE
 
-            val adapter = ProfilePagerAdapter(requireContext(), requireActivity().supportFragmentManager, lifecycle, user.posts, user.comments)
+            val adapter = ProfilePagerAdapter(
+                requireActivity().supportFragmentManager,
+                lifecycle,
+                user.posts,
+                user.comments
+            )
             binding.profilePager.adapter = adapter
             TabLayoutMediator(binding.profileTabs, binding.profilePager, TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 tab.text = arrayOf("Overview", "Comments", "Posts", "Saved")[position]

@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_homeFragment_to_communityInfoFragment"
             app:destination="@id/communityInfoFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_inboxFragment"
+            app:destination="@id/inboxFragment" />
     </fragment>
     <fragment
         android:id="@+id/loadingFragment"
@@ -96,4 +99,8 @@
             android:name="communityId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/inboxFragment"
+        android:name="pw.cub3d.lemmy.ui.inbox.InboxFragment"
+        android:label="InboxFragment" />
 </navigation>

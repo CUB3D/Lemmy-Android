@@ -97,12 +97,17 @@
             android:id="@+id/postView_siteInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Site Info"/>
+            android:text="Site"/>
         <Button
             android:id="@+id/postView_communityInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Community Info"/>
+            android:text="Community"/>
+        <Button
+            android:id="@+id/postView_inbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inbox"/>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 

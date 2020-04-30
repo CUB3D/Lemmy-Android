@@ -1,5 +1,6 @@
 package pw.cub3d.lemmy.core.networking
 
+import com.squareup.moshi.JsonClass
 import pw.cub3d.lemmy.core.networking.community.CommunitiesListResponse
 import pw.cub3d.lemmy.core.networking.login.LoginRequest
 import pw.cub3d.lemmy.core.networking.login.LoginResponse
@@ -80,24 +81,41 @@ interface LemmyApiInterface {
         @Query("name") name: String?,
         @Query("auth") auth: String?
     ): Response<GetCommunityResponse>
+
+    @GET("user/replies")
+    suspend fun getReplies(
+        @Query("sort") sort: String,
+        @Query("page") page: Long?,
+        @Query("limit") limit: Long?,
+        @Query("unread_only") unread_only: Boolean,
+        @Query("auth") auth: String
+    ): Response<GetRepliesResponse>
+
+    @GET("user/mention")
+    suspend fun getMentions(
+        @Query("sort") sort: String,
+        @Query("page") page: Long?,
+        @Query("limit") limit: Long?,
+        @Query("unread_only") unread_only: Boolean,
+        @Query("auth") auth: String
+    ): Response<GetMentionsResponse>
+
+    @PUT("user/mention")
+    suspend fun editUserMention(@Body req: EditUserMentionRequest): Response<UserMentionResponse>
+
+    @POST("user/mark_all_as_read")
+    suspend fun markAllAsRead(@Body req: MarkAllAsReadRequest): Response<MarkAllAsReadResponse>
 }
 
-//Get Replies / Inbox
-//    Request
-//    Response
-//    HTTP
-//Get User Mentions
-//    Request
-//    Response
-//    HTTP
-//Edit User Mention
-//    Request
-//    Response
-//    HTTP
-//Mark All As Read
-//    Request
-//    Response
-//    HTTP
+@JsonClass(generateAdapter = true)
+data class MarkAllAsReadRequest(
+    val auth: String
+)
+
+@JsonClass(generateAdapter = true)
+data class MarkAllAsReadResponse(
+    val replies: Array<ReplyView>
+)
 
 //Site
 //
@@ -108,10 +126,6 @@ interface LemmyApiInterface {
 //
 //Community
 //
-//Get Community
-//Request
-//Response
-//HTTP
 //Follow Community
 //Request
 //Response

@@ -112,6 +112,10 @@ class PostViewFragment() : Fragment() {
         } else {
             binding.postViewCommunityInfo.visibility = View.GONE
         }
+
+        binding.postViewInbox.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToInboxFragment())
+        }
     }
 
     override fun onAttach(context: Context) {
