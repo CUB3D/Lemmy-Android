@@ -1,6 +1,7 @@
 package pw.cub3d.lemmy.ui.inbox.inboxTab
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -41,7 +42,7 @@ class InboxTabFragment : Fragment() {
         viewModel = ViewModelProvider(viewModelStore, viewModelFactory)[InboxTabViewModel::class.java]
 
         binding.inboxTabRecycler.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = InboxEntryRecycler(requireContext())
+        val adapter = InboxEntryRecycler(requireContext(), viewModel)
         binding.inboxTabRecycler.adapter = adapter
 
         viewModel.inboxResults.observe(viewLifecycleOwner, Observer {
@@ -55,6 +56,10 @@ class InboxTabFragment : Fragment() {
                 }
             }
         })
+
+        binding.inboxMarkAllAsRead.setOnClickListener {
+            viewModel.markAllAsRead()
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -63,13 +68,16 @@ class InboxTabFragment : Fragment() {
     }
 }
 
-class InboxEntryRecycler(ctx: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class InboxEntryRecycler(
+    ctx: Context,
+    private val viewModel: InboxTabViewModel
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val layoutInflater = LayoutInflater.from(ctx)
     private var entries = mutableListOf<InboxEntry>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            InboxEntryType.REPLY.id, InboxEntryType.MENTION.id -> InboxCommentViewHolder(InboxCommentEntryBinding.inflate(layoutInflater, parent, false))
+            InboxEntryType.REPLY.id, InboxEntryType.MENTION.id -> InboxCommentViewHolder(InboxCommentEntryBinding.inflate(layoutInflater, parent, false), viewModel)
             InboxEntryType.MESSAGE.id -> TODO()
             else -> TODO("WIll never occur")
         }
@@ -94,12 +102,37 @@ class InboxEntryRecycler(ctx: Context) : RecyclerView.Adapter<RecyclerView.ViewH
 
 }
 
-class InboxCommentViewHolder(val view: InboxCommentEntryBinding): RecyclerView.ViewHolder(view.root) {
+class InboxCommentViewHolder(
+    val view: InboxCommentEntryBinding,
+    val viewModel: InboxTabViewModel
+): RecyclerView.ViewHolder(view.root) {
     fun bind(reply: ReplyView) {
         view.inboxCommentContent.loadMarkdown(reply.content)
+        if(reply.read) {
+            view.root.setOnClickListener {
+                viewModel.markAsRead(reply.id, false)
+            }
+            view.root.setBackgroundColor(Color.RED)
+        } else {
+            view.root.setOnClickListener {
+                viewModel.markAsRead(reply.id, true)
+            }
+            view.root.setBackgroundColor(Color.TRANSPARENT)
+        }
     }
 
     fun bind(mention: UserMentionView) {
         view.inboxCommentContent.loadMarkdown(mention.content)
+        if(mention.read) {
+            view.root.setOnClickListener {
+                viewModel.markAsRead(mention.id, false)
+            }
+            view.root.setBackgroundColor(Color.RED)
+        } else {
+            view.root.setOnClickListener {
+                viewModel.markAsRead(mention.id, true)
+            }
+            view.root.setBackgroundColor(Color.TRANSPARENT)
+        }
     }
 }

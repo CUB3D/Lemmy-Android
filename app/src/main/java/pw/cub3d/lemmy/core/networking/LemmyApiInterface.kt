@@ -1,5 +1,6 @@
 package pw.cub3d.lemmy.core.networking
 
+import com.squareup.moshi.JsonClass
 import pw.cub3d.lemmy.core.networking.community.CommunitiesListResponse
 import pw.cub3d.lemmy.core.networking.login.LoginRequest
 import pw.cub3d.lemmy.core.networking.login.LoginResponse
@@ -100,17 +101,21 @@ interface LemmyApiInterface {
     ): Response<GetMentionsResponse>
 
     @PUT("user/mention")
-    suspend fun editUserMention(@Body req: UserMentionRequest): Response<UserMentionResponse>
+    suspend fun editUserMention(@Body req: EditUserMentionRequest): Response<UserMentionResponse>
+
+    @POST("user/mark_all_as_read")
+    suspend fun markAllAsRead(@Body req: MarkAllAsReadRequest): Response<MarkAllAsReadResponse>
 }
 
-//Edit User Mention
-//    Request
-//    Response
-//    HTTP
-//Mark All As Read
-//    Request
-//    Response
-//    HTTP
+@JsonClass(generateAdapter = true)
+data class MarkAllAsReadRequest(
+    val auth: String
+)
+
+@JsonClass(generateAdapter = true)
+data class MarkAllAsReadResponse(
+    val replies: Array<ReplyView>
+)
 
 //Site
 //
