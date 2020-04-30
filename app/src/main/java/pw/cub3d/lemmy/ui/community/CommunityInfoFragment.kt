@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
+import pw.cub3d.lemmy.core.networking.CommunityView
 
 import pw.cub3d.lemmy.databinding.FragmentCommunityInfoBinding
 import pw.cub3d.lemmy.ui.common.userList.UserListAdapter
@@ -46,7 +47,26 @@ class CommunityInfoFragment : Fragment() {
             binding.communityView = it.community
             binding.communityDescription.loadMarkdown(it.community.description)
             adapter.updateData(it.admins)
+
+            setupFollowButton(it.community)
         })
+
+        viewModel.followResults.observe(viewLifecycleOwner, Observer {
+            setupFollowButton(it)
+        })
+    }
+
+    fun setupFollowButton(community: CommunityView) {
+        if(community.subscribed) {
+            binding.communityInfoFollow.setOnClickListener {
+                viewModel.communityFollowRequest.postValue(arguments.communityId to true)
+            }
+        } else {
+            binding.communityInfoFollow.setOnClickListener {
+                viewModel.communityFollowRequest.postValue(arguments.communityId to false)
+            }
+            binding.communityInfoFollow.text = "Unfollow"
+        }
     }
 
     override fun onAttach(context: Context) {
