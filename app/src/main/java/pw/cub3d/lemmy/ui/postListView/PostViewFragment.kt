@@ -116,6 +116,10 @@ class PostViewFragment() : Fragment() {
         binding.postViewInbox.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToInboxFragment())
         }
+
+        binding.postVieWSearch.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
+        }
     }
 
     override fun onAttach(context: Context) {
