@@ -11,6 +11,7 @@ import pw.cub3d.lemmy.ui.community.CommunityInfoFragment
 import pw.cub3d.lemmy.ui.community.CommunityViewModel
 import pw.cub3d.lemmy.ui.home.HomeFragment
 import pw.cub3d.lemmy.ui.home.HomeViewModel
+import pw.cub3d.lemmy.ui.inbox.InboxFragment
 import pw.cub3d.lemmy.ui.loading.LoadingFragment
 import pw.cub3d.lemmy.ui.login.LoginFragment
 import pw.cub3d.lemmy.ui.login.LoginViewModel
@@ -36,6 +37,9 @@ import pw.cub3d.lemmy.ui.userSettings.UserSettingsViewModel
 abstract class ScreenBindingModule {
     @ContributesAndroidInjector
     abstract fun loadingFragment(): LoadingFragment
+
+    @ContributesAndroidInjector
+    abstract fun inboxFragment(): InboxFragment
 
     @ContributesAndroidInjector
     abstract fun searchFragment(): SearchFragment

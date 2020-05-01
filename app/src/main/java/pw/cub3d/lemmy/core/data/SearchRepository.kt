@@ -22,7 +22,7 @@ class SearchRepository @Inject constructor(
         queryLiveData.asFlow().collect { query ->
             searchType.asFlow().collect { searchType ->
                 page.asFlow().collect { pageNum ->
-                    val r = api.search(SearchRequest(query, searchType.id, null, SortType.HOT.id, pageNum, null, authRepository.getAuthToken()!!))
+                    val r = api.search(query, searchType.id, null, SortType.NEW.id, pageNum, null, authRepository.getAuthToken()!!)
                     println("Search($query, $searchType, $pageNum) = $r")
                     if(r.isSuccessful) {
                         val b = r.body()!!

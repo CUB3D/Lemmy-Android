@@ -110,20 +110,17 @@ interface LemmyApiInterface {
     @POST("user/mark_all_as_read")
     suspend fun markAllAsRead(@Body req: MarkAllAsReadRequest): Response<MarkAllAsReadResponse>
 
-    @POST("search")
-    suspend fun search(@Body request: SearchRequest): Response<SearchResponse>
+    @GET("search")
+    suspend fun search(
+        @Query("q") q: String,
+        @Query("type_") type_: String,
+        @Query("community_id") community_id: Int?,
+        @Query("sort") sort: String,
+        @Query("page") page: Long?,
+        @Query("limit") limit: Long?,
+        @Query("auth") auth: String?
+    ): Response<SearchResponse>
 }
-
-@JsonClass(generateAdapter = true)
-data class SearchRequest(
-    val q: String,
-    val type_: String,
-    val community_id: Int?,
-    val sort: String,
-    val page: Long?,
-    val limit: Long?,
-    val auth: String?
-)
 
 @JsonClass(generateAdapter = true)
 data class SearchResponse(

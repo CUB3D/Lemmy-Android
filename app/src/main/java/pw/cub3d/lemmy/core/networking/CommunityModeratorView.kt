@@ -9,6 +9,6 @@ data class CommunityModeratorView(
     val user_id: Int,
     val published: String,
     val user_name: String,
-    val avatar: String,
+    val avatar: String?,
     val community_name: String
 )
