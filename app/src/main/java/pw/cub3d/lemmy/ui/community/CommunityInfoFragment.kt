@@ -57,7 +57,7 @@ class CommunityInfoFragment : Fragment() {
     }
 
     fun setupFollowButton(community: CommunityView) {
-        if(community.subscribed) {
+        if(community.subscribed == true) {
             binding.communityInfoFollow.setOnClickListener {
                 viewModel.communityFollowRequest.postValue(arguments.communityId to true)
             }

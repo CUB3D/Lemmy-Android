@@ -11,6 +11,7 @@ import pw.cub3d.lemmy.ui.community.CommunityInfoFragment
 import pw.cub3d.lemmy.ui.community.CommunityViewModel
 import pw.cub3d.lemmy.ui.home.HomeFragment
 import pw.cub3d.lemmy.ui.home.HomeViewModel
+import pw.cub3d.lemmy.ui.inbox.InboxFragment
 import pw.cub3d.lemmy.ui.loading.LoadingFragment
 import pw.cub3d.lemmy.ui.login.LoginFragment
 import pw.cub3d.lemmy.ui.login.LoginViewModel
@@ -23,6 +24,8 @@ import pw.cub3d.lemmy.ui.profile.ProfileViewModel
 import pw.cub3d.lemmy.ui.profile.comments.StaticMixedPostsCommentsFragment
 import pw.cub3d.lemmy.ui.registration.RegistrationFragment
 import pw.cub3d.lemmy.ui.registration.RegistrationViewModel
+import pw.cub3d.lemmy.ui.search.SearchFragment
+import pw.cub3d.lemmy.ui.search.SearchViewModel
 import pw.cub3d.lemmy.ui.singlePostView.SinglePostFragment
 import pw.cub3d.lemmy.ui.singlePostView.SinglePostViewModel
 import pw.cub3d.lemmy.ui.siteinfo.SiteInfoFragment
@@ -34,6 +37,16 @@ import pw.cub3d.lemmy.ui.userSettings.UserSettingsViewModel
 abstract class ScreenBindingModule {
     @ContributesAndroidInjector
     abstract fun loadingFragment(): LoadingFragment
+
+    @ContributesAndroidInjector
+    abstract fun inboxFragment(): InboxFragment
+
+    @ContributesAndroidInjector
+    abstract fun searchFragment(): SearchFragment
+    @Binds
+    @IntoMap
+    @ViewModelKey(SearchViewModel::class)
+    internal abstract fun bindSearchViewModel(vm: SearchViewModel): ViewModel
 
     @ContributesAndroidInjector
     abstract fun communityIntoFragment(): CommunityInfoFragment

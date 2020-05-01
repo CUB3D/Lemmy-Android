@@ -62,6 +62,9 @@
         <action
             android:id="@+id/action_homeFragment_to_inboxFragment"
             app:destination="@id/inboxFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/loadingFragment"
@@ -103,4 +106,8 @@
         android:id="@+id/inboxFragment"
         android:name="pw.cub3d.lemmy.ui.inbox.InboxFragment"
         android:label="InboxFragment" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="pw.cub3d.lemmy.ui.search.SearchFragment"
+        android:label="SearchFragment" />
 </navigation>
