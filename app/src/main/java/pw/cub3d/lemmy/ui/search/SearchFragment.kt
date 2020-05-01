@@ -8,11 +8,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.android.support.AndroidSupportInjection
 
-import pw.cub3d.lemmy.R
+import pw.cub3d.lemmy.core.data.SearchResultEntry
+import pw.cub3d.lemmy.core.data.SearchResultType
 import pw.cub3d.lemmy.core.data.SearchType
-import pw.cub3d.lemmy.databinding.FragmentSearchBinding
+import pw.cub3d.lemmy.core.networking.CommunityView
+import pw.cub3d.lemmy.core.networking.community.Community
+import pw.cub3d.lemmy.databinding.*
+import pw.cub3d.lemmy.ui.common.userList.UserViewHolder
+import pw.cub3d.lemmy.ui.postListView.PostViewHolder
+import pw.cub3d.lemmy.ui.postListView.PostsViewModel
+import pw.cub3d.lemmy.ui.singlePostView.CommentViewHolder
+import pw.cub3d.lemmy.ui.singlePostView.SinglePostViewModel
 import javax.inject.Inject
 
 class SearchFragment : Fragment() {
@@ -34,8 +46,14 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(viewModelStore, viewModelFactory)[SearchViewModel::class.java]
 
+
+        binding.serachResults.layoutManager = LinearLayoutManager(requireContext())
+        val adapter = SearchResultsAdapter(requireContext(), ViewModelProvider(viewModelStore, viewModelFactory)[SinglePostViewModel::class.java], findNavController(), ViewModelProvider(viewModelStore, viewModelFactory)[PostsViewModel::class.java])
+        binding.serachResults.adapter = adapter
+
         viewModel.searchResults.observe(viewLifecycleOwner, Observer {
             println("Got search res $it")
+            adapter.updateData(it)
         })
 
         binding.searchSearch.setOnClickListener {
@@ -49,5 +67,44 @@ class SearchFragment : Fragment() {
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
+    }
+}
+
+class SearchResultsAdapter(ctx: Context, val singlePostViewModel: SinglePostViewModel, val navController: NavController, val postViewModel: PostsViewModel): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val inflater = LayoutInflater.from(ctx)
+    private val entries = mutableListOf<SearchResultEntry>()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when(viewType) {
+            SearchResultType.USER.id -> UserViewHolder(UserEntryBinding.inflate(inflater, parent, false))
+            SearchResultType.COMMUNITY.id -> CommunityViewHolder(CommunityEntryBinding.inflate(inflater, parent, false))
+            SearchResultType.COMMENT.id -> CommentViewHolder(CommentEntryBinding.inflate(inflater, parent, false), singlePostViewModel)
+                SearchResultType.POST.id -> PostViewHolder(PostEntryBinding.inflate(inflater, parent, false), navController, postViewModel)
+            else -> TODO()
+        }
+    }
+
+    override fun getItemCount() = entries.size
+    override fun getItemViewType(position: Int) = entries[position].type.id
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val entry = entries[position]
+        when (entry.type) {
+            SearchResultType.COMMENT -> (holder as CommentViewHolder).bind(entry.comment!!)
+            SearchResultType.POST -> (holder as PostViewHolder).bind(entry.post!!)
+            SearchResultType.COMMUNITY -> (holder as CommunityViewHolder).bind(entry.community!!)
+            SearchResultType.USER -> (holder as UserViewHolder).bind(entry.user!!)
+        }
+    }
+
+    fun updateData(entry: SearchResultEntry) {
+        entries.add(entry)
+        notifyItemChanged(entries.lastIndex)
+    }
+}
+
+data class CommunityViewHolder(val view: CommunityEntryBinding): RecyclerView.ViewHolder(view.root) {
+    fun bind(community: CommunityView) {
+        view.communityView = community
     }
 }

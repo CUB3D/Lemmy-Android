@@ -57,7 +57,7 @@ enum class SearchResultType(val id: Int) {
 
 enum class SearchType(val id: String) {
     ALL("All"),
-    COMMENTS("comments"),
+    COMMENTS("Comments"),
     POSTS("Posts"),
     COMMUNITIES("Communities"),
     USERS("Users"),
