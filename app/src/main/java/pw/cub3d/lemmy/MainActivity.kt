@@ -21,23 +21,5 @@ class MainActivity : AppCompatActivity() {
         AndroidInjection.inject(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val nc = findNavController(R.id.main_fragmentHost)
-
-        binding.mainBottomNavigation.setOnNavigationItemReselectedListener {
-            println("Nav item selected: $it")
-            when (it.itemId) {
-                R.id.bottomNavMenu_home -> nc.navigate(R.id.homeFragment)
-                R.id.bottomNavMenu_profile -> nc.navigate(R.id.userSettingsFragment)
-            }
-        }
-
-        nc.addOnDestinationChangedListener { controller, destination, arguments ->
-            if(destination.id in listOf(R.id.loginFragment, R.id.registrationFragment)) {
-                binding.mainBottomNavigation.visibility = View.GONE
-            } else {
-                binding.mainBottomNavigation.visibility = View.VISIBLE
-            }
-        }
     }
 }

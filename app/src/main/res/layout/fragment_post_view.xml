@@ -88,31 +88,39 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom">
 
-        <Button
+        <ImageButton
             android:id="@+id/postView_modLog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Modlog"/>
-        <Button
+            android:text="Modlog"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_alert_triangle"/>
+        <ImageButton
             android:id="@+id/postView_siteInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Site"/>
+            android:text="Site"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_info"/>
         <Button
             android:id="@+id/postView_communityInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Community"/>
-        <Button
+        <ImageButton
             android:id="@+id/postView_inbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Inbox"/>
-        <Button
+            android:text="Inbox"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_mail"/>
+        <ImageButton
             android:id="@+id/postVieW_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"/>
+            android:text="Search"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_search"/>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
