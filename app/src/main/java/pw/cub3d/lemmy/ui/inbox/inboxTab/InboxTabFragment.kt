@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.android.support.AndroidSupportInjection
+import io.noties.markwon.Markwon
 import kotlinx.android.synthetic.main.fragment_post_view.*
 
 import pw.cub3d.lemmy.core.data.InboxEntry
@@ -107,7 +108,7 @@ class InboxCommentViewHolder(
     val viewModel: InboxTabViewModel
 ): RecyclerView.ViewHolder(view.root) {
     fun bind(reply: ReplyView) {
-        view.inboxCommentContent.loadMarkdown(reply.content)
+        Markwon.create(view.root.context).setMarkdown(view.inboxCommentContent, reply.content)
         if(reply.read) {
             view.root.setOnClickListener {
                 viewModel.markAsRead(reply.id, false)
@@ -122,7 +123,7 @@ class InboxCommentViewHolder(
     }
 
     fun bind(mention: UserMentionView) {
-        view.inboxCommentContent.loadMarkdown(mention.content)
+        Markwon.create(view.root.context).setMarkdown(view.inboxCommentContent, mention.content)
         if(mention.read) {
             view.root.setOnClickListener {
                 viewModel.markAsRead(mention.id, false)

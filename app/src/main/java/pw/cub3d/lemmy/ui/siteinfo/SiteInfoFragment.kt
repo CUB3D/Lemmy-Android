@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
+import io.noties.markwon.Markwon
 import pw.cub3d.lemmy.databinding.FragmentSiteInfoBinding
 import pw.cub3d.lemmy.ui.common.userList.UserListAdapter
 import javax.inject.Inject
@@ -39,7 +40,7 @@ class SiteInfoFragment : Fragment() {
 
         viewModel.getSite().observe(viewLifecycleOwner, Observer {
             binding.siteView = it.site
-            binding.siteDescription.loadMarkdown(it.site!!.description)
+            Markwon.create(requireContext()).setMarkdown(binding.siteDescription, it.site!!.description)
             adapter.updateData(it.admins)
         })
     }

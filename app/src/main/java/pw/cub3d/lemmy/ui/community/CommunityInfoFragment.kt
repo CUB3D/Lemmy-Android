@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
+import io.noties.markwon.Markwon
 import pw.cub3d.lemmy.core.networking.community.CommunityView
 
 import pw.cub3d.lemmy.databinding.FragmentCommunityInfoBinding
@@ -45,7 +46,8 @@ class CommunityInfoFragment : Fragment() {
 
         viewModel.getSite(arguments.communityId).observe(viewLifecycleOwner, Observer {
             binding.communityView = it.community
-            binding.communityDescription.loadMarkdown(it.community.description)
+            Markwon.create(requireContext()).setMarkdown(binding.communityDescription, it.community.description ?: "")
+
             adapter.updateData(it.admins)
 
             setupFollowButton(it.community)

@@ -41,7 +41,6 @@ class CommentViewHolder(
         }
 
 //        val emoji = EmojiParser.parseToUnicode(content.content)
-//        binding.commentEntryContent.loadMarkdown(emoji, "file://android_asset/Comments.css")
         Markwon.create(binding.view.context).setMarkdown(binding.commentEntryContent, content.content)
 
         if(content.my_vote == CommentVote.UPVOTE.score.toInt()) {

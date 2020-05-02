@@ -11,7 +11,9 @@
         android:id="@+id/postView_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"/>
+        android:overScrollMode="never"
+        tools:itemCount="3"
+        tools:listitem="@layout/post_entry" />
 
     <LinearLayout
         android:id="@+id/postView_longPressActions"
