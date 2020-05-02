@@ -44,7 +44,7 @@ data class PostView(
     val user_id: Int?,
     val my_vote: Int?,
     val subscribed: Boolean?,
-    val read: String?, // TODO: type
+    val read: String?,
     val saved: Boolean?
 ) {
     fun formattedAge() =

@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import pw.cub3d.lemmy.core.networking.CommentView
+import pw.cub3d.lemmy.core.networking.comment.CommentView
 import pw.cub3d.lemmy.core.networking.PostView
 import pw.cub3d.lemmy.ui.profile.comments.MixedPostType
 import pw.cub3d.lemmy.ui.profile.comments.MixedPosts

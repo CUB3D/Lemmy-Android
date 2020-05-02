@@ -1,18 +1,11 @@
 package pw.cub3d.lemmy.ui.singlePostView
 
 import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import pw.cub3d.lemmy.core.data.CommentVote
 import pw.cub3d.lemmy.core.data.CommentsRepository
 import pw.cub3d.lemmy.core.data.PostsRepository
-import pw.cub3d.lemmy.core.networking.CommentView
-import pw.cub3d.lemmy.core.networking.PostResponse
-import pw.cub3d.lemmy.core.networking.PostView
 import javax.inject.Inject
 
 class SinglePostViewModel @Inject constructor(

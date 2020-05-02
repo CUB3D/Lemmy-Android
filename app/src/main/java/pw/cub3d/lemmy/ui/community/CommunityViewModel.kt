@@ -3,7 +3,7 @@ package pw.cub3d.lemmy.ui.community
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import pw.cub3d.lemmy.core.data.CommunityRepository
-import pw.cub3d.lemmy.core.networking.CommunityView
+import pw.cub3d.lemmy.core.networking.community.CommunityView
 import javax.inject.Inject
 
 class CommunityViewModel @Inject constructor(

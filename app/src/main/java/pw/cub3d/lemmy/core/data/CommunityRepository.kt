@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import pw.cub3d.lemmy.core.networking.CommunityFollowRequest
-import pw.cub3d.lemmy.core.networking.CommunityView
+import pw.cub3d.lemmy.core.networking.community.CommunityFollowRequest
+import pw.cub3d.lemmy.core.networking.community.CommunityView
 import pw.cub3d.lemmy.core.networking.GetCommunityResponse
 import pw.cub3d.lemmy.core.networking.LemmyApiInterface
 import javax.inject.Inject
@@ -34,7 +34,13 @@ class CommunityRepository @Inject constructor(
 
     fun followCommunity(followRequest: LiveData<Pair<Int, Boolean>>): Flow<CommunityView> = flow {
         followRequest.asFlow().collect { followRequest ->
-            val r = api.followCommunity(CommunityFollowRequest(followRequest.first, followRequest.second, authRepository.getAuthToken()!!))
+            val r = api.followCommunity(
+                CommunityFollowRequest(
+                    followRequest.first,
+                    followRequest.second,
+                    authRepository.getAuthToken()!!
+                )
+            )
             println("FollowRequest(${followRequest.first}, ${followRequest.second}) = $r")
             if(r.isSuccessful) {
                 emit(r.body()!!.community)

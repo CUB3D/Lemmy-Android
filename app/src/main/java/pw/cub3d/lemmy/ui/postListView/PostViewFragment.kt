@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -27,7 +28,7 @@ class PostViewFragment() : Fragment() {
 
     private lateinit var binding: FragmentPostViewBinding
     @Inject lateinit var postsViewModelFactory: ViewModelProvider.Factory
-    lateinit var postsViewModel: PostsViewModel
+    val postsViewModel: PostsViewModel by viewModels { postsViewModelFactory }
 
     private lateinit var postsAdapter: PostViewAdapter
 
@@ -39,12 +40,8 @@ class PostViewFragment() : Fragment() {
         return binding.root
     }
 
-    @ExperimentalCoroutinesApi
-    @InternalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        postsViewModel =
-            ViewModelProvider(viewModelStore, postsViewModelFactory)[PostsViewModel::class.java]
 
         postView_recycler.layoutManager = LinearLayoutManager(requireContext())
         postsAdapter = PostViewAdapter(requireActivity(), findNavController(), postsViewModel)

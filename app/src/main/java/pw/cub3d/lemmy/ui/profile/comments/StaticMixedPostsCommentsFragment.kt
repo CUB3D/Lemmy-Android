@@ -12,18 +12,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.comment_entry.view.*
 
-import pw.cub3d.lemmy.R
-import pw.cub3d.lemmy.core.networking.CommentView
+import pw.cub3d.lemmy.core.networking.comment.CommentView
 import pw.cub3d.lemmy.core.networking.PostView
-import pw.cub3d.lemmy.databinding.CommentEntryBinding
 import pw.cub3d.lemmy.databinding.FragmentStaticMixedPostsCommentsBinding
 import pw.cub3d.lemmy.databinding.PostEntryBinding
 import pw.cub3d.lemmy.databinding.ProfileCommentEntryBinding
 import pw.cub3d.lemmy.ui.postListView.PostViewHolder
 import pw.cub3d.lemmy.ui.postListView.PostsViewModel
-import pw.cub3d.lemmy.ui.postListView.PostsViewModel_Factory
 import javax.inject.Inject
 
 

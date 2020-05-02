@@ -101,6 +101,7 @@ dependencies {
 
     // For markdown support
     implementation 'us.feras.mdv:markdownview:1.1.0'
+    implementation "io.noties.markwon:core:4.3.1"
 
     // Support for emoji short codes
 //    implementation "com.kcthota:emoji4j:6.0"

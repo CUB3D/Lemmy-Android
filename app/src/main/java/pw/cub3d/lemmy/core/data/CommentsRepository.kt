@@ -1,9 +1,8 @@
 package pw.cub3d.lemmy.core.data
 
-import org.w3c.dom.Comment
-import pw.cub3d.lemmy.core.networking.CommentLike
-import pw.cub3d.lemmy.core.networking.CommentSave
-import pw.cub3d.lemmy.core.networking.CommentView
+import pw.cub3d.lemmy.core.networking.comment.CommentLike
+import pw.cub3d.lemmy.core.networking.comment.CommentSave
+import pw.cub3d.lemmy.core.networking.comment.CommentView
 import pw.cub3d.lemmy.core.networking.LemmyApiInterface
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,7 +13,14 @@ class CommentsRepository @Inject constructor(
     private val authRepository: AuthRepository
 ) {
     suspend fun setVote(postId: Int, commentId: Int, vote: CommentVote): CommentView? {
-        val r = api.likeComment(CommentLike(commentId, postId, vote.score, authRepository.getAuthToken()!!))
+        val r = api.likeComment(
+            CommentLike(
+                commentId,
+                postId,
+                vote.score,
+                authRepository.getAuthToken()!!
+            )
+        )
         println("voteComment($postId:$commentId, $vote) = $r")
         if(r.isSuccessful) {
             return r.body()!!.comment
@@ -24,7 +30,13 @@ class CommentsRepository @Inject constructor(
     }
 
     suspend fun saveComment(commentId: Int, saved: Boolean): CommentView? {
-        val r = api.saveComment(CommentSave(commentId, saved, authRepository.getAuthToken()!!))
+        val r = api.saveComment(
+            CommentSave(
+                commentId,
+                saved,
+                authRepository.getAuthToken()!!
+            )
+        )
         println("saveComment($commentId, $saved) = $r")
         if(r.isSuccessful) {
             return r.body()!!.comment

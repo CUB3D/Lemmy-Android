@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import pw.cub3d.lemmy.core.networking.*
+import pw.cub3d.lemmy.core.networking.comment.CommentView
+import pw.cub3d.lemmy.core.networking.community.CommunityView
 import javax.inject.Inject
 import javax.inject.Singleton
 

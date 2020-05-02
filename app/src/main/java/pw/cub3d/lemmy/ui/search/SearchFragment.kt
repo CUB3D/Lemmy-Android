@@ -17,8 +17,7 @@ import dagger.android.support.AndroidSupportInjection
 import pw.cub3d.lemmy.core.data.SearchResultEntry
 import pw.cub3d.lemmy.core.data.SearchResultType
 import pw.cub3d.lemmy.core.data.SearchType
-import pw.cub3d.lemmy.core.networking.CommunityView
-import pw.cub3d.lemmy.core.networking.community.Community
+import pw.cub3d.lemmy.core.networking.community.CommunityView
 import pw.cub3d.lemmy.databinding.*
 import pw.cub3d.lemmy.ui.common.userList.UserViewHolder
 import pw.cub3d.lemmy.ui.postListView.PostViewHolder

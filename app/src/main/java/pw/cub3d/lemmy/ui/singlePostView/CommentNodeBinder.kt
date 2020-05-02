@@ -3,10 +3,10 @@ package pw.cub3d.lemmy.ui.singlePostView
 import android.graphics.Color
 import android.view.View
 import com.vdurmont.emoji.EmojiParser
+import io.noties.markwon.Markwon
 import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.core.data.CommentVote
-import pw.cub3d.lemmy.core.data.PostVote
-import pw.cub3d.lemmy.core.networking.CommentView
+import pw.cub3d.lemmy.core.networking.comment.CommentView
 import pw.cub3d.lemmy.databinding.CommentEntryBinding
 import tellh.com.recyclertreeview_lib.TreeNode
 import tellh.com.recyclertreeview_lib.TreeViewBinder
@@ -40,8 +40,9 @@ class CommentViewHolder(
             binding.commentEntryActions.visibility = if(binding.commentEntryActions.visibility == View.VISIBLE) View.GONE else View.VISIBLE
         }
 
-        val emoji = EmojiParser.parseToUnicode(content.content)
-        binding.commentEntryContent.loadMarkdown(emoji, "file://android_asset/Comments.css")
+//        val emoji = EmojiParser.parseToUnicode(content.content)
+//        binding.commentEntryContent.loadMarkdown(emoji, "file://android_asset/Comments.css")
+        Markwon.create(binding.view.context).setMarkdown(binding.commentEntryContent, content.content)
 
         if(content.my_vote == CommentVote.UPVOTE.score.toInt()) {
             binding.commentEntryUpvote.setBackgroundColor(Color.RED)

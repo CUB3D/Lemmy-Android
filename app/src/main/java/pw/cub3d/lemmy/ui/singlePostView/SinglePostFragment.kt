@@ -14,8 +14,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
+import io.noties.markwon.Markwon
 
-import pw.cub3d.lemmy.core.networking.CommentView
+import pw.cub3d.lemmy.core.networking.comment.CommentView
 import pw.cub3d.lemmy.databinding.FragmentSinglePostBinding
 import tellh.com.recyclertreeview_lib.TreeNode
 import tellh.com.recyclertreeview_lib.TreeViewAdapter
@@ -66,7 +67,12 @@ class SinglePostFragment : Fragment() {
 
         viewModel.getPost().observe(viewLifecycleOwner, Observer { post ->
             binding.singlePostTitle.text = post.post.name
-            binding.singlePostContent.text = post.post.body
+
+            if(post.post.body != null) {
+                Markwon.create(view.context).setMarkdown(binding.singlePostContent, post.post.body)
+            } else {
+                binding.singlePostContent.visibility = View.GONE
+            }
 
             post.post.url?.let {
                 binding.singlePostLink.text = post.post.url
