@@ -15,7 +15,7 @@ fun Duration.toRelativeString(): String {
 
     val timePart = when {
         dura.toDays() >= 14 -> "${weeks.toString().replace(".0", "")} weeks"
-        dura.toDays() >= 7 -> "$weeks week and $days days"
+        dura.toDays() >= 7 -> "1 week"
         dura.toHours() >= 48 -> "${dura.toHours() / 24} days"
         dura.toHours() >= 24 -> "${dura.toHours() / 24} day"
         hours > 1 -> "$hours hours"

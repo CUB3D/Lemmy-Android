@@ -64,6 +64,7 @@ class SinglePostFragment : Fragment() {
         binding.singlePostCommentTree.layoutManager = LinearLayoutManager(requireContext())
         val adapter = TreeViewAdapter(emptyList(), listOf(CommentNodeBinder(viewModel)))
         binding.singlePostCommentTree.adapter = adapter
+        binding.singlePostCommentTree.isNestedScrollingEnabled = false
 
         viewModel.getPost().observe(viewLifecycleOwner, Observer { post ->
             binding.singlePostTitle.text = post.post.name
@@ -75,8 +76,9 @@ class SinglePostFragment : Fragment() {
             }
 
             post.post.url?.let {
-                binding.singlePostLink.text = post.post.url
-                binding.singlePostLink.setOnClickListener {
+                binding.singlePostLinkHolder.visibility = View.VISIBLE
+                binding.singlePostLinkDomain.text = Uri.parse(post.post.url).host
+                binding.singlePostLinkHolder.setOnClickListener {
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(post.post.url)))
                 }
             }

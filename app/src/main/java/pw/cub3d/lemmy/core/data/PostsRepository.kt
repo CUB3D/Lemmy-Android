@@ -94,7 +94,7 @@ class PostsRepository @Inject constructor(
                     community_id = community
                 ).body()?.let {
 
-                    it.posts.sortedByDescending { it.score }.forEach { emit(it) }
+                    it.posts.sortedByDescending { it.hot_rank }.forEach { emit(it) }
                 }
             }
         }
