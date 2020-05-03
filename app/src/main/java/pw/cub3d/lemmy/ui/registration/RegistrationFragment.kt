@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -18,12 +19,11 @@ import javax.inject.Inject
 class RegistrationFragment : Fragment() {
 
     private lateinit var binding: FragmentRegistrationBinding
-    private lateinit var viewModel: RegistrationViewModel
+
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel: RegistrationViewModel by viewModels { viewModelFactory }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProvider(this, viewModelFactory)[RegistrationViewModel::class.java]
-
         binding = FragmentRegistrationBinding.inflate(inflater, container, false)
         binding.viewmodel = viewModel
         return binding.root

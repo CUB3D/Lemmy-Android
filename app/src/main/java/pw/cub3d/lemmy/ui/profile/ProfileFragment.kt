@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -22,9 +23,9 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var viewModel: ProfileViewModel
+    private val viewModel: ProfileViewModel by viewModels { viewModelFactory }
 
-    val arguments: ProfileFragmentArgs by navArgs()
+    private val arguments: ProfileFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +42,6 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(viewModelStore, viewModelFactory)[ProfileViewModel::class.java]
 
         val userId = arguments.profileId.takeIf { it != -1 } ?: viewModel.getUserClaims().id
 

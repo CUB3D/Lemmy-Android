@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
@@ -19,7 +20,7 @@ import javax.inject.Inject
 class HomeFragment : Fragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel: HomeViewModel by viewModels { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,8 +32,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(viewModelStore, viewModelFactory)[HomeViewModel::class.java]
 
         val adapter = HomePagerAdapter(requireContext(), requireActivity().supportFragmentManager, lifecycle)
         home_viewpager.adapter = adapter

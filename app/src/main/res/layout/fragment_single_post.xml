@@ -11,7 +11,6 @@
     tools:context=".ui.singlePostView.SinglePostFragment"
     android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/singlePost_title"
         android:layout_width="match_parent"
@@ -19,7 +18,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/hello_blank_fragment"
+        android:text="Test title"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <TextView

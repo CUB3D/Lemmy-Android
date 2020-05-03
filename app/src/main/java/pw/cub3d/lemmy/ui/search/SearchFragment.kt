@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -29,7 +30,9 @@ import javax.inject.Inject
 class SearchFragment : Fragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by viewModels { viewModelFactory }
+    private val singlePostViewmodel: SinglePostViewModel by viewModels { viewModelFactory }
+    private val postsViewModel: PostsViewModel by viewModels { viewModelFactory }
 
     lateinit var binding: FragmentSearchBinding
 
@@ -43,11 +46,9 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(viewModelStore, viewModelFactory)[SearchViewModel::class.java]
-
 
         binding.serachResults.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = SearchResultsAdapter(requireContext(), ViewModelProvider(viewModelStore, viewModelFactory)[SinglePostViewModel::class.java], findNavController(), ViewModelProvider(viewModelStore, viewModelFactory)[PostsViewModel::class.java])
+        val adapter = SearchResultsAdapter(requireContext(), singlePostViewmodel, findNavController(), postsViewModel)
         binding.serachResults.adapter = adapter
 
         viewModel.searchResults.observe(viewLifecycleOwner, Observer {

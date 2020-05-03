@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,8 +19,9 @@ import javax.inject.Inject
 class SiteInfoFragment : Fragment() {
 
     private lateinit var binding: FragmentSiteInfoBinding
+
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var viewModel: SiteViewModel
+    private val viewModel: SiteViewModel by viewModels { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +33,6 @@ class SiteInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(viewModelStore, viewModelFactory)[SiteViewModel::class.java]
 
         binding.siteAdmins.layoutManager = LinearLayoutManager(requireContext())
         val adapter =
