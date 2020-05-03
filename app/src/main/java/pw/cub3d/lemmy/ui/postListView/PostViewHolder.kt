@@ -1,6 +1,8 @@
 package pw.cub3d.lemmy.ui.postListView
 
 import android.graphics.Color
+import android.net.Uri
+import android.view.View
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import pw.cub3d.lemmy.R
@@ -20,6 +22,15 @@ class PostViewHolder(
         view.postView = post
 
         view.postEntryImage.setImageDrawable(null)
+
+        if(post.creator_avatar != null) {
+            view.postEntrySenderAvatar.visibility = View.VISIBLE
+            GlideApp.with(view.root)
+                .load(Uri.parse(post.creator_avatar))
+                .into(view.postEntrySenderAvatar)
+        } else {
+            view.postEntrySenderAvatar.visibility = View.GONE
+        }
 
         if (post.internalThumbnail != null) {
             println("Loading thumb: ${post.internalThumbnail}")

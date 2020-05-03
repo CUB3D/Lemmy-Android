@@ -92,7 +92,7 @@
         android:layout_gravity="bottom"
         app:hideOnScroll="true"
         app:layout_scrollFlags="scroll|enterAlways"
-        app:fabAlignmentMode="center">
+        app:fabAlignmentMode="end">
 
         <ImageButton
             android:id="@+id/postView_modLog"

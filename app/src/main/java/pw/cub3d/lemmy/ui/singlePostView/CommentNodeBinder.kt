@@ -1,12 +1,14 @@
 package pw.cub3d.lemmy.ui.singlePostView
 
 import android.graphics.Color
+import android.net.Uri
 import android.view.View
 import com.vdurmont.emoji.EmojiParser
 import io.noties.markwon.Markwon
 import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.core.data.CommentVote
 import pw.cub3d.lemmy.core.networking.comment.CommentView
+import pw.cub3d.lemmy.core.utility.GlideApp
 import pw.cub3d.lemmy.databinding.CommentEntryBinding
 import tellh.com.recyclertreeview_lib.TreeNode
 import tellh.com.recyclertreeview_lib.TreeViewBinder
@@ -34,7 +36,19 @@ class CommentViewHolder(
 
 
     fun bind(content: CommentView) {
+        binding.commentView = content
+
         binding.commentEntryActions.visibility = View.GONE
+
+        if(content.creator_avatar != null) {
+            GlideApp.with(binding.root.context)
+                .load(Uri.parse(content.creator_avatar))
+                .into(binding.commentEntryAuthorImage)
+            binding.commentEntryAuthorImage.visibility = View.VISIBLE
+        } else {
+            binding.commentEntryAuthorImage.visibility = View.GONE
+        }
+
 
         binding.root.setOnClickListener {
             binding.commentEntryActions.visibility = if(binding.commentEntryActions.visibility == View.VISIBLE) View.GONE else View.VISIBLE
