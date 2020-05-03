@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@{commentView.community_name, default=`CUB3D`}"
+        android:text="@{commentView.creator_name, default=`CUB3D`}"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toEndOf="@+id/commentEntry_authorImage"
         app:layout_constraintTop_toTopOf="parent" />
