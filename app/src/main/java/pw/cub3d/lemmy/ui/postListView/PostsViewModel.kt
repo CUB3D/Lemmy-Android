@@ -11,6 +11,7 @@ import pw.cub3d.lemmy.core.data.GetPostType
 import pw.cub3d.lemmy.core.data.PostVote
 import pw.cub3d.lemmy.core.data.PostsRepository
 import pw.cub3d.lemmy.core.networking.PostView
+import pw.cub3d.lemmy.core.networking.SortType
 import javax.inject.Inject
 
 class PostsViewModel @Inject constructor(
@@ -20,6 +21,7 @@ class PostsViewModel @Inject constructor(
     val currentPage = MutableLiveData<Int>(1)
     val community = MutableLiveData<Int?>(null)
     val type = MutableLiveData<GetPostType>()
+    val sortType = MutableLiveData<SortType>()
 
     val saveRequest = MutableLiveData<Pair<Int, Boolean>>()
     val voteRequest = MutableLiveData<Pair<Int, PostVote>>()
@@ -29,7 +31,7 @@ class PostsViewModel @Inject constructor(
         liveData<PostView>(context = viewModelScope.coroutineContext + Dispatchers.IO) {
             emitSource(MediatorLiveData<PostView>().apply {
                 addSource(
-                    postsRepository.getCurrentPage(community, type, currentPage).flowOn(Dispatchers.IO)
+                    postsRepository.getCurrentPage(community, type, currentPage, sortType).flowOn(Dispatchers.IO)
                         .asLiveData()
                 ) {
                     value = it
