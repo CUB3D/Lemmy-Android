@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import pw.cub3d.lemmy.core.data.GetPostType
 import pw.cub3d.lemmy.core.data.PostVote
 import pw.cub3d.lemmy.core.data.PostsRepository
 import pw.cub3d.lemmy.core.networking.PostView
@@ -18,6 +19,8 @@ class PostsViewModel @Inject constructor(
 
     val currentPage = MutableLiveData<Int>(1)
     val community = MutableLiveData<Int?>(null)
+    val type = MutableLiveData<GetPostType>()
+
     val saveRequest = MutableLiveData<Pair<Int, Boolean>>()
     val voteRequest = MutableLiveData<Pair<Int, PostVote>>()
     val bottomSheedState = MutableLiveData<PostView?>(null)
@@ -26,7 +29,7 @@ class PostsViewModel @Inject constructor(
         liveData<PostView>(context = viewModelScope.coroutineContext + Dispatchers.IO) {
             emitSource(MediatorLiveData<PostView>().apply {
                 addSource(
-                    postsRepository.getCurrentPage(community, currentPage).flowOn(Dispatchers.IO)
+                    postsRepository.getCurrentPage(community, type, currentPage).flowOn(Dispatchers.IO)
                         .asLiveData()
                 ) {
                     value = it

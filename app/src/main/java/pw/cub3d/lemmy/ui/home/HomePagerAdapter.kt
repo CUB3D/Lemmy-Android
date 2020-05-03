@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import pw.cub3d.lemmy.core.data.GetPostType
 import pw.cub3d.lemmy.core.networking.community.CommunityFollowerView
 import pw.cub3d.lemmy.ui.postListView.PostViewFragment
 
@@ -19,18 +20,24 @@ class HomePagerAdapter(
     override fun getItemCount() = communities.size
 
     override fun createFragment(position: Int): Fragment {
-        // 0 Is your feed
-        return if(position == 0) {
-            PostViewFragment()
-        } else {
-            PostViewFragment().apply {
+        // 0 Is your feed, 1 is all
+        return when (position) {
+            0 -> PostViewFragment()
+            1 -> PostViewFragment().apply {
+                type = GetPostType.ALL
+            }
+            else -> PostViewFragment().apply {
+                type = GetPostType.COMMUNITY
                 community = communities[position].community_id
             }
         }
     }
 
     fun updateData(data: Array<CommunityFollowerView>) {
-        communities = arrayOf(CommunityFollowerView(-1, -1, -1, "", "", "", "Feed")) + data
+        communities = arrayOf(
+            CommunityFollowerView(-1, -1, -1, "", "", "", "Feed"),
+            CommunityFollowerView(-1, -1, -1, "", "", "", "All")
+            ) + data
         notifyDataSetChanged()
     }
 

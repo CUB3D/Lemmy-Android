@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_post_view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import pw.cub3d.lemmy.R
+import pw.cub3d.lemmy.core.data.GetPostType
 import pw.cub3d.lemmy.core.networking.PostView
 import pw.cub3d.lemmy.databinding.FragmentPostViewBinding
 import pw.cub3d.lemmy.ui.home.HomeFragmentDirections
@@ -33,6 +34,7 @@ class PostViewFragment() : Fragment() {
     private lateinit var postsAdapter: PostViewAdapter
 
     var community: Int? = null
+    var type: GetPostType = GetPostType.SUBSCRIBED
     var posts: Array<PostView>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -48,6 +50,7 @@ class PostViewFragment() : Fragment() {
         postView_recycler.adapter = postsAdapter
 
         postsViewModel.community.postValue(community)
+        postsViewModel.type.postValue(type)
         postsAdapter.clearData()
         posts?.let {
             it.forEach { postsAdapter.updateData(it) }
