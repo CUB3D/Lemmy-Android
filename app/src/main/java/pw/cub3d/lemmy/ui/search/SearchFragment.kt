@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -48,7 +49,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.serachResults.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = SearchResultsAdapter(requireContext(), singlePostViewmodel, findNavController(), postsViewModel)
+        val adapter = SearchResultsAdapter(requireActivity(), singlePostViewmodel, findNavController(), postsViewModel)
         binding.serachResults.adapter = adapter
 
         viewModel.searchResults.observe(viewLifecycleOwner, Observer {
@@ -70,7 +71,7 @@ class SearchFragment : Fragment() {
     }
 }
 
-class SearchResultsAdapter(ctx: Context, val singlePostViewModel: SinglePostViewModel, val navController: NavController, val postViewModel: PostsViewModel): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SearchResultsAdapter(private val ctx: FragmentActivity, val singlePostViewModel: SinglePostViewModel, val navController: NavController, val postViewModel: PostsViewModel): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val inflater = LayoutInflater.from(ctx)
     private val entries = mutableListOf<SearchResultEntry>()
 
@@ -79,7 +80,7 @@ class SearchResultsAdapter(ctx: Context, val singlePostViewModel: SinglePostView
             SearchResultType.USER.id -> UserViewHolder(UserEntryBinding.inflate(inflater, parent, false))
             SearchResultType.COMMUNITY.id -> CommunityViewHolder(CommunityEntryBinding.inflate(inflater, parent, false))
             SearchResultType.COMMENT.id -> CommentViewHolder(CommentEntryBinding.inflate(inflater, parent, false), singlePostViewModel)
-                SearchResultType.POST.id -> PostViewHolder(PostEntryBinding.inflate(inflater, parent, false), navController, postViewModel)
+                SearchResultType.POST.id -> PostViewHolder(PostEntryBinding.inflate(inflater, parent, false), ctx, navController, postViewModel)
             else -> TODO()
         }
     }

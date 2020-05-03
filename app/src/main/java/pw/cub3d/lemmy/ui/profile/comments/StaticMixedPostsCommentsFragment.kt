@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -46,7 +47,7 @@ class StaticMixedPostsCommentsFragment : Fragment() {
         println("Got mixed: ${entries.size}")
 
         binding.staticMixedRecycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.staticMixedRecycler.adapter = StaticMixedAdapter(requireContext(), findNavController(), entries, postsViewModel)
+        binding.staticMixedRecycler.adapter = StaticMixedAdapter(requireActivity(), findNavController(), entries, postsViewModel)
     }
 
     override fun onAttach(context: Context) {
@@ -66,7 +67,7 @@ enum class MixedPostType(val id: Int) {
 }
 
 class StaticMixedAdapter(
-    private val ctx: Context,
+    private val ctx: FragmentActivity,
     private val navController: NavController,
     private val entries: List<MixedPosts>,
     private val postsViewModel: PostsViewModel
@@ -75,7 +76,7 @@ class StaticMixedAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            MixedPostType.POST.id -> PostViewHolder(PostEntryBinding.inflate(layoutInflater, parent, false), navController, postsViewModel)
+            MixedPostType.POST.id -> PostViewHolder(PostEntryBinding.inflate(layoutInflater, parent, false), ctx, navController, postsViewModel)
             MixedPostType.COMMENT.id ->  CommentViewHolder(ProfileCommentEntryBinding.inflate(layoutInflater, parent, false))
             else -> TODO("WIll never happen")
         }

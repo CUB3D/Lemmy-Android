@@ -8,7 +8,8 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="pw.cub3d.lemmy.ui.login.LoginFragment"
-        android:label="LoginFragment" >
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
@@ -25,7 +26,8 @@
     <fragment
         android:id="@+id/singlePostFragment"
         android:name="pw.cub3d.lemmy.ui.singlePostView.SinglePostFragment"
-        android:label="SinglePostFragment" >
+        android:label="SinglePostFragment"
+        tools:layout="@layout/fragment_single_post">
         <argument
             android:name="postId"
             app:argType="integer" />
@@ -33,7 +35,8 @@
     <fragment
         android:id="@+id/navGraph_profileFragment"
         android:name="pw.cub3d.lemmy.ui.profile.ProfileFragment"
-        android:label="ProfileFragment" >
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile">
         <argument
             android:name="profileId"
             app:argType="integer"
@@ -65,6 +68,9 @@
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_imageDetailFragment"
+            app:destination="@id/imageDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/loadingFragment"
@@ -81,23 +87,28 @@
     <fragment
         android:id="@+id/registrationFragment"
         android:name="pw.cub3d.lemmy.ui.registration.RegistrationFragment"
-        android:label="RegistrationFragment" />
+        android:label="RegistrationFragment"
+        tools:layout="@layout/fragment_registration"/>
     <fragment
         android:id="@+id/userSettingsFragment"
         android:name="pw.cub3d.lemmy.ui.userSettings.UserSettingsFragment"
-        android:label="UserSettingsFragment" />
+        android:label="UserSettingsFragment"
+        tools:layout="@layout/fragment_user_settings"/>
     <fragment
         android:id="@+id/modlogFragment"
         android:name="pw.cub3d.lemmy.ui.modlog.ModlogFragment"
-        android:label="ModlogFragment" />
+        android:label="ModlogFragment"
+        tools:layout="@layout/fragment_modlog"/>
     <fragment
         android:id="@+id/siteInfoFragment"
         android:name="pw.cub3d.lemmy.ui.siteinfo.SiteInfoFragment"
-        android:label="SiteInfoFragment" />
+        android:label="SiteInfoFragment"
+        tools:layout="@layout/fragment_site_info"/>
     <fragment
         android:id="@+id/communityInfoFragment"
         android:name="pw.cub3d.lemmy.ui.community.CommunityInfoFragment"
-        android:label="CommunityInfoFragment" >
+        android:label="CommunityInfoFragment"
+        tools:layout="@layout/fragment_community_info">
         <argument
             android:name="communityId"
             app:argType="integer" />
@@ -105,9 +116,21 @@
     <fragment
         android:id="@+id/inboxFragment"
         android:name="pw.cub3d.lemmy.ui.inbox.InboxFragment"
-        android:label="InboxFragment" />
+        android:label="InboxFragment"
+        tools:layout="@layout/fragment_inbox"/>
     <fragment
         android:id="@+id/searchFragment"
         android:name="pw.cub3d.lemmy.ui.search.SearchFragment"
-        android:label="SearchFragment" />
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search"/>
+
+    <fragment
+        android:id="@+id/imageDetailFragment"
+        android:name="pw.cub3d.lemmy.ui.imageDetail.ImageDetailFragment"
+        android:label="fragment_image_detail"
+        tools:layout="@layout/fragment_image_detail" >
+        <argument
+            android:name="imageUrl"
+            app:argType="string" />
+    </fragment>
 </navigation>
