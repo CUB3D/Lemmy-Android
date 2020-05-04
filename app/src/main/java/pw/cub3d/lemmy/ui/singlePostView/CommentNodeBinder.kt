@@ -8,6 +8,7 @@ import io.noties.markwon.Markwon
 import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.core.data.CommentVote
 import pw.cub3d.lemmy.core.networking.comment.CommentView
+import pw.cub3d.lemmy.core.utility.EmojiFormat
 import pw.cub3d.lemmy.core.utility.GlideApp
 import pw.cub3d.lemmy.databinding.CommentEntryBinding
 import tellh.com.recyclertreeview_lib.TreeNode
@@ -54,8 +55,10 @@ class CommentViewHolder(
             binding.commentEntryActions.visibility = if(binding.commentEntryActions.visibility == View.VISIBLE) View.GONE else View.VISIBLE
         }
 
+        val emoji = EmojiFormat.formatText(binding.view.context, content.content)
+
 //        val emoji = EmojiParser.parseToUnicode(content.content)
-        Markwon.create(binding.view.context).setMarkdown(binding.commentEntryContent, content.content)
+        Markwon.create(binding.view.context).setMarkdown(binding.commentEntryContent, emoji)
 
         if(content.my_vote == CommentVote.UPVOTE.score.toInt()) {
             binding.commentEntryUpvote.setBackgroundColor(Color.RED)

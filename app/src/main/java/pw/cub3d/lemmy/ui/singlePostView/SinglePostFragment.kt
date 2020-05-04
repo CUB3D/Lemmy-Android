@@ -50,7 +50,7 @@ class SinglePostFragment : Fragment() {
 
         val children = comments.filter{ it.parent_id == child.id}
 
-        children.forEach { subChild ->
+        children.sortedByDescending { it.score }.forEach { subChild ->
             addChildNode(node, subChild, comments)
         }
 
@@ -86,7 +86,7 @@ class SinglePostFragment : Fragment() {
             val nodes = mutableListOf<TreeNode<*>>()
 
             // Get the root comments
-            post.comments.filter { it.parent_id == null }.forEach { comment ->
+            post.comments.filter { it.parent_id == null }.sortedByDescending { it.score }.forEach { comment ->
                 val node = TreeNode<CommentItem>(CommentItem(comment))
 
 //                 Set isExpand
@@ -99,7 +99,7 @@ class SinglePostFragment : Fragment() {
                 // Also add any children
                 val children = post.comments.filter { it.parent_id == comment.id }
 
-                children.forEach { child ->
+                children.sortedByDescending { it.score }.forEach { child ->
                     addChildNode(node, child, post.comments)
                 }
             }

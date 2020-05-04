@@ -17,6 +17,7 @@ import dagger.android.support.AndroidSupportInjection
 
 import pw.cub3d.lemmy.core.networking.comment.CommentView
 import pw.cub3d.lemmy.core.networking.PostView
+import pw.cub3d.lemmy.core.utility.EmojiFormat
 import pw.cub3d.lemmy.databinding.FragmentStaticMixedPostsCommentsBinding
 import pw.cub3d.lemmy.databinding.PostEntryBinding
 import pw.cub3d.lemmy.databinding.ProfileCommentEntryBinding
@@ -96,8 +97,9 @@ class StaticMixedAdapter(
 
 }
 
+//TODO: use the existing comment binder
 class CommentViewHolder(val view: ProfileCommentEntryBinding): RecyclerView.ViewHolder(view.root) {
     fun bind(comment: CommentView) {
-        view.profileCommentContent.text = comment.content
+        view.profileCommentContent.text = EmojiFormat.formatText(view.root.context, comment.content)
     }
 }
