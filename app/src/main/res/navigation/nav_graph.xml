@@ -122,7 +122,11 @@
         android:id="@+id/searchFragment"
         android:name="pw.cub3d.lemmy.ui.search.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search"/>
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_singlePostFragment"
+            app:destination="@id/singlePostFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/imageDetailFragment"

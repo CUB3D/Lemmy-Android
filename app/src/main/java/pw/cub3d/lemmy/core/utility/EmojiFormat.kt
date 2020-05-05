@@ -12,7 +12,6 @@ object EmojiFormat {
         println("Searching for $name")
         var res: String? = null
         for (it in json.keys()) {
-            println("Checking $it")
             try {
                 val child = json.getJSONObject(it)
                 res = recur(child, name)

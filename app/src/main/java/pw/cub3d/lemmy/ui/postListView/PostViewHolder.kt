@@ -3,6 +3,7 @@ package pw.cub3d.lemmy.ui.postListView
 import android.app.Activity
 import android.graphics.Color
 import android.net.Uri
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
@@ -54,7 +55,9 @@ class PostViewHolder(
         }
 
         view.root.setOnClickListener {
-            navController.navigate(HomeFragmentDirections.actionHomeFragmentToSinglePostFragment(post.id))
+            navController.navigate(R.id.singlePostFragment, Bundle().apply {
+                putInt("postId", post.id)
+            })
         }
 
         if(post.my_vote == PostVote.UPVOTE.score) {

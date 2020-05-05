@@ -67,13 +67,13 @@ class ImageDetailFragment : Fragment() {
 
 
         val moreSheet = BottomSheetBehavior.from(binding.imageDetailBottomSheet)
-        moreSheet.state = BottomSheetBehavior.STATE_HIDDEN
+        moreSheet.state = BottomSheetBehavior.STATE_COLLAPSED
 
         binding.imageDetailMore.setOnClickListener {
-            if(moreSheet.state == BottomSheetBehavior.STATE_HIDDEN) {
+            if(moreSheet.state == BottomSheetBehavior.STATE_COLLAPSED) {
                 moreSheet.state = BottomSheetBehavior.STATE_EXPANDED
             } else {
-                moreSheet.state = BottomSheetBehavior.STATE_HIDDEN
+                moreSheet.state = BottomSheetBehavior.STATE_COLLAPSED
             }
         }
 
@@ -96,7 +96,10 @@ class ImageDetailFragment : Fragment() {
         GlobalScope.launch(Dispatchers.IO) {
             val inputStream = URL(arguments.imageUrl).openConnection().getInputStream()
             val bytes = inputStream.readBytes()
-            File("/sdcard/Download/${arguments.imageUrl.split("//")[1]}").writeBytes(bytes)
+
+            val baseFile = File("/sdcard/Download/").apply { mkdirs() }
+
+            File(baseFile, arguments.imageUrl.split("//")[1].replace("/", "_")).writeBytes(bytes)
         }
     }
 }

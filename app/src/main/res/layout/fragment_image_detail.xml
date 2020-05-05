@@ -8,7 +8,12 @@
             name="imageUrl"
             type="String" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -46,90 +51,90 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/ic_more_vertical" />
 
-    <ImageView
-        android:id="@+id/imageDetail_saveImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_download"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageDetail_more" />
-
-    <LinearLayout
-        android:id="@+id/imageDetail_bottomSheet"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#000"
-        android:orientation="vertical"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="gone">
-
-        <TextView
-            android:id="@+id/imageDetail_url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="@{imageUrl, default=`https://example.com`}"
-            android:textSize="18sp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/imageDetail_openExternal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:text="Open externally"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            app:icon="@drawable/ic_upload"
-            app:iconPadding="32dp"
-            app:iconTint="#fff" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/imageDetail_shareUrl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:text="Share URL"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            app:icon="@drawable/ic_share_2"
-            app:iconPadding="32dp"
-            app:iconTint="#fff" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/imageDetail_shareImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:text="Share image"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            app:icon="@drawable/ic_image"
-            app:iconPadding="32dp"
-            app:iconTint="#fff" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/imageDetail_saveImage2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:text="Save image"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            app:icon="@drawable/ic_download"
-            app:iconPadding="32dp"
-            app:iconTint="#fff" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/imageDetail_saveImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/ic_download"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageDetail_more" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/imageDetail_bottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#000"
+            android:orientation="vertical"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            app:behavior_hideable="true"
+            tools:visibility="gone">
+
+            <TextView
+                android:id="@+id/imageDetail_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@{imageUrl, default=`https://example.com`}"
+                android:textSize="18sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/imageDetail_openExternal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/transparent"
+                android:text="Open externally"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                app:icon="@drawable/ic_upload"
+                app:iconPadding="32dp"
+                app:iconTint="#fff" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/imageDetail_shareUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/transparent"
+                android:text="Share URL"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                app:icon="@drawable/ic_share_2"
+                app:iconPadding="32dp"
+                app:iconTint="#fff" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/imageDetail_shareImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/transparent"
+                android:text="Share image"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                app:icon="@drawable/ic_image"
+                app:iconPadding="32dp"
+                app:iconTint="#fff" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/imageDetail_saveImage2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/transparent"
+                android:text="Save image"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                app:icon="@drawable/ic_download"
+                app:iconPadding="32dp"
+                app:iconTint="#fff" />
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
