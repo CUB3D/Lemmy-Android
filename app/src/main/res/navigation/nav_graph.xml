@@ -71,6 +71,9 @@
         <action
             android:id="@+id/action_homeFragment_to_imageDetailFragment"
             app:destination="@id/imageDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_newPostFragment"
+            app:destination="@id/newPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/loadingFragment"
@@ -141,4 +144,8 @@
             app:argType="integer"
             android:defaultValue="-1" />
     </fragment>
+    <fragment
+        android:id="@+id/newPostFragment"
+        android:name="pw.cub3d.lemmy.ui.newPost.NewPostFragment"
+        android:label="NewPostFragment" />
 </navigation>

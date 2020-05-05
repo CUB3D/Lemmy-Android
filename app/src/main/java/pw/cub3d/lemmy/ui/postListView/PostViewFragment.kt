@@ -107,6 +107,11 @@ class PostViewFragment() : Fragment() {
 
 
         if(community != null) {
+            binding.postViewNewPost.setOnClickListener {
+                findNavController().navigate(R.id.newPostFragment)
+            }
+            binding.postViewNewPost.visibility = View.VISIBLE
+
             binding.postViewSiteInfo.setOnClickListener {
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCommunityInfoFragment(community!!))
             }

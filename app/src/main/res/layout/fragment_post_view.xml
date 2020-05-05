@@ -145,11 +145,13 @@
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:visibility="gone"
+        android:id="@+id/postView_newPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:layout_anchor="@id/postView_bottomAppBar"
-        android:src="plus"/>
+        android:src="@drawable/ic_plus"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
