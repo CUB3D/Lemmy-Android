@@ -132,5 +132,9 @@
         <argument
             android:name="imageUrl"
             app:argType="string" />
+        <argument
+            android:name="postId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 </navigation>

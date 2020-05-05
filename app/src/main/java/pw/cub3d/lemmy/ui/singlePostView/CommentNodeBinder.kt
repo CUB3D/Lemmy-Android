@@ -3,7 +3,6 @@ package pw.cub3d.lemmy.ui.singlePostView
 import android.graphics.Color
 import android.net.Uri
 import android.view.View
-import com.vdurmont.emoji.EmojiParser
 import io.noties.markwon.Markwon
 import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.core.data.CommentVote
