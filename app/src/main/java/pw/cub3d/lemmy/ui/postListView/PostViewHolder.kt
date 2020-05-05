@@ -1,6 +1,10 @@
 package pw.cub3d.lemmy.ui.postListView
 
+import android.app.Activity
 import android.graphics.Color
+import android.net.Uri
+import android.view.View
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import pw.cub3d.lemmy.R
@@ -9,10 +13,12 @@ import pw.cub3d.lemmy.core.networking.PostView
 import pw.cub3d.lemmy.core.utility.GlideApp
 import pw.cub3d.lemmy.databinding.PostEntryBinding
 import pw.cub3d.lemmy.ui.home.HomeFragmentDirections
+import pw.cub3d.lemmy.ui.imageDetail.ImageDetailFragment
 import pw.cub3d.lemmy.ui.postListView.PostsViewModel
 
 class PostViewHolder(
     val view: PostEntryBinding,
+    private val activity: FragmentActivity,
     private val navController: NavController,
     private val viewModel: PostsViewModel
 ): RecyclerView.ViewHolder(view.root) {
@@ -21,7 +27,20 @@ class PostViewHolder(
 
         view.postEntryImage.setImageDrawable(null)
 
+        if(post.creator_avatar != null) {
+            view.postEntrySenderAvatar.visibility = View.VISIBLE
+            GlideApp.with(view.root)
+                .load(Uri.parse(post.creator_avatar))
+                .into(view.postEntrySenderAvatar)
+        } else {
+            view.postEntrySenderAvatar.visibility = View.GONE
+        }
+
         if (post.internalThumbnail != null) {
+            view.postEntryImage.setOnClickListener {
+                navController.navigate(HomeFragmentDirections.actionHomeFragmentToImageDetailFragment(post.internalThumbnail!!.toString()))
+            }
+
             println("Loading thumb: ${post.internalThumbnail}")
             GlideApp.with(view.root)
                 .load(post.internalThumbnail)
@@ -30,6 +49,8 @@ class PostViewHolder(
             GlideApp.with(view.root)
                 .load(R.drawable.ic_message_square)
                 .into(view.postEntryImage)
+
+            view.postEntryImage.setOnClickListener {}
         }
 
         view.root.setOnClickListener {

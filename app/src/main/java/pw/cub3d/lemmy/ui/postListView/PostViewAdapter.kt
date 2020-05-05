@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import pw.cub3d.lemmy.core.networking.PostView
@@ -12,7 +13,7 @@ import pw.cub3d.lemmy.databinding.PostEntryBinding
 
 
 class PostViewAdapter(
-    private val ctx: Activity,
+    private val ctx: FragmentActivity,
     private val navController: NavController,
     private val viewModel: PostsViewModel
 ) : RecyclerView.Adapter<PostViewHolder>() {
@@ -21,6 +22,7 @@ class PostViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PostViewHolder(
         PostEntryBinding.inflate(layoutInflater, parent, false),
+        ctx,
         navController,
         viewModel
     )

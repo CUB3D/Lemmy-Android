@@ -80,21 +80,28 @@ class PostsRepository @Inject constructor(
 
     fun getCurrentPage(
         community: MutableLiveData<Int?>,
-        currentPage: LiveData<Int>
+        type: MutableLiveData<GetPostType>,
+        currentPage: LiveData<Int>,
+        sortType: LiveData<SortType>
     ): Flow<PostView> = flow {
         println("Getting current page for $community")
 
         community.asFlow().collect { community ->
-            currentPage.asFlow().collect { page ->
+            type.asFlow().collect { type ->
+                currentPage.asFlow().collect { page ->
+                    sortType.asFlow().collect { sortType ->
+                        lemmyApiInterface.getPosts(
+                            page = page,
+                            limit = null,
+                            auth = authRepository.getAuthToken(),
+                            community_id = community,
+                            type_ = type.id,
+                            sort = sortType.id
+                        ).body()?.let {
 
-                lemmyApiInterface.getPosts(
-                    page = page,
-                    limit = null,
-                    auth = authRepository.getAuthToken(),
-                    community_id = community
-                ).body()?.let {
-
-                    it.posts.sortedByDescending { it.hot_rank }.forEach { emit(it) }
+                            it.posts.sortedByDescending { it.hot_rank }.forEach { emit(it) }
+                        }
+                    }
                 }
             }
         }
@@ -139,4 +146,10 @@ class PostsRepository @Inject constructor(
             return null
         }
     }
+}
+
+enum class GetPostType(val id: String) {
+    ALL("All"),
+    SUBSCRIBED("Subscribed"),
+    COMMUNITY("Community")
 }

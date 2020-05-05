@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -16,6 +17,7 @@ import dagger.android.support.AndroidSupportInjection
 
 import pw.cub3d.lemmy.core.networking.comment.CommentView
 import pw.cub3d.lemmy.core.networking.PostView
+import pw.cub3d.lemmy.core.utility.EmojiFormat
 import pw.cub3d.lemmy.databinding.FragmentStaticMixedPostsCommentsBinding
 import pw.cub3d.lemmy.databinding.PostEntryBinding
 import pw.cub3d.lemmy.databinding.ProfileCommentEntryBinding
@@ -46,7 +48,7 @@ class StaticMixedPostsCommentsFragment : Fragment() {
         println("Got mixed: ${entries.size}")
 
         binding.staticMixedRecycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.staticMixedRecycler.adapter = StaticMixedAdapter(requireContext(), findNavController(), entries, postsViewModel)
+        binding.staticMixedRecycler.adapter = StaticMixedAdapter(requireActivity(), findNavController(), entries, postsViewModel)
     }
 
     override fun onAttach(context: Context) {
@@ -66,7 +68,7 @@ enum class MixedPostType(val id: Int) {
 }
 
 class StaticMixedAdapter(
-    private val ctx: Context,
+    private val ctx: FragmentActivity,
     private val navController: NavController,
     private val entries: List<MixedPosts>,
     private val postsViewModel: PostsViewModel
@@ -75,7 +77,7 @@ class StaticMixedAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            MixedPostType.POST.id -> PostViewHolder(PostEntryBinding.inflate(layoutInflater, parent, false), navController, postsViewModel)
+            MixedPostType.POST.id -> PostViewHolder(PostEntryBinding.inflate(layoutInflater, parent, false), ctx, navController, postsViewModel)
             MixedPostType.COMMENT.id ->  CommentViewHolder(ProfileCommentEntryBinding.inflate(layoutInflater, parent, false))
             else -> TODO("WIll never happen")
         }
@@ -95,8 +97,9 @@ class StaticMixedAdapter(
 
 }
 
+//TODO: use the existing comment binder
 class CommentViewHolder(val view: ProfileCommentEntryBinding): RecyclerView.ViewHolder(view.root) {
     fun bind(comment: CommentView) {
-        view.profileCommentContent.text = comment.content
+        view.profileCommentContent.text = EmojiFormat.formatText(view.root.context, comment.content)
     }
 }

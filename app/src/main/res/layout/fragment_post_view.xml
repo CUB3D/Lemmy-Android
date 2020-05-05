@@ -86,47 +86,69 @@
     </LinearLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/postView_bottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:hideOnScroll="true"
-        app:layout_scrollFlags="scroll|enterAlways">
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:fabAlignmentMode="end">
 
         <ImageButton
             android:id="@+id/postView_modLog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Modlog"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_alert_triangle"/>
+            android:src="@drawable/ic_alert_triangle"
+            android:contentDescription="View modlog" />
+
         <ImageButton
             android:id="@+id/postView_siteInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Site"
+            android:contentDescription="Site Info"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_info"/>
-        <Button
-            android:id="@+id/postView_communityInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Community"/>
+            android:src="@drawable/ic_info"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"/>
+
         <ImageButton
             android:id="@+id/postView_inbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Inbox"
+            android:contentDescription="Inbox"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_mail"/>
+            android:src="@drawable/ic_mail"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"/>
+
         <ImageButton
             android:id="@+id/postVieW_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
+            android:contentDescription="Search"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_search"/>
+            android:src="@drawable/ic_search"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"/>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:layout_anchor="@id/postView_bottomAppBar"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

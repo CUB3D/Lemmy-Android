@@ -18,7 +18,9 @@ import kotlinx.android.synthetic.main.fragment_post_view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import pw.cub3d.lemmy.R
+import pw.cub3d.lemmy.core.data.GetPostType
 import pw.cub3d.lemmy.core.networking.PostView
+import pw.cub3d.lemmy.core.networking.SortType
 import pw.cub3d.lemmy.databinding.FragmentPostViewBinding
 import pw.cub3d.lemmy.ui.home.HomeFragmentDirections
 import javax.inject.Inject
@@ -33,7 +35,9 @@ class PostViewFragment() : Fragment() {
     private lateinit var postsAdapter: PostViewAdapter
 
     var community: Int? = null
+    var type: GetPostType = GetPostType.SUBSCRIBED
     var posts: Array<PostView>? = null
+    var sortType = SortType.HOT
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPostViewBinding.inflate(inflater, container, false)
@@ -48,6 +52,8 @@ class PostViewFragment() : Fragment() {
         postView_recycler.adapter = postsAdapter
 
         postsViewModel.community.postValue(community)
+        postsViewModel.type.postValue(type)
+        postsViewModel.sortType.postValue(sortType)
         postsAdapter.clearData()
         posts?.let {
             it.forEach { postsAdapter.updateData(it) }
@@ -98,16 +104,16 @@ class PostViewFragment() : Fragment() {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToModlogFragment())
         }
 
-        binding.postViewSiteInfo.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSiteInfoFragment())
-        }
+
 
         if(community != null) {
-            binding.postViewCommunityInfo.setOnClickListener {
+            binding.postViewSiteInfo.setOnClickListener {
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCommunityInfoFragment(community!!))
             }
         } else {
-            binding.postViewCommunityInfo.visibility = View.GONE
+            binding.postViewSiteInfo.setOnClickListener {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSiteInfoFragment())
+            }
         }
 
         binding.postViewInbox.setOnClickListener {

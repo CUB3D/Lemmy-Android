@@ -101,10 +101,6 @@ dependencies {
 
     // For markdown support
     implementation "io.noties.markwon:core:4.3.1"
-
-    // Support for emoji short codes
-//    implementation "com.kcthota:emoji4j:6.0"
-    implementation 'com.vdurmont:emoji-java:5.1.1'
 }
 
 kotlin {
