@@ -148,7 +148,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-        app:layout_anchor="@id/postView_bottomAppBar"/>
+        app:layout_anchor="@id/postView_bottomAppBar"
+        android:src="plus"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
