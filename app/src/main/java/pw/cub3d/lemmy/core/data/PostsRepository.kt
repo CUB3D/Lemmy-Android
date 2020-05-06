@@ -154,6 +154,20 @@ class PostsRepository @Inject constructor(
             return null
         }
     }
+
+    suspend fun createPost(
+        name: String,
+        url: String?,
+        body: String?,
+        community: Int
+    ): PostCreateResponse? {
+        val r = lemmyApiInterface.createPost(PostCreateRequest(name, url, body, community, authRepository.getAuthToken()!!))
+        if(r.isSuccessful) {
+            return r.body()!!
+        } else {
+            return null
+        }
+    }
 }
 
 enum class GetPostType(val id: String) {

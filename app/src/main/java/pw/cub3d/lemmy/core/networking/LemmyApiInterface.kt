@@ -1,5 +1,6 @@
 package pw.cub3d.lemmy.core.networking
 
+import com.squareup.moshi.JsonClass
 import pw.cub3d.lemmy.core.networking.comment.CommentLike
 import pw.cub3d.lemmy.core.networking.comment.CommentLikeResponse
 import pw.cub3d.lemmy.core.networking.comment.CommentSave
@@ -66,6 +67,9 @@ interface LemmyApiInterface {
     @PUT("post/save")
     suspend fun savePost(@Body data: PostSave): Response<PostSaveResponse>
 
+    @POST("post")
+    suspend fun createPost(@Body data: PostCreateRequest): Response<PostCreateResponse>
+
     @POST("comment/like")
     suspend fun likeComment(@Body data: CommentLike): Response<CommentLikeResponse>
 
@@ -126,6 +130,20 @@ interface LemmyApiInterface {
         @Query("auth") auth: String?
     ): Response<SearchResponse>
 }
+
+@JsonClass(generateAdapter = true)
+data class PostCreateRequest(
+    val name: String,
+    val url: String?,
+    val body: String?,
+    val community_id: Int,
+    val auth: String
+)
+
+@JsonClass(generateAdapter = true)
+data class PostCreateResponse(
+    val post: PostView
+)
 
 //Post
 //

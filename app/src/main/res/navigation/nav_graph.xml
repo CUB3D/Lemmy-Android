@@ -151,5 +151,9 @@
     <fragment
         android:id="@+id/newPostFragment"
         android:name="pw.cub3d.lemmy.ui.newPost.NewPostFragment"
-        android:label="NewPostFragment" />
+        android:label="NewPostFragment" >
+        <action
+            android:id="@+id/action_newPostFragment_to_singlePostFragment"
+            app:destination="@id/singlePostFragment" />
+    </fragment>
 </navigation>

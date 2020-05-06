@@ -9,6 +9,8 @@ import pw.cub3d.lemmy.ui.inbox.inboxTab.InboxTabViewModel
 import pw.cub3d.lemmy.ui.loading.LoadingViewModel
 import pw.cub3d.lemmy.ui.login.LoginViewModel
 import pw.cub3d.lemmy.ui.modlog.ModlogViewModel
+import pw.cub3d.lemmy.ui.newPost.NewPostFragment
+import pw.cub3d.lemmy.ui.newPost.NewPostViewModel
 import pw.cub3d.lemmy.ui.postListView.PostsViewModel
 import pw.cub3d.lemmy.ui.profile.ProfileViewModel
 import pw.cub3d.lemmy.ui.registration.RegistrationViewModel
@@ -46,4 +48,5 @@ interface LemmyComponent {
     fun singlePostViewModelFactory(): ViewModelFactory<SinglePostViewModel>
     fun profileViewModelFactory(): ViewModelFactory<ProfileViewModel>
     fun inboxTabViewModelFactory(): ViewModelFactory<InboxTabViewModel>
+    fun newPostViewModelFactory(): ViewModelFactory<NewPostViewModel>
 }
