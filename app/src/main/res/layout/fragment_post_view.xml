@@ -144,14 +144,18 @@
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:visibility="gone"
+        app:backgroundTint="@color/colorPrimary"
+        android:text="New post"
         android:id="@+id/postView_newPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:layout_anchor="@id/postView_bottomAppBar"
-        android:src="@drawable/ic_plus"/>
+        app:icon="@drawable/ic_plus"
+        app:iconTint="#fff"
+        android:layout_marginRight="160dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
