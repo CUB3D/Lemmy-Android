@@ -51,7 +51,6 @@ class HomeFragment : Fragment() {
             lifecycle
         )
 
-
         viewModel.followedCommunities.observe(viewLifecycleOwner, Observer {
             adapter.updateData(it)
 

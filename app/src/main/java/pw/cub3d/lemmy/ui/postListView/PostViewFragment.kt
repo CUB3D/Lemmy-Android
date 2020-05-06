@@ -2,6 +2,7 @@ package pw.cub3d.lemmy.ui.postListView
 
 import android.content.Context
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,13 @@ class PostViewFragment() : Fragment() {
     var type: GetPostType = GetPostType.SUBSCRIBED
     var posts: Array<PostView>? = null
     var sortType = SortType.HOT
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
+        sharedElementReturnTransition = TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
+    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPostViewBinding.inflate(inflater, container, false)

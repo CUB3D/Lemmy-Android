@@ -31,6 +31,10 @@
         <argument
             android:name="postId"
             app:argType="integer" />
+        <argument
+            android:name="postTitle"
+            app:argType="string"
+            app:nullable="true"/>
     </fragment>
     <fragment
         android:id="@+id/navGraph_profileFragment"

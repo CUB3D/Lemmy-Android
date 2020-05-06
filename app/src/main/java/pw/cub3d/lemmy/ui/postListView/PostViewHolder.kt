@@ -26,6 +26,7 @@ class PostViewHolder(
     private val viewModel: PostsViewModel
 ): RecyclerView.ViewHolder(view.root) {
     fun bind(post: PostView) {
+
         view.postView = post
 
         view.postEntryImage.setImageDrawable(null)
@@ -39,6 +40,8 @@ class PostViewHolder(
         } else {
             view.postEntrySenderAvatar.visibility = View.GONE
         }
+
+        view.postEntryImage.transitionName = null
 
         if (post.internalThumbnail != null) {
             view.postEntryImage.transitionName = post.internalThumbnail.toString()
@@ -71,6 +74,7 @@ class PostViewHolder(
                 R.id.singlePostFragment,
                 Bundle().apply {
                     putInt("postId", post.id)
+                    putString("postTitle", post.name)
                 },
                 null,
                 FragmentNavigatorExtras(

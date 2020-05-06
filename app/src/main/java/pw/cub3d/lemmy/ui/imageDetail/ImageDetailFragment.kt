@@ -3,6 +3,7 @@ package pw.cub3d.lemmy.ui.imageDetail
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.transition.ChangeBounds
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
@@ -70,7 +71,7 @@ class ImageDetailFragment : Fragment() {
         }
 
         arguments.postId.takeIf { it != -1 }?.let { postId ->
-            binding.imageDetailOpenPost.setOnClickListener { findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSinglePostFragment(postId)) }
+            binding.imageDetailOpenPost.setOnClickListener { findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSinglePostFragment(postId, null)) }
             binding.imageDetailOpenPost.visibility = View.VISIBLE
         }
 

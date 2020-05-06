@@ -16,6 +16,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import io.noties.markwon.Markwon
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 import pw.cub3d.lemmy.core.networking.comment.CommentView
 import pw.cub3d.lemmy.databinding.FragmentSinglePostBinding
@@ -43,30 +47,28 @@ class SinglePostFragment : Fragment() {
         return binding.root
     }
 
-    private fun addChildNode(
+    private suspend fun addChildNode(
         root: TreeNode<*>,
         child: CommentView,
-        comments: Array<CommentView>
+        comments: Array<CommentView>,
+        depth: Int = 1
     ) {
         val node = TreeNode(CommentItem(child))
-        node.javaClass.getDeclaredField("isExpand").apply {
-            isAccessible = true
-            setBoolean(node, true)
-        }
+
+        if(depth < 3) node.toggle()
+
         root.addChild(node)
 
-        val children = comments.filter{ it.parent_id == child.id}
-
-        children.sortedByDescending { it.score }.forEach { subChild ->
-            addChildNode(node, subChild, comments)
+        comments.filter{ it.parent_id == child.id}.forEach { subChild ->
+            addChildNode(node, subChild, comments, depth + 1)
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.singlePostTitle.transitionName = "${arguments.postId}_title"
+        binding.singlePostTitle.text = arguments.postTitle
 
         viewModel.postId = arguments.postId
 
@@ -92,28 +94,40 @@ class SinglePostFragment : Fragment() {
                 }
             }
 
-            val nodes = mutableListOf<TreeNode<*>>()
 
-            // Get the root comments
-            post.comments.filter { it.parent_id == null }.sortedByDescending { it.score }.forEach { comment ->
-                val node = TreeNode<CommentItem>(CommentItem(comment))
+            GlobalScope.launch(Dispatchers.Default) {
+                val sortedComments = post.comments.sortedByDescending { it.score }
+                val rootComments = sortedComments.filter { it.parent_id == null }
+                val childComments = sortedComments.filter { it.parent_id != null }
 
-//                 Set isExpand
-                node.javaClass.getDeclaredField("isExpand").apply {
-                    isAccessible = true
-                    setBoolean(node, true)
+                val pendingRootNodes = rootComments.map { comment ->
+                    GlobalScope.async {
+                        val rootCommentNode = TreeNode<CommentItem>(CommentItem(comment))
+
+                        rootCommentNode.toggle()
+
+                        // Also add any children
+                        val children = childComments.filter { it.parent_id == comment.id }
+
+                        children.forEach { child ->
+                            addChildNode(rootCommentNode, child, post.comments)
+                        }
+
+                        rootCommentNode
+                    }
                 }
 
-                nodes.add(node)
-                // Also add any children
-                val children = post.comments.filter { it.parent_id == comment.id }
+                val nodes: List<TreeNode<*>> = pendingRootNodes.awaitAll()
+                println("Done loading nodes")
 
-                children.sortedByDescending { it.score }.forEach { child ->
-                    addChildNode(node, child, post.comments)
+                val m = adapter.javaClass.getDeclaredMethod("findDisplayNodes", List::class.java)
+                m.isAccessible = true
+                m.invoke(adapter, nodes)
+
+                requireActivity().runOnUiThread {
+                    adapter.notifyDataSetChanged()
                 }
             }
-
-            adapter.refresh(nodes)
         })
     }
 
