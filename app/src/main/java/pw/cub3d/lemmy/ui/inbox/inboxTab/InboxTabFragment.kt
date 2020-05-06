@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.android.support.AndroidSupportInjection
 import io.noties.markwon.Markwon
 import kotlinx.android.synthetic.main.fragment_post_view.*
+import pw.cub3d.lemmy.core.dagger.inject
 
 import pw.cub3d.lemmy.core.data.InboxEntry
 import pw.cub3d.lemmy.core.data.InboxEntryType
@@ -63,7 +64,7 @@ class InboxTabFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+        inject()
         super.onAttach(context)
     }
 }

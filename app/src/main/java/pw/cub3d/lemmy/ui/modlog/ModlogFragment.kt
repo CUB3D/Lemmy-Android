@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.android.support.AndroidSupportInjection
+import pw.cub3d.lemmy.core.dagger.inject
 
 import pw.cub3d.lemmy.core.data.ModLogEntry
 import pw.cub3d.lemmy.core.data.ModLogEntryType
@@ -56,7 +57,7 @@ class ModlogFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+        inject()
         super.onAttach(context)
     }
 }

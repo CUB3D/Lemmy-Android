@@ -20,6 +20,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import pw.cub3d.lemmy.R
+import pw.cub3d.lemmy.core.dagger.inject
 import pw.cub3d.lemmy.databinding.FragmentHomeBinding
 import javax.inject.Inject
 
@@ -73,7 +74,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+        inject()
         super.onAttach(context)
     }
 }

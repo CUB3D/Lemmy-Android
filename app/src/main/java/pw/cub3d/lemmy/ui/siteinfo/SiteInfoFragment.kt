@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import io.noties.markwon.Markwon
+import pw.cub3d.lemmy.core.dagger.inject
 import pw.cub3d.lemmy.databinding.FragmentSiteInfoBinding
 import pw.cub3d.lemmy.ui.common.userList.UserListAdapter
 import javax.inject.Inject
@@ -47,7 +48,7 @@ class SiteInfoFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+        inject()
         super.onAttach(context)
     }
 }

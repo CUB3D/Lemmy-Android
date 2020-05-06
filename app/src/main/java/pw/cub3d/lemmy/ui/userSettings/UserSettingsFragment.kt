@@ -14,6 +14,7 @@ import dagger.android.support.AndroidSupportInjection
 import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.core.dagger.ViewModelFactory
 import pw.cub3d.lemmy.core.dagger.ViewModelKey
+import pw.cub3d.lemmy.core.dagger.inject
 import pw.cub3d.lemmy.databinding.FragmentUserSettingsBinding
 import javax.inject.Inject
 
@@ -45,7 +46,7 @@ class UserSettingsFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+        inject()
         super.onAttach(context)
     }
 }

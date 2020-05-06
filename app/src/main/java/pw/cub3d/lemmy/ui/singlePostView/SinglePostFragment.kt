@@ -20,6 +20,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import pw.cub3d.lemmy.core.dagger.inject
 
 import pw.cub3d.lemmy.core.networking.comment.CommentView
 import pw.cub3d.lemmy.databinding.FragmentSinglePostBinding
@@ -132,7 +133,7 @@ class SinglePostFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+        inject()
         super.onAttach(context)
     }
 }

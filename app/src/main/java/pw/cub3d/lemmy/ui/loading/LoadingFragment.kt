@@ -11,6 +11,7 @@ import dagger.android.support.AndroidSupportInjection
 import pw.cub3d.lemmy.MainActivity
 
 import pw.cub3d.lemmy.R
+import pw.cub3d.lemmy.core.dagger.inject
 import pw.cub3d.lemmy.core.data.AuthRepository
 import javax.inject.Inject
 
@@ -39,7 +40,7 @@ class LoadingFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+        inject()
         super.onAttach(context)
     }
 

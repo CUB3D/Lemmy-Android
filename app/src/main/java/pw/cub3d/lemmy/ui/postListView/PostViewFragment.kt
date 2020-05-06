@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_post_view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import pw.cub3d.lemmy.R
+import pw.cub3d.lemmy.core.dagger.inject
 import pw.cub3d.lemmy.core.data.GetPostType
 import pw.cub3d.lemmy.core.networking.PostView
 import pw.cub3d.lemmy.core.networking.SortType
@@ -143,6 +144,6 @@ class PostViewFragment() : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        AndroidSupportInjection.inject(this)
+        inject()
     }
 }

@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.android.support.AndroidSupportInjection
+import pw.cub3d.lemmy.core.dagger.inject
 
 import pw.cub3d.lemmy.core.utility.GlideApp
 import pw.cub3d.lemmy.databinding.FragmentProfileBinding
@@ -36,7 +37,7 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+        inject()
         super.onAttach(context)
     }
 

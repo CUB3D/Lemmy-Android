@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import dagger.android.support.AndroidSupportInjection
 import pw.cub3d.lemmy.R
+import pw.cub3d.lemmy.core.dagger.inject
 import pw.cub3d.lemmy.databinding.FragmentRegistrationBinding
 import javax.inject.Inject
 
@@ -45,7 +46,7 @@ class RegistrationFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+        inject()
         super.onAttach(context)
     }
 }

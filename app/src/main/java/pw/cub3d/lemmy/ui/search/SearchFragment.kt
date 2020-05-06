@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.android.support.AndroidSupportInjection
+import pw.cub3d.lemmy.core.dagger.inject
 
 import pw.cub3d.lemmy.core.data.SearchResultEntry
 import pw.cub3d.lemmy.core.data.SearchResultType
@@ -66,7 +67,7 @@ class SearchFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+        inject()
         super.onAttach(context)
     }
 }
