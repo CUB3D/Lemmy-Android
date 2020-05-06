@@ -41,20 +41,23 @@ class PostViewFragment() : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPostViewBinding.inflate(inflater, container, false)
+
+        binding.postViewRecycler.layoutManager = LinearLayoutManager(requireContext())
+        postsAdapter = PostViewAdapter(requireActivity(), findNavController(), postsViewModel)
+        binding.postViewRecycler.adapter = postsAdapter
+
+        postsViewModel.community.postValue(community)
+        postsViewModel.type.postValue(type)
+        postsViewModel.sortType.postValue(sortType)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        postView_recycler.layoutManager = LinearLayoutManager(requireContext())
-        postsAdapter = PostViewAdapter(requireActivity(), findNavController(), postsViewModel)
-        postView_recycler.adapter = postsAdapter
 
-        postsViewModel.community.postValue(community)
-        postsViewModel.type.postValue(type)
-        postsViewModel.sortType.postValue(sortType)
-        postsAdapter.clearData()
+//        postsAdapter.clearData()
         posts?.let {
             it.forEach { postsAdapter.updateData(it) }
         }

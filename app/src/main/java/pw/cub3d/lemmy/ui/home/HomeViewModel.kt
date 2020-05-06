@@ -8,5 +8,10 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val userDetailsRepository: UserDetailsRepository
 ): ViewModel() {
-    fun getFollowedCommunitites() = userDetailsRepository.getCurrentUserCommunities()
+
+    var selectedTabIndex: Int = 0
+
+    val followedCommunities by lazy {
+        userDetailsRepository.getCurrentUserCommunities()
+    }
 }

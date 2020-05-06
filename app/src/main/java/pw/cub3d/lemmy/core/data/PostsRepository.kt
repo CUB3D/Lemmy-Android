@@ -88,8 +88,6 @@ class PostsRepository @Inject constructor(
         currentPage: LiveData<Int>,
         sortType: LiveData<SortType>
     ): Flow<PostView> = flow {
-        println("Getting current page for $community")
-
         community.asFlow().collect { community ->
             type.asFlow().collect { type ->
                 currentPage.asFlow().collect { page ->

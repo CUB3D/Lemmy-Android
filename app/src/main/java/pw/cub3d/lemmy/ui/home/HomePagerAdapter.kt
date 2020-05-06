@@ -20,6 +20,7 @@ class HomePagerAdapter(
     override fun getItemCount() = communities.size
 
     override fun createFragment(position: Int): Fragment {
+        println("Creating fragment $position")
         // 0 Is your feed, 1 is all
         return when (position) {
             0 -> PostViewFragment()
