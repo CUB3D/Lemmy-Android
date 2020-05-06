@@ -12,8 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
-import dagger.android.support.AndroidSupportInjection
-import pw.cub3d.lemmy.core.dagger.inject
+import pw.cub3d.lemmy.core.dagger.injector
+
 
 import pw.cub3d.lemmy.core.utility.GlideApp
 import pw.cub3d.lemmy.databinding.FragmentProfileBinding
@@ -23,8 +23,7 @@ class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: ProfileViewModel by viewModels { viewModelFactory }
+    private val viewModel: ProfileViewModel by viewModels { injector.profileViewModelFactory() }
 
     private val arguments: ProfileFragmentArgs by navArgs()
 
@@ -36,10 +35,7 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
-    override fun onAttach(context: Context) {
-        inject()
-        super.onAttach(context)
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

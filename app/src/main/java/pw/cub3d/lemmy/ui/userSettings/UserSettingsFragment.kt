@@ -9,12 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import dagger.android.support.AndroidSupportInjection
+
 
 import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.core.dagger.ViewModelFactory
 import pw.cub3d.lemmy.core.dagger.ViewModelKey
-import pw.cub3d.lemmy.core.dagger.inject
+import pw.cub3d.lemmy.core.dagger.injector
+
 import pw.cub3d.lemmy.databinding.FragmentUserSettingsBinding
 import javax.inject.Inject
 
@@ -22,8 +23,7 @@ class UserSettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentUserSettingsBinding
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: UserSettingsViewModel by viewModels { viewModelFactory }
+    private val viewModel: UserSettingsViewModel by viewModels { injector.userSettingsViewModelFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +45,5 @@ class UserSettingsFragment : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        inject()
-        super.onAttach(context)
-    }
+
 }

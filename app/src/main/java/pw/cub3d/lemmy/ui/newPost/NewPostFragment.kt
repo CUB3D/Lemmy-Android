@@ -6,11 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import dagger.android.support.AndroidSupportInjection
+
 
 import pw.cub3d.lemmy.R
-import pw.cub3d.lemmy.core.dagger.inject
-import pw.cub3d.lemmy.core.dagger.injector
+
+
 import pw.cub3d.lemmy.databinding.FragmentNewPostBinding
 
 
@@ -27,8 +27,5 @@ class NewPostFragment : Fragment() {
         return binding.root
     }
 
-    override fun onAttach(context: Context) {
-        inject()
-        super.onAttach(context)
-    }
+
 }

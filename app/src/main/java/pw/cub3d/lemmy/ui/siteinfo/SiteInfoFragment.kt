@@ -10,9 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import dagger.android.support.AndroidSupportInjection
+
 import io.noties.markwon.Markwon
-import pw.cub3d.lemmy.core.dagger.inject
+import pw.cub3d.lemmy.core.dagger.injector
+
 import pw.cub3d.lemmy.databinding.FragmentSiteInfoBinding
 import pw.cub3d.lemmy.ui.common.userList.UserListAdapter
 import javax.inject.Inject
@@ -21,8 +22,7 @@ class SiteInfoFragment : Fragment() {
 
     private lateinit var binding: FragmentSiteInfoBinding
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: SiteViewModel by viewModels { viewModelFactory }
+    private val viewModel: SiteViewModel by viewModels { injector.siteInfoViewModelFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,9 +47,6 @@ class SiteInfoFragment : Fragment() {
         })
     }
 
-    override fun onAttach(context: Context) {
-        inject()
-        super.onAttach(context)
-    }
+
 }
 

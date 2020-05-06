@@ -58,10 +58,7 @@ dependencies {
     // Dagger
     def daggerVersion = '2.26'
     api "com.google.dagger:dagger:$daggerVersion"
-    api "com.google.dagger:dagger-android:$daggerVersion"
-    api "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     // Networking
     def retrofitVersion = "2.7.1"

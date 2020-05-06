@@ -11,9 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import dagger.android.support.AndroidSupportInjection
+
 import io.noties.markwon.Markwon
-import pw.cub3d.lemmy.core.dagger.inject
+import pw.cub3d.lemmy.core.dagger.injector
+
 import pw.cub3d.lemmy.core.networking.community.CommunityView
 
 import pw.cub3d.lemmy.databinding.FragmentCommunityInfoBinding
@@ -23,8 +24,7 @@ import javax.inject.Inject
 class CommunityInfoFragment : Fragment() {
 
     private lateinit var binding: FragmentCommunityInfoBinding
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: CommunityViewModel by viewModels { viewModelFactory }
+    private val viewModel: CommunityViewModel by viewModels { injector.communityViewModelFactory() }
 
     private val arguments: CommunityInfoFragmentArgs by navArgs()
 
@@ -72,8 +72,5 @@ class CommunityInfoFragment : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        inject()
-        super.onAttach(context)
-    }
+
 }

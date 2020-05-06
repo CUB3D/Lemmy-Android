@@ -1,6 +1,5 @@
 package pw.cub3d.lemmy.ui.search
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,8 +13,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dagger.android.support.AndroidSupportInjection
-import pw.cub3d.lemmy.core.dagger.inject
+import pw.cub3d.lemmy.core.dagger.injector
+
 
 import pw.cub3d.lemmy.core.data.SearchResultEntry
 import pw.cub3d.lemmy.core.data.SearchResultType
@@ -31,10 +30,9 @@ import javax.inject.Inject
 
 class SearchFragment : Fragment() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: SearchViewModel by viewModels { viewModelFactory }
-    private val singlePostViewmodel: SinglePostViewModel by viewModels { viewModelFactory }
-    private val postsViewModel: PostsViewModel by viewModels { viewModelFactory }
+    private val viewModel: SearchViewModel by viewModels { injector.searchViewModelFactory() }
+    private val singlePostViewmodel: SinglePostViewModel by viewModels { injector.singlePostViewModelFactory() }
+    private val postsViewModel: PostsViewModel by viewModels { injector.postsViewModelFactory() }
 
     lateinit var binding: FragmentSearchBinding
 
@@ -64,11 +62,6 @@ class SearchFragment : Fragment() {
 
             viewModel.queryLiveData.postValue(binding.searchQuery.text.toString())
         }
-    }
-
-    override fun onAttach(context: Context) {
-        inject()
-        super.onAttach(context)
     }
 }
 

@@ -8,24 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dagger.android.support.AndroidSupportInjection
-import pw.cub3d.lemmy.core.dagger.inject
+import pw.cub3d.lemmy.core.dagger.injector
+
 
 import pw.cub3d.lemmy.core.data.ModLogEntry
 import pw.cub3d.lemmy.core.data.ModLogEntryType
 import pw.cub3d.lemmy.core.networking.*
 import pw.cub3d.lemmy.databinding.FragmentModlogBinding
 import pw.cub3d.lemmy.databinding.ModlogRemovedpostEntryBinding
-import javax.inject.Inject
 
 class ModlogFragment : Fragment() {
 
     private lateinit var binding: FragmentModlogBinding
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: ModlogViewModel by viewModels { viewModelFactory }
+    private val viewModel: ModlogViewModel by viewModels { injector.modLogViewModelFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,10 +53,7 @@ class ModlogFragment : Fragment() {
         })
     }
 
-    override fun onAttach(context: Context) {
-        inject()
-        super.onAttach(context)
-    }
+
 }
 
 class ModLogAdapter(ctx: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

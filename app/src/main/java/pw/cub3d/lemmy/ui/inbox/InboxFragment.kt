@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayoutMediator
-import dagger.android.support.AndroidSupportInjection
-import pw.cub3d.lemmy.core.dagger.inject
+
+
 
 import pw.cub3d.lemmy.databinding.FragmentInboxBinding
 
@@ -33,8 +33,5 @@ class InboxFragment : Fragment() {
         }).attach()
     }
 
-    override fun onAttach(context: Context) {
-        inject()
-        super.onAttach(context)
-    }
+
 }

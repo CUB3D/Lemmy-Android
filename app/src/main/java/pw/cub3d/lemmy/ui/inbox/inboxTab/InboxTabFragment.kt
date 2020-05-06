@@ -12,10 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dagger.android.support.AndroidSupportInjection
+
 import io.noties.markwon.Markwon
 import kotlinx.android.synthetic.main.fragment_post_view.*
-import pw.cub3d.lemmy.core.dagger.inject
+import pw.cub3d.lemmy.core.dagger.injector
+
 
 import pw.cub3d.lemmy.core.data.InboxEntry
 import pw.cub3d.lemmy.core.data.InboxEntryType
@@ -28,8 +29,7 @@ import javax.inject.Inject
 class InboxTabFragment : Fragment() {
 
     private lateinit var binding: FragmentInboxTabBinding
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    val viewModel: InboxTabViewModel by viewModels { viewModelFactory }
+    val viewModel: InboxTabViewModel by viewModels { injector.inboxTabViewModelFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,10 +63,7 @@ class InboxTabFragment : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        inject()
-        super.onAttach(context)
-    }
+
 }
 
 class InboxEntryRecycler(

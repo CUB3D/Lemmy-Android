@@ -13,8 +13,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dagger.android.support.AndroidSupportInjection
-import pw.cub3d.lemmy.core.dagger.inject
+import pw.cub3d.lemmy.core.dagger.injector
+
 
 import pw.cub3d.lemmy.core.networking.comment.CommentView
 import pw.cub3d.lemmy.core.networking.PostView
@@ -32,8 +32,7 @@ class StaticMixedPostsCommentsFragment : Fragment() {
     private lateinit var binding: FragmentStaticMixedPostsCommentsBinding
     var entries: List<MixedPosts> = emptyList()
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val postsViewModel: PostsViewModel by viewModels { viewModelFactory }
+    private val postsViewModel: PostsViewModel by viewModels { injector.postsViewModelFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,11 +49,6 @@ class StaticMixedPostsCommentsFragment : Fragment() {
 
         binding.staticMixedRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.staticMixedRecycler.adapter = StaticMixedAdapter(requireActivity(), findNavController(), entries, postsViewModel)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        inject()
     }
 }
 

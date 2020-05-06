@@ -10,9 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import dagger.android.support.AndroidSupportInjection
+
 import pw.cub3d.lemmy.R
-import pw.cub3d.lemmy.core.dagger.inject
+import pw.cub3d.lemmy.core.dagger.injector
+
 
 import pw.cub3d.lemmy.databinding.FragmentLoginBinding
 import javax.inject.Inject
@@ -20,8 +21,7 @@ import javax.inject.Inject
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: LoginViewModel by viewModels { viewModelFactory }
+    private val viewModel: LoginViewModel by viewModels { injector.loginViewModelFactory() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
@@ -47,8 +47,5 @@ class LoginFragment : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        inject()
-        super.onAttach(context)
-    }
+
 }

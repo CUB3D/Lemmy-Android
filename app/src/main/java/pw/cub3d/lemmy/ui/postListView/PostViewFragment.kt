@@ -14,12 +14,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dagger.android.support.AndroidSupportInjection
+
 import kotlinx.android.synthetic.main.fragment_post_view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import pw.cub3d.lemmy.R
-import pw.cub3d.lemmy.core.dagger.inject
+import pw.cub3d.lemmy.core.dagger.injector
+
 import pw.cub3d.lemmy.core.data.GetPostType
 import pw.cub3d.lemmy.core.networking.PostView
 import pw.cub3d.lemmy.core.networking.SortType
@@ -31,8 +32,7 @@ import javax.inject.Inject
 class PostViewFragment() : Fragment() {
 
     private lateinit var binding: FragmentPostViewBinding
-    @Inject lateinit var postsViewModelFactory: ViewModelProvider.Factory
-    val postsViewModel: PostsViewModel by viewModels { postsViewModelFactory }
+    val postsViewModel: PostsViewModel by viewModels { injector.postsViewModelFactory() }
 
     private lateinit var postsAdapter: PostViewAdapter
 
@@ -140,10 +140,5 @@ class PostViewFragment() : Fragment() {
         binding.postVieWSearch.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        inject()
     }
 }

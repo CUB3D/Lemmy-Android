@@ -14,13 +14,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import dagger.android.support.AndroidSupportInjection
+
 import io.noties.markwon.Markwon
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import pw.cub3d.lemmy.core.dagger.inject
+import pw.cub3d.lemmy.core.dagger.injector
+
 
 import pw.cub3d.lemmy.core.networking.comment.CommentView
 import pw.cub3d.lemmy.databinding.FragmentSinglePostBinding
@@ -32,8 +33,7 @@ class SinglePostFragment : Fragment() {
 
     private val arguments: SinglePostFragmentArgs by navArgs()
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    val viewModel: SinglePostViewModel by viewModels { viewModelFactory }
+    val viewModel: SinglePostViewModel by viewModels { injector.singlePostViewModelFactory() }
 
     private lateinit var binding: FragmentSinglePostBinding
 
@@ -132,8 +132,5 @@ class SinglePostFragment : Fragment() {
         })
     }
 
-    override fun onAttach(context: Context) {
-        inject()
-        super.onAttach(context)
-    }
+
 }
