@@ -98,6 +98,9 @@ dependencies {
 
     // For markdown support
     implementation "io.noties.markwon:core:4.3.1"
+
+    // Logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }
 
 kotlin {
