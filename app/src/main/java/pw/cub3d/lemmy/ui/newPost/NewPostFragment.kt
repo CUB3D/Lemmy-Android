@@ -7,10 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ListAdapter
 
 
 import pw.cub3d.lemmy.R
@@ -43,12 +45,16 @@ class NewPostFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        newPostViewModel.communities.observe(viewLifecycleOwner, Observer {
+            binding.newPostCommunities.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it.map { it.name })
+        })
+
         binding.newPostPost.setOnClickListener {
             newPostViewModel.sendPost(
                 binding.newPostTitle.text.toString(),
                 binding.newPostUrl.text.toString().takeIf { it.isNotEmpty() },
                 binding.newPostBody.text.toString().takeIf { it.isNotEmpty() },
-                -1
+                newPostViewModel.communities.value!!.get(binding.newPostCommunities.selectedItemPosition).id
             )
         }
 

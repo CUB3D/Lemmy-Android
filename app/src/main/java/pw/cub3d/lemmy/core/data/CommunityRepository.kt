@@ -12,6 +12,7 @@ import pw.cub3d.lemmy.core.networking.community.CommunityFollowRequest
 import pw.cub3d.lemmy.core.networking.community.CommunityView
 import pw.cub3d.lemmy.core.networking.GetCommunityResponse
 import pw.cub3d.lemmy.core.networking.LemmyApiInterface
+import pw.cub3d.lemmy.core.networking.community.Community
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -46,5 +47,16 @@ class CommunityRepository @Inject constructor(
                 emit(r.body()!!.community)
             }
         }
+    }
+
+    fun getAllCommunities(): LiveData<List<CommunityView>> {
+        val ld = MutableLiveData<List<CommunityView>>()
+        GlobalScope.launch {
+            val r = api.listCommunities()
+            if(r.isSuccessful) {
+                ld.postValue(r.body()!!.communities)
+            }
+        }
+        return ld
     }
 }
