@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.request.RequestOptions
 import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.core.data.PostVote
 import pw.cub3d.lemmy.core.networking.PostView
@@ -32,14 +34,23 @@ class PostViewHolder(
             view.postEntrySenderAvatar.visibility = View.VISIBLE
             GlideApp.with(view.root)
                 .load(Uri.parse(post.creator_avatar))
+                .apply(RequestOptions.circleCropTransform())
                 .into(view.postEntrySenderAvatar)
         } else {
             view.postEntrySenderAvatar.visibility = View.GONE
         }
 
         if (post.internalThumbnail != null) {
+            view.postEntryImage.transitionName = post.internalThumbnail.toString()
             view.postEntryImage.setOnClickListener {
-                navController.navigate(HomeFragmentDirections.actionHomeFragmentToImageDetailFragment(post.internalThumbnail!!.toString()))
+                val a = HomeFragmentDirections.actionHomeFragmentToImageDetailFragment(post.internalThumbnail!!.toString(), post.id)
+
+                navController.navigate(
+                    a,
+                    FragmentNavigatorExtras(
+                        view.postEntryImage to post.internalThumbnail.toString()
+                    )
+                )
             }
 
             println("Loading thumb: ${post.internalThumbnail}")
@@ -54,10 +65,18 @@ class PostViewHolder(
             view.postEntryImage.setOnClickListener {}
         }
 
+        view.postEntryTitle.transitionName = "${post.id}_title"
         view.root.setOnClickListener {
-            navController.navigate(R.id.singlePostFragment, Bundle().apply {
-                putInt("postId", post.id)
-            })
+            navController.navigate(
+                R.id.singlePostFragment,
+                Bundle().apply {
+                    putInt("postId", post.id)
+                },
+                null,
+                FragmentNavigatorExtras(
+                    view.postEntryTitle to "${post.id}_title"
+                )
+            )
         }
 
         if(post.my_vote == PostVote.UPVOTE.score) {

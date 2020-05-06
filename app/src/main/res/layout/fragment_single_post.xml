@@ -19,7 +19,9 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Test title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:transitionName="postTitle"
+        app:layout_collapseMode="parallax"/>
 
     <TextView
         android:id="@+id/singlePost_content"

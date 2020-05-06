@@ -3,6 +3,7 @@ package pw.cub3d.lemmy.ui.singlePostView
 import android.graphics.Color
 import android.net.Uri
 import android.view.View
+import com.bumptech.glide.request.RequestOptions
 import io.noties.markwon.Markwon
 import pw.cub3d.lemmy.R
 import pw.cub3d.lemmy.core.data.CommentVote
@@ -43,6 +44,7 @@ class CommentViewHolder(
         if(content.creator_avatar != null) {
             GlideApp.with(binding.root.context)
                 .load(Uri.parse(content.creator_avatar))
+                .apply(RequestOptions.circleCropTransform())
                 .into(binding.commentEntryAuthorImage)
             binding.commentEntryAuthorImage.visibility = View.VISIBLE
         } else {

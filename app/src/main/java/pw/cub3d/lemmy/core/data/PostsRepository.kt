@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
@@ -11,6 +12,7 @@ import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import pw.cub3d.lemmy.core.networking.*
+import pw.cub3d.lemmy.core.networking.community.Community
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLConnection
@@ -21,7 +23,9 @@ class PostsRepository @Inject constructor(
     private val authRepository: AuthRepository
 ) {
 
-    suspend fun loadPostThumbnail(post: PostView) = GlobalScope.launch {
+    private val postCache = mutableMapOf<Int, PostView>()
+
+    suspend fun loadPostThumbnail(post: PostView) = GlobalScope.launch(Dispatchers.IO) {
         if (post.thumbnail_url != null) {
             post.internalThumbnail =
                 Uri.parse("https://dev.lemmy.ml/pictshare/192/" + post.thumbnail_url)
@@ -99,7 +103,10 @@ class PostsRepository @Inject constructor(
                             sort = sortType.id
                         ).body()?.let {
 
-                            it.posts.sortedByDescending { it.hot_rank }.forEach { emit(it) }
+                            it.posts.sortedByDescending { it.hot_rank }.forEach {
+                                postCache[it.id] = it
+                                emit(it)
+                            }
                         }
                     }
                 }
@@ -113,6 +120,9 @@ class PostsRepository @Inject constructor(
     fun getPost(id: Int): LiveData<PostResponse> {
         val mutableLiveData = MutableLiveData<PostResponse>()
 
+        if(postCache.containsKey(id)) {
+            mutableLiveData.postValue(PostResponse(postCache[id]!!, emptyArray(), Community(-1, "", "", "", 0, 0, "", null, "", 0, 0, 0, 0, null, false)))
+        }
 
         GlobalScope.launch {
             val res = lemmyApiInterface.getPost(id, authRepository.getAuthToken())

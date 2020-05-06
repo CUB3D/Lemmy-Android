@@ -3,6 +3,7 @@ package pw.cub3d.lemmy.ui.imageDetail
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,11 @@ class ImageDetailFragment : Fragment() {
 
     private val arguments: ImageDetailFragmentArgs by navArgs()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +44,8 @@ class ImageDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.imageDetailImage.transitionName = arguments.imageUrl
 
         binding.imageUrl = arguments.imageUrl
 
@@ -84,8 +92,6 @@ class ImageDetailFragment : Fragment() {
         binding.imageDetailSaveImage2.setOnClickListener {
             saveImage()
         }
-
-
 
         GlideApp.with(requireContext())
             .load(Uri.parse(arguments.imageUrl))

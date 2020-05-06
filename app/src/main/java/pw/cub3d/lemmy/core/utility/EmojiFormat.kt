@@ -9,7 +9,6 @@ import java.util.regex.Pattern
 object EmojiFormat {
 
     fun recur(json: JSONObject, name: String): String? {
-        println("Searching for $name")
         var res: String? = null
         for (it in json.keys()) {
             try {

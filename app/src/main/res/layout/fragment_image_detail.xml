@@ -27,7 +27,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/backgrounds/scenic" />
+        tools:src="@tools:sample/backgrounds/scenic"
+        android:transitionName="thumbnailImage"
+        app:layout_collapseMode="parallax"/>
 
     <ImageButton
         android:id="@+id/imageDetail_openPost"
