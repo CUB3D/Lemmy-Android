@@ -1,6 +1,5 @@
 package pw.cub3d.lemmy.core.networking
 
-import com.squareup.moshi.JsonClass
 import pw.cub3d.lemmy.core.networking.comment.CommentLike
 import pw.cub3d.lemmy.core.networking.comment.CommentLikeResponse
 import pw.cub3d.lemmy.core.networking.comment.CommentSave
@@ -76,6 +75,8 @@ interface LemmyApiInterface {
     @POST("comment/save")
     suspend fun saveComment(@Body data: CommentSave): Response<CommentSaveResponse>
 
+    @POST("comment")
+    suspend fun createComment(@Body data: CreateCommentRequest): Response<CreateCommentResponse>
 
     @GET("modlog")
     suspend fun getModLog(
@@ -131,38 +132,3 @@ interface LemmyApiInterface {
     ): Response<SearchResponse>
 }
 
-@JsonClass(generateAdapter = true)
-data class PostCreateRequest(
-    val name: String,
-    val url: String?,
-    val body: String?,
-    val community_id: Int,
-    val auth: String
-)
-
-@JsonClass(generateAdapter = true)
-data class PostCreateResponse(
-    val post: PostView
-)
-
-//Post
-//
-//Create Post
-//Request
-//Response
-//HTTP
-//Edit Post
-//Request
-//Response
-//HTTP
-//
-//Comment
-//
-//Create Comment
-//Request
-//Response
-//HTTP
-//Edit Comment
-//Request
-//Response
-//HTTP
