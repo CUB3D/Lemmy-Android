@@ -1,12 +1,10 @@
 package pw.cub3d.lemmy.core.networking
 
-import pw.cub3d.lemmy.core.networking.comment.CommentLike
-import pw.cub3d.lemmy.core.networking.comment.CommentLikeResponse
-import pw.cub3d.lemmy.core.networking.comment.CommentSave
-import pw.cub3d.lemmy.core.networking.comment.CommentSaveResponse
+import pw.cub3d.lemmy.core.networking.comment.*
 import pw.cub3d.lemmy.core.networking.community.CommunitiesListResponse
 import pw.cub3d.lemmy.core.networking.community.CommunityFollowRequest
 import pw.cub3d.lemmy.core.networking.community.CommunityFollowResponse
+import pw.cub3d.lemmy.core.networking.community.GetCommunityResponse
 import pw.cub3d.lemmy.core.networking.login.LoginRequest
 import pw.cub3d.lemmy.core.networking.login.LoginResponse
 import pw.cub3d.lemmy.core.networking.register.RegisterRequest

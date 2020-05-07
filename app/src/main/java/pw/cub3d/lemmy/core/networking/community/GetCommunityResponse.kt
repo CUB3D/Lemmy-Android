@@ -1,8 +1,7 @@
-package pw.cub3d.lemmy.core.networking
+package pw.cub3d.lemmy.core.networking.community
 
 import com.squareup.moshi.JsonClass
-import pw.cub3d.lemmy.core.networking.community.CommunityModeratorView
-import pw.cub3d.lemmy.core.networking.community.CommunityView
+import pw.cub3d.lemmy.core.networking.UserView
 
 @JsonClass(generateAdapter = true)
 data class GetCommunityResponse(

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import pw.cub3d.lemmy.core.networking.community.CommunityFollowRequest
 import pw.cub3d.lemmy.core.networking.community.CommunityView
-import pw.cub3d.lemmy.core.networking.GetCommunityResponse
+import pw.cub3d.lemmy.core.networking.community.GetCommunityResponse
 import pw.cub3d.lemmy.core.networking.LemmyApiInterface
 import pw.cub3d.lemmy.core.networking.community.Community
 import javax.inject.Inject
